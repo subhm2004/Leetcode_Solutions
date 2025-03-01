@@ -1,43 +1,3 @@
-// class Solution {
-// public:
-//     vector<vector<int>> levelOrderBottom(TreeNode* root) {
-//         vector<vector<int>> result;
-//         if (root == NULL) {
-//             return result;
-//         }
-
-//         int h = height(root);
-//         for (int i = h; i >= 1; i--) {
-//             vector<int> level;
-//             printGivenLevel(root, i, level);
-//             result.push_back(level);
-//         }
-
-//         return result;
-//     }
-
-//     int height(TreeNode* node) {
-//         if (!node)
-//             return 0;
-
-//         int leftHeight = height(node->left);
-//         int rightHeight = height(node->right);
-
-//         return max(leftHeight, rightHeight) + 1;
-//     }
-
-//     void printGivenLevel(TreeNode* root, int level, vector<int>& levelVector) {
-//         if (!root)
-//             return;
-
-//         if (level == 1)
-//             levelVector.push_back(root->val);
-//         else if (level > 1) {
-//             printGivenLevel(root->left, level - 1, levelVector);
-//             printGivenLevel(root->right, level - 1, levelVector);
-//         }
-//     }
-// };
 class Solution {
 public:
     vector<vector<int>> levelOrderBottom(TreeNode* root) {
@@ -60,9 +20,10 @@ public:
                 if (node->right) q.push(node->right);
             }
 
-            result.insert(result.begin(), level);  // Insert at the beginning for bottom-up order
+            result.push_back(level);  // Normal level order store karna
         }
 
+        reverse(result.begin(), result.end()); // Reverse to get bottom-up order
         return result;
     }
 };
