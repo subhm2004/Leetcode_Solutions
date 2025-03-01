@@ -1,29 +1,28 @@
 class Solution {
-public:
-    vector<vector<int>> levelOrderBottom(TreeNode* root) {
-        vector<vector<int>> result;
-        if (!root) return result;
+ public:
+  vector<vector<int>> levelOrderBottom(TreeNode* root) {
+    if (!root) return {}; // Agar tree empty hai toh return karo
 
-        queue<TreeNode*> q;
-        q.push(root);
+    vector<vector<int>> ans;
+    queue<TreeNode*> q;
+    q.push(root); // Root ko queue me daal do
 
-        while (!q.empty()) {
-            int size = q.size();
-            vector<int> level;
+    while (!q.empty()) {
+      int sz = q.size(); // Current level ke nodes count karo
+      vector<int> level; // Current level ke values store karne ke liye
 
-            for (int i = 0; i < size; i++) {
-                TreeNode* node = q.front();
-                q.pop();
-                level.push_back(node->val);
+      while (sz--) { // Jab tak current level ke sabhi nodes process na ho jaaye
+        TreeNode* node = q.front();
+        q.pop();
+        level.push_back(node->val);
 
-                if (node->left) q.push(node->left);
-                if (node->right) q.push(node->right);
-            }
+        if (node->left) q.push(node->left);  // Left child ko queue me daal do
+        if (node->right) q.push(node->right); // Right child ko queue me daal do
+      }
 
-            result.push_back(level);  // Normal level order store karna
-        }
-
-        reverse(result.begin(), result.end()); // Reverse to get bottom-up order
-        return result;
+      ans.push_back(level); // Current level ko answer me add karo
     }
+    reverse(ans.begin(),ans.end());
+    return ans;
+  }
 };
