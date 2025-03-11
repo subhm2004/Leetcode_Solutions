@@ -5,11 +5,13 @@ public:
     }
     long long countVowels(string word) {
         long long total = 0;
-        int n = word.size();
+        int n = word.length();
 
         for (int i = 0; i < n; ++i) {
-            if (isVowel(word[i]))
-                total += 1LL * (i + 1) * (n - i);
+            if (isVowel(word[i])) {
+                total +=
+                   1LL* (i + 1) * (n - i); // Har vowel ka contribution add karo
+            }
         }
 
         return total;
