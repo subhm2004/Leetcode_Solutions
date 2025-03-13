@@ -1,7 +1,6 @@
 class Solution {
 public:
-   
-    bool isZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
+   bool isZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
         int n = nums.size();
         vector<int> diff(n + 1, 0);  // Difference array for range updates
         int sum = 0, k = 0;  
