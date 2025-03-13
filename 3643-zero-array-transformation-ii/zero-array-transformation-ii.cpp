@@ -2,12 +2,12 @@ class Solution {
 public:
     int minZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
         int n = nums.size();
-        vector<int> cnt(n + 1, 0);  // Difference array to manage range updates
+        vector<int> diff(n + 1, 0);  // Difference array to manage range updates
         int sum = 0, k = 0;
 
         for (int i = 0; i < n; i++) {
             // Ensure sum at index `i` is at least `nums[i]`
-            while (sum + cnt[i] < nums[i]) {
+            while (sum + diff[i] < nums[i]) {
                 if (k >= queries.size()) return -1;  // Not enough queries to satisfy condition
 
                 // Extract query details
@@ -16,11 +16,11 @@ public:
 
                 // Apply the query only if it affects index `i`
                 if (r >= i) {
-                    cnt[max(l, i)] += val;
-                    cnt[r + 1] -= val;
+                    diff[max(l, i)] += val;
+                    diff[r + 1] -= val;
                 }
             }
-            sum += cnt[i];  // Update sum for the next iteration
+            sum += diff[i];  // Update sum for the next iteration
         }
         return k;  // Return the number of queries used
     }
