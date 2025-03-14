@@ -61,6 +61,14 @@ public:
         }
 
         // Return the maximum time required
-        return *max_element(completionTime.begin(), completionTime.end());
+        int maxTime = 0;
+        for (auto& t : completionTime) {
+            maxTime = max(maxTime, t);
+        }
+
+        return maxTime;
+        // return *max_element(completionTime.begin(), completionTime.end());
+
     }
+
 };
