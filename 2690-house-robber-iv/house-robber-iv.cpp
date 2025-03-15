@@ -19,10 +19,10 @@ public:
         int left = *min_element(nums.begin(), nums.end());
         int right = *max_element(nums.begin(), nums.end());
 
-        while (left <= right) {
+        while (left < right) {
             int mid = (left + right) >> 1; // Mid value nikal rahe hain
             if (count_house_helper(nums, mid) >= k)
-                right = mid-1; // Agar itne ghar loot sakte hain toh capacity aur kam karo
+                right = mid; // Agar itne ghar loot sakte hain toh capacity aur kam karo
             else
                 left = mid + 1; // Agar nahi loot sakte toh capacity badhao
         }
