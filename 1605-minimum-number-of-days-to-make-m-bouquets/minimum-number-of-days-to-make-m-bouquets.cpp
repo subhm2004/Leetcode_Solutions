@@ -28,8 +28,10 @@ public:
             return -1;
         }
 
-        int left = 1;  
-        int right = 1e9;  
+        // int left = 1;  
+        // int right = 1e9;  
+        int left = *min_element(bloomDay.begin(), bloomDay.end());
+        int right = *max_element(bloomDay.begin(), bloomDay.end());
 
         while (left < right) {
             int mid = (left + right) >> 1;
