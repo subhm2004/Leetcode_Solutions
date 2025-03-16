@@ -28,7 +28,6 @@ public:
                 left = mid + 1; // agar nahi ho sakti toh time badhana padega
         }
 
-        return left; // minimum time return karenge jisme sari cars repair ho
-                     // sakti hain
+        return left; 
     }
 };
