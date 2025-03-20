@@ -40,9 +40,42 @@ public:
         return dp[K][N] = res;
     }
 
+    int solve_Binary_ME(vector<vector<int>>& dp, int K, int N) {
+        if (N <= 1)
+            return N;
+        if (K == 1)
+            return N;
+
+        if (dp[K][N] != -1)
+            return dp[K][N];
+
+        int ans = INT_MAX;
+        int l = 1, r = N;
+
+        while (l <= r) {
+            int mid = (l + r) >> 1;
+
+            int broken =
+                solve_Binary_ME(dp, K - 1, mid - 1); // Egg breaks → check below
+            int unbroken =
+                solve_Binary_ME(dp, K, N - mid); // Egg survives → check above
+
+            int worst = 1 + max(broken, unbroken);
+            ans = min(ans, worst);
+
+            if (broken > unbroken) {
+                r = mid - 1; // Move downwards
+            } else {
+                l = mid + 1; // Move upwards
+            }
+        }
+
+        return dp[K][N] = ans;
+    }
+    
     int twoEggDrop(int n) {
         vector<vector<int>> dp(3, vector<int>(n + 1, -1));
 
-        return solveME(dp, 2, n);
+        return solve_Binary_ME(dp, 2, n);
     }
 };
