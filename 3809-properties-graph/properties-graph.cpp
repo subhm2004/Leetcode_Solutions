@@ -1,9 +1,9 @@
 class UnionFind {
 public:
     vector<int> parent, rank;
-    
+
     UnionFind(int n) : parent(n), rank(n, 0) {
-        for (int i = 0; i < n; i++) 
+        for (int i = 0; i < n; i++)
             parent[i] = i;
     }
 
@@ -16,7 +16,8 @@ public:
     void unionByRank(int x, int y) {
         int rootX = find(x);
         int rootY = find(y);
-        if (rootX == rootY) return;
+        if (rootX == rootY)
+            return;
 
         if (rank[rootX] < rank[rootY]) {
             parent[rootX] = rootY;
@@ -28,44 +29,47 @@ public:
         }
     }
 };
-
 class Solution {
 public:
     int numberOfComponents(vector<vector<int>>& A, int k) {
         int n = A.size();
-        vector<unordered_set<int>> sets(n);
-        UnionFind uf(n);
+        vector<unordered_set<int>> sets(n); // Har list ke liye ek unordered_set
+        UnionFind uf(n); // Disjoint Set Union (DSU) banaya
 
-        // Convert each list into an unordered_set
+        // **Step 1: Convert har list ko unordered_set me**
+        // Yeh optimize karta hai common elements ke lookup ko O(1) me.
         for (int i = 0; i < n; i++) {
             for (int x : A[i]) {
                 sets[i].insert(x);
             }
         }
 
-        // Check for common elements and union sets
+        // **Step 2: Har pair of sets ke beech check karo ki kya unme k common elements hain**
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
                 int commonCount = 0;
+
+                // Set `i` ke har element ke liye check karenge ki kya `j` ke set me bhi hai
                 for (int x : sets[i]) {
-                    if (sets[j].count(x)) {
+                    if (sets[j].count(x)) { // Agar x dono sets me hai toh count badhayein
                         commonCount++;
-                        if (commonCount >= k) {
-                            uf.unionByRank(i, j);
-                            break;
+                        if (commonCount >= k) { // Agar k ya zyada common elements mil gaye toh
+                            uf.unionByRank(i, j); // Dono sets ko ek component me merge kar do
+                            break; // Ek baar merge ho gaya toh aur check karne ki zaroorat nahi
                         }
                     }
                 }
             }
         }
 
-        // Count unique components
-        unordered_set<int> components;
-        for (int i = 0; i < n; i++) 
-            components.insert(uf.find(i));
+        // **Step 3: Har unique component ko count karna**
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (uf.find(i) == i) // Sirf root nodes ko count karna hai
+                count++;
+        }
 
-        return components.size();
+        return count; // Total number of connected components return karna hai
     }
 };
-
 
