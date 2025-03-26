@@ -19,7 +19,7 @@ class Solution {
     }
 
     // Ab elements ko sort kar lo
-    sort(nums.begin(), nums.end());
+    sort(nums.rbegin(), nums.rend());
 
     // Median nikal lo, kyunki minimum operations ke liye median best hota hai
     int median = nums[total / 2];
