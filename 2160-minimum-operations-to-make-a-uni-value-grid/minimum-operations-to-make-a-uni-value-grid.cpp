@@ -22,7 +22,7 @@ class Solution {
     sort(nums.begin(), nums.end());
 
     // Median nikal lo, kyunki minimum operations ke liye median best hota hai
-    int median = nums[total / 2];
+    int median = nums[total >> 1];
 
     int operations = 0;  // Minimum operations count karne ke liye variable
 
