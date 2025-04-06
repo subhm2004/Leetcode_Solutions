@@ -74,7 +74,7 @@
 //         return dp[curr][prev + 1];
 //     }
 
-//     int lengthOfLIS(vector<int>& nums) {
+//     int lengthOfans_LIS(vector<int>& nums) {
 
 //         int curr = 0;
 //         int prev = -1;
@@ -87,7 +87,7 @@
 
 // class Solution {
 // public:
-//     int lengthOfLIS(vector<int>& nums) {
+//     int lengthOfans_LIS(vector<int>& nums) {
 //         int n = nums.size();
 //         vector<int> dp(n, 1);
 //         int maxLength = 1;
@@ -106,24 +106,66 @@
 // };
 
 
+// class Solution {
+// public:
+//     int lengthOfans_LIS(vector<int>& nums) {
+//         int n = nums.size();
+//         vector<int> dp(n, 1);
+
+//         for (int i = 1; i < n; i++) {
+//             for (int j = 0; j < i; j++) {
+//                 if (nums[j] < nums[i]) {
+//                     dp[i] = max(dp[i], dp[j] + 1);
+//                 }
+//             }
+//         }
+
+//         return *max_element(dp.begin(), dp.end());
+//     }
+// };
+
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
-        vector<int> dp(n, 1);
+        if (n == 0) return 0;
+
+        vector<int> dp(n, 1);          // dp[i] = length of ans_LIS ending at i
+        vector<int> prev(n, -1);       // prev[i] = index of previous element in ans_LIS ending at i
+
+        int maxLength = 1;
+        int lastIndex = 0;
 
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
-                if (nums[j] < nums[i]) {
-                    dp[i] = max(dp[i], dp[j] + 1);
+                if (nums[j] < nums[i] && dp[j] + 1 > dp[i]) {
+                    dp[i] = dp[j] + 1;
+                    prev[i] = j;
                 }
+            }
+            if (dp[i] > maxLength) {
+                maxLength = dp[i];
+                lastIndex = i;
             }
         }
 
-        return *max_element(dp.begin(), dp.end());
+        // Reconstruct the ans_LIS
+        vector<int> ans_LIS;
+        while (lastIndex != -1) {
+            ans_LIS.push_back(nums[lastIndex]);
+            lastIndex = prev[lastIndex];
+        }
+        reverse(ans_LIS.begin(), ans_LIS.end());
+
+        // Print the ans_LIS
+        cout << "Longest Increasing Subsequence: ";
+        for (int num : ans_LIS) {
+            cout << num << " ";
+        }
+        cout << endl;
+
+        return maxLength;
     }
 };
-
-
 
 
