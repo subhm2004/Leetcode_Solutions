@@ -124,7 +124,7 @@
 //     }
 // };
 
-class Solution {
+class Solution {          // Bottom up easy hi hai 
 public:
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
@@ -138,7 +138,7 @@ public:
 
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
-                if (nums[j] < nums[i] && dp[j] + 1 > dp[i]) {
+                if (nums[j] < nums[i] && dp[i] < dp[j] + 1 ) {
                     dp[i] = dp[j] + 1;
                     prev[i] = j;
                 }
