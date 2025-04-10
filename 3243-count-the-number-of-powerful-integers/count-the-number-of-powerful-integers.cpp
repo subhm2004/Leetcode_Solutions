@@ -33,13 +33,12 @@ public:
 
         // Agar suffix part bhi valid hai (greater ya equal hai suffix se), toh ek aur add karo
         if (trailing >= suffix)
-            count++;
+            count += 1 ;
 
         return count;
     }
 
-    // Yeh function start se finish tak ke range mein valid numbers count karta hai
-    long long numberOfPowerfulInt(long long start, long long finish, int limit, const string& s) {
+     long long numberOfPowerfulInt(long long start, long long finish, int limit, const string& s) {
         string startStr  = to_string(start - 1); // start se pehle tak ke numbers ka count
         string finishStr = to_string(finish);    // finish tak ke numbers ka count
         return solve(finishStr, s, limit) - solve(startStr, s, limit);
