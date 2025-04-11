@@ -23,31 +23,31 @@ class Solution {
 public:
     int constrainedSubsetSum(vector<int>& nums, int k) {
         int n = nums.size();
-        deque<int> dq;       // Isme hum dp ke indexes rakhenge decreasing order me
-        vector<int> dp(n);   // dp[i] = nums[i] se end hone wale subsequence ka max sum
-        int ans = nums[0];   // Final answer yahi store hoga
+        deque<int> dq;       // max(dp[j]) ko maintain karne ke liye (j in [i-k, i-1])
+        vector<int> dp(n);   // dp[i] = max sum of subsequence ending at index i
+        int ans = nums[0];   // Final result store karne ke liye
 
         for (int i = 0; i < n; ++i) {
-            // Agar deque empty hai to sirf nums[i] hi consider karo
+            // Step 1: dp[i] ki value initialize karo
+            // dp[i] = nums[i] + max(dp[j]) where j in [i-k, i-1]
             dp[i] = nums[i];
             if (!dq.empty()) {
-                // nums[i] + pichle k range me max dp value add kar rahe
                 dp[i] = max(dp[i], nums[i] + dp[dq.front()]);
             }
 
-            // Deque ko decreasing order me maintain karo
+            // Step 2: Maintain deque in decreasing order of dp values
             while (!dq.empty() && dp[dq.back()] < dp[i]) {
-                dq.pop_back(); // Peeche se chhoti values hatao
+                dq.pop_back();  // chhoti values ko hata do, kyunki wo kabhi kaam nahi aayengi
             }
 
-            dq.push_back(i); // Current index ko push karo
+            dq.push_back(i); // current index ko push karo
 
-            // Agar deque ka front window ke bahar chala gaya to hatao
+            // Step 3: Window se bahar wale index ko remove karo
             if (i - dq.front() >= k) {
                 dq.pop_front();
             }
 
-            // ab tak ka max answer update karo
+            // Step 4: Answer update karo
             ans = max(ans, dp[i]);
         }
 
