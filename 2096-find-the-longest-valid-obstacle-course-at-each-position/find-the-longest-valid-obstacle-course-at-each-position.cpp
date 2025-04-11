@@ -1,3 +1,22 @@
+// class Solution {
+// public:
+//     vector<int> longestObstacleCourseAtEachPosition(vector<int>& obstacles) {
+//         int n = obstacles.size();
+//         vector<int> dp(n, 1); // har index pe minimum length 1 hai
+//         vector<int> ans(n, 1); 
+
+//         for (int i = 0; i < n; ++i) {
+//             for (int j = 0; j < i; ++j) {
+//                 // non-decreasing condition
+//                 if (obstacles[j] <= obstacles[i]) {
+//                     dp[i] = max(dp[i], dp[j] + 1);
+//                 }
+//             }
+//             ans[i] = dp[i]; // har index pe LIS ki length ending at i
+//         }
+//         return ans;
+//     }
+// };
 class Solution {
 public:
 
