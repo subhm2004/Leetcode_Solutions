@@ -3,7 +3,8 @@ public:
     // int number_of_bits(int x) {
     //     int count = 0;
     //     while (x) {
-    //         x >>= 1; // divide x by 2 (bitwise)
+    //         x >>= 1; // divide x by 2 (bitwise) left shift 
+    
     //         count++; // count how many times we can divide until x becomes 0
     //     }
     //     return count;
