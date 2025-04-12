@@ -8,6 +8,7 @@ public:
     //     }
     //     return count;
     // }
+    
     int number_of_bits(int x) { return x == 0 ? 0 : (int)std::log2(x) + 1; }
 
     int uniqueXorTriplets(vector<int>& nums) {
