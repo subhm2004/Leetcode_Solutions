@@ -1,4 +1,4 @@
-// class Solution {
+// class Solution {              //LIS varient hai 64/78
 // public:
 //     vector<int> longestObstacleCourseAtEachPosition(vector<int>& obstacles) {
 //         int n = obstacles.size();
@@ -17,14 +17,16 @@
 //         return ans;
 //     }
 // };
+
+
 class Solution {
 public:
 
     // Ye function wo position return karta hai jahan par
     // current obstacle (target) ko lis me daalna chahiye
     // Aisi position jahan pehle element usse chhota ya barabar ho
-    int findPosition(vector<int>& lis, int target) {
-        int low = 0, high = lis.size();
+    int findPosition(vector<int>& lis, int target) {      // upper bound ka hai ye
+        int low = 0, high = lis.size();              
 
         while (low < high) {
             int mid = (low + high) / 2;
