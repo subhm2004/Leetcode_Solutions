@@ -1,44 +1,33 @@
 class Solution {
 public:
     string smallestPalindrome(string s) {
-        unordered_map<char, int> freq;
-        
-        // Step 1: Count frequency of each character
-        for (char c : s) {
-            freq[c]++;
-        }
-        
-        string firstHalf = "";
-        char middle = '\0';  // to store the middle character if there's one with odd frequency
-        
-        // Step 2: Build the first half and check for middle character
-        for (auto& [c, count] : freq) {
-            if (count % 2 == 0) {
-                // Add half of the character count to the first half
-                firstHalf += string(count / 2, c);
-            } else {
-                // If there's a character with an odd count, it will go in the middle
-                if (middle == '\0' || c < middle) {
-                    middle = c;  // update to lexicographically smallest odd character
-                }
-                firstHalf += string(count / 2, c);
+        vector<int> freq(26, 0);
+        for (char c : s) freq[c - 'a']++;
+
+        int n = s.size();
+        string left = "";
+
+        // Construct left part of palindrome (up to (n+1)/2 chars)
+        for (int i = 0; i < 26; ++i) {
+            while (freq[i] >= 2 && left.size() < (n + 1) / 2) {
+                left += (char)(i + 'a');
+                freq[i] -= 2;
             }
         }
-        
-        // Step 3: Sort the first half lexicographically
-        sort(firstHalf.begin(), firstHalf.end());
-        
-        // Step 4: Construct the second half as the reverse of the first half
-        string secondHalf = firstHalf;
-        reverse(secondHalf.begin(), secondHalf.end());
-        
-        // Step 5: Build the final palindrome
-        string result = firstHalf;
-        if (middle != '\0') {
-            result += middle;  // add the middle character if it exists
+
+        // Add a middle character if needed (for odd-length strings)
+        string middle = "";
+        for (int i = 0; i < 26; ++i) {
+            if (freq[i] > 0) {
+                middle = (char)(i + 'a');
+                break;
+            }
         }
-        result += secondHalf;
-        
-        return result;
+
+        // Create the right half by reversing the left (only first n/2 characters)
+        string right = left.substr(0, n / 2);
+        reverse(right.begin(), right.end());
+
+        return left + middle + right;
     }
 };
