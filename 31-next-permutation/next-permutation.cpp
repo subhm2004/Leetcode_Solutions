@@ -1,22 +1,36 @@
 class Solution {
- public:
-  void nextPermutation(vector<int>& nums) {
-    // int n = nums.size(), i = n - 2;
+public:
+    void nextPermutation(vector<int>& nums) {
+        int n = nums.size();
+        int gola_idx = -1;  // right se pehla aisa index jahan order break ho (nums[i] < nums[i+1])
 
-    // // Step 1: Find the first decreasing element from the right
-    // while (i >= 0 && nums[i] >= nums[i + 1]) 
-    //   i--;
+        // Step 1: Right se check karo pehla index jahan nums[i] > nums[i-1] ho
+        for (int i = n - 1; i > 0; i--) {
+            if (nums[i] > nums[i - 1]) {
+                gola_idx = i - 1;
+                break;
+            }
+        }
 
-    // // Step 2: If found, swap it with the next larger element from the right
-    // if (i >= 0) {
-    //   int j = n - 1;
-    //   while (nums[j] <= nums[i]) 
-    //     j--;
-    //   swap(nums[i], nums[j]);
-    // }
+        // Step 2: Agar aisa index mila, to usse bada rightmost element dhundo aur swap karo
+        if (gola_idx != -1) {
+            for (int j = n - 1; j > gola_idx; j--) {
+                if (nums[j] > nums[gola_idx]) {
+                    swap(nums[j], nums[gola_idx]);
+                    break;
+                }
+            }
+        }
 
-    // // Step 3: Reverse the remaining elements to get the next lexicographic order
-    // reverse(nums.begin() + i + 1, nums.end());
-    next_permutation(nums.begin(),nums.end());
-  }
+        // Step 3: gola_idx ke baad waala pura part reverse kar do
+        reverse(nums.begin() + gola_idx + 1, nums.end());
+    }
 };
+
+
+// class Solution {
+// public:
+//     void nextPermutation(vector<int>& nums) {
+//         next_permutation(nums.begin(),nums.end());
+//     }
+// };
