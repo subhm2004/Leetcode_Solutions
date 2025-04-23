@@ -24,7 +24,9 @@ public:
             mp[digitsSum]++;
             if (mp[digitsSum] == maxSize) {
                 count++;
-            } else if (mp[digitsSum] > maxSize) {
+            } 
+            //This condition only triggers when a new max group size is found.
+            else if (mp[digitsSum] > maxSize) {
                 maxSize = mp[digitsSum];
                 count = 1;
             }
