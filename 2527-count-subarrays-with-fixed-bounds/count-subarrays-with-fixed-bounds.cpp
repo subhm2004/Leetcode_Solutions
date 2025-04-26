@@ -1,3 +1,19 @@
+// class Solution {
+//     public:
+//         long long countSubarrays(vector<int>& nums, int minK, int maxK) {
+//             long count = 0;
+//             for (int i = 0; i < nums.size(); i++) {
+//                 int mini = INT_MAX, maxi = INT_MIN;
+//                 for (int j = i; j < nums.size(); j++) {
+//                     mini = min(mini, nums[j]);
+//                     maxi = max(maxi, nums[j]);
+//                     if (mini == minK && maxi == maxK) ++count;
+//                 }
+//             }
+//             return count;
+//         }
+//     };
+
 class Solution {
 public:
     long long countSubarrays(vector<int>& nums, int minK, int maxK) {
@@ -5,21 +21,24 @@ public:
         int lastMinK = -1, lastMaxK = -1, lastInvalid = -1;
         
         for (int i = 0; i < nums.size(); i++) {
+            // Agar current element [minK, maxK] ke bahar hai toh usko invalid mark karo
             if (nums[i] < minK || nums[i] > maxK) {
-                lastInvalid = i;  // mark the invalid position where a number outside [minK, maxK] is encountered
+                lastInvalid = i;  
             }
             
+            // Agar current element minK ke barabar hai toh uska index update karo
             if (nums[i] == minK) {
-                lastMinK = i;  // update the last seen position of minK
+                lastMinK = i;  
             }
             
+            // Agar current element maxK ke barabar hai toh uska index update karo
             if (nums[i] == maxK) {
-                lastMaxK = i;  // update the last seen position of maxK
+                lastMaxK = i;  
             }
             
-            // A valid subarray exists only when both minK and maxK have appeared
+            // Jab tak minK aur maxK dono mile hue hain tab tak hi valid subarrays count kar sakte hain
             if (lastMinK != -1 && lastMaxK != -1) {
-                // Add the number of valid subarrays formed by considering the range
+                // Valid subarrays ka count add karo jo lastInvalid ke baad start hote hain
                 count += max(0, min(lastMinK, lastMaxK) - lastInvalid);
             }
         }
