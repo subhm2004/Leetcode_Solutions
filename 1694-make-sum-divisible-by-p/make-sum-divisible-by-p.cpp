@@ -1,7 +1,3 @@
-#include <vector>
-#include <unordered_map>
-using namespace std;
-
 class Solution {
 public:
     int minSubarray(vector<int>& nums, int p) {
@@ -22,7 +18,7 @@ public:
         
         remainderIndex[0] = -1; // Shuru me remainder 0 ke liye index -1 set kar rahe hain
         
-        int ans = n; // Answer ko initially maximum length set kar rahe hain
+        int ans = INT_MAX; // Answer ko initially maximum length set kar rahe hain
         int currentRemainder = 0; // ab tak ka prefix sum remainder
         
         // Step 3: Traverse karte hain array ko
