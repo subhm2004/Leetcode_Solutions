@@ -1,8 +1,8 @@
-typedef long long ll;
+typedef unsigned long long ull;
 class Solution {
 public:
-    ll countSubarrays(vector<int>& nums, ll k) {
-        ll ans = 0, currSum = 0;
+    ull countSubarrays(vector<int>& nums, ull k) {
+        ull ans = 0, currSum = 0;
         int l = 0;
         for (int r = 0; r < nums.size(); ++r) {
             currSum += nums[r];
