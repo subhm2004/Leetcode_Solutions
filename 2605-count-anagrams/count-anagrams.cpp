@@ -2,7 +2,7 @@ class Combinatorics {
 public:
     typedef long long ll;
     const int M = 1e9 + 7; // Prime Modulo
-    const int N = 1e5+2 ; // Factorial limit
+    const int N = 2e5+2 ; // Factorial limit
     vector<ll> fact;
 
     ll mod(ll x) { return ((x % M + M) % M); }
