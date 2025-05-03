@@ -1,13 +1,24 @@
-// class Solution {
-// public:
-//     int sum(int num1, int num2) {
-//         return num1 + num2;
-//     }
-// };
+class Solution {
 
-#define Code class Solution {
-#define is public: int sum(
-#define poetry int a, int b) {
-#define in return a + b; }
-#define motion };
-Code is poetry in motion
+public:
+    int sum(int num1, int num2) {
+
+        int l = -200, r = 200;
+
+        while (l < r) {
+
+            int mid = (l + r) >> 1;
+
+            if (mid == num1 + num2)
+                return mid;
+
+            if (mid < num1 + num2)
+                l = mid + 1;
+
+            if (mid > num1 + num2)
+                r = mid - 1;
+        }
+
+        return l;
+    }
+};
