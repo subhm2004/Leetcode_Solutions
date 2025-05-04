@@ -138,15 +138,13 @@ public:
 
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
-                if (nums[j] < nums[i] && dp[i] < dp[j] + 1 ) {
-                    dp[i] = dp[j] + 1;
+                if (nums[j] < nums[i] ) {
+                    dp[i] = max(dp[i] , 1 + dp[j]);
                     prev[i] = j;
                 }
             }
-            if (dp[i] > maxLength) {
-                maxLength = dp[i];
-                lastIndex = i;
-            }
+            maxLength = max(maxLength , dp[i]);
+            lastIndex = i;
         }
 
         // Reconstruct the ans_LIS
