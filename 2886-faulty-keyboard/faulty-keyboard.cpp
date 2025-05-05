@@ -1,7 +1,7 @@
 class Solution {
 public:
     string finalString(string s) {
-        string ans = "";
+        string ans;
         for (char ch : s) {
             if (ch == 'i') {
                 reverse(ans.begin(), ans.end());
