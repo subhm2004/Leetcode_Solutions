@@ -6,14 +6,12 @@ public:
             return;
         }
 
-        // Always safe to add '1'
-        current.push_back('1');
-        backtrack(i + 1, n, current, ans);
-        current.pop_back();
+        for (auto& ch : {'1', '0'}) {
+            // Skip '0' if last character is also '0'
+            if (ch == '0' && !current.empty() && current.back() == '0')
+                continue;
 
-        // Safe to add '0' only if previous character is not '0'
-        if (i == 0 || current.back() != '0') {
-            current.push_back('0');
+            current.push_back(ch);
             backtrack(i + 1, n, current, ans);
             current.pop_back();
         }
