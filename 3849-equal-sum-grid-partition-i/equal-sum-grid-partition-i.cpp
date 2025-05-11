@@ -3,7 +3,7 @@ public:
     // Helper function to check horizontal cuts recursively
     bool horizontalCutHelper(vector<vector<int>>& grid, int m, int n, int row, long long sum, long long total) {
         // Base case: if we are at the last row, can't cut here
-        if (row == m) return false;
+        if (row == m - 1) return false;
         
         // Add the current row's sum to the cumulative sum
         for (int j = 0; j < n; ++j) {
@@ -20,7 +20,7 @@ public:
     // Helper function to check vertical cuts recursively
     bool verticalCutHelper(vector<vector<int>>& grid, int m, int n, int col, long long sum, long long total) {
         // Base case: if we are at the last column, can't cut here
-        if (col == n) return false;
+        if (col == n - 1) return false;
 
         // Add the current column's sum to the cumulative sum
         for (int i = 0; i < m; ++i) {
