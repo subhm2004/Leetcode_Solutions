@@ -2,10 +2,12 @@ class Solution {
     public:
     static const int MOD = 1e9 + 7;
     static const int N = 26;
+    using Matrix = vector<vector<long long>>;
 
-    vector<vector<long long>> multiply_Matrices(const vector<vector<long long>>& A, const vector<vector<long long>>& B) {
+
+    Matrix multiply_Matrices(const Matrix& A, const Matrix& B) {
         int n = A.size();
-        vector<vector<long long>> ans(n, vector<long long>(n, 0));
+        Matrix ans(n, vector<long long>(n, 0));
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 for (int k = 0; k < n; ++k) {
@@ -16,9 +18,9 @@ class Solution {
         return ans;
     }
 
-    vector<vector<long long>> matrix_Exponentiation(vector<vector<long long>>& A, long long power) {
+    Matrix matrix_Exponentiation(Matrix& A, long long power) {
         int n = A.size();
-        vector<vector<long long>> ans(n, vector<long long>(n, 0));
+        Matrix ans(n, vector<long long>(n, 0));
         for (int i = 0; i < n; ++i) {
             ans[i][i] = 1;
         }
@@ -36,7 +38,7 @@ class Solution {
 
     int lengthAfterTransformations(string s, int t, vector<int>& nums) {
         // Step 1: Build transformation matrix
-        vector<vector<long long>> Transformation_matrix(N, vector<long long>(N, 0));
+        Matrix Transformation_matrix(N, vector<long long>(N, 0));
         for (int i = 0; i < N; ++i) {
             int spread = nums[i];
             for (int j = 1; j <= spread; ++j) {
@@ -52,7 +54,7 @@ class Solution {
         }
 
         // Step 3: Raise Transformation_matrix to power t
-        vector<vector<long long>> T_pow = matrix_Exponentiation(Transformation_matrix, t);
+        Matrix T_pow = matrix_Exponentiation(Transformation_matrix, t);
 
         // Step 4: Multiply T^t with initial freq vector
         vector<long long> ans(N, 0);
