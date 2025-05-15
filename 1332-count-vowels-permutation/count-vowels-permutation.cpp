@@ -2,12 +2,13 @@ class Solution {
 public:
     int MOD = 1e9 + 7;
     vector<vector<int>> transitions = {
-        {1, 2, 4}, // 'a' -> 'e', 'i', 'u'
-        {0, 2},    // 'e' -> 'a', 'i'
-        {1, 3},    // 'i' -> 'e', 'o'
-        {2},       // 'o' -> 'i'
-        {2, 3}     // 'u' -> 'i', 'o'
-    };
+    {1},        // 0: 'a' → only 'e'
+    {0, 2},     // 1: 'e' → 'a', 'i'
+    {0, 1, 3, 4}, // 2: 'i' → 'a', 'e', 'o', 'u' (no 'i')
+    {2, 4},     // 3: 'o' → 'i', 'u'
+    {0}         // 4: 'u' → only 'a'
+};
+
     long long solveRE(int n, int vowel) {
         if (n == 1)
             return 1;
