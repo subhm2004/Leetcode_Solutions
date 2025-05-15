@@ -75,12 +75,14 @@ public:
 
     int countVowelPermutation(int n) {
         Matrix T = {
-            {0, 1, 1, 0, 1}, // a
-            {1, 0, 1, 0, 0}, // e
-            {0, 1, 0, 1, 0}, // i
-            {0, 0, 1, 0, 0}, // o
-            {0, 0, 1, 1, 0}  // u
-        };
+        // a  e  i  o  u
+        {0, 1, 0, 0, 0}, // a → only e
+        {1, 0, 1, 0, 0}, // e → a, i
+        {1, 1, 0, 1, 1}, // i → a, e, o, u (no i)
+        {0, 0, 1, 0, 1}, // o → i, u
+        {1, 0, 0, 0, 0}  // u → a
+    };
+
 
         Matrix power_matrix = matrix_exponentiation(T, n - 1);
 
@@ -99,3 +101,14 @@ public:
         return total;
     }
 };
+/*
+
+    a  e  i  o  u
+a [ 0, 1, 1, 0, 1 ] // from e, i, u → a
+e [ 1, 0, 1, 0, 0 ] // from a, i → e
+i [ 0, 1, 0, 1, 0 ] // from e, o → i
+o [ 0, 0, 1, 0, 0 ] // from i → o
+u [ 1, 0, 0, 0, 0 ] // from a → u  (updated, u can only be after 'a')
+
+
+*/
