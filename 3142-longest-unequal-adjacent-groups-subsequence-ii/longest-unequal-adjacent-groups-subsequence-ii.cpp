@@ -2,10 +2,10 @@ class Solution {
 public:
     int hamming_Distance(const string& a, const string& b) {
         if (a.length() != b.length()) return -1;
-        int dist = 0;
+        int distance = 0;
         for (int i = 0; i < a.length(); ++i)
-            if (a[i] != b[i]) dist++;
-        return dist;
+            if (a[i] != b[i]) distance++;
+        return distance;
     }
 
     vector<string> getWordsInLongestSubsequence(vector<string>& words, vector<int>& groups) {
@@ -13,8 +13,8 @@ public:
         vector<int> dp(n, 1);
         vector<int> prev(n, -1);
 
-        int maxLength = 1;
-        int lastIndex = 0;
+        int max_Length = 1;
+        int last_Index = 0;
 
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
@@ -28,16 +28,16 @@ public:
                     }
                 }
             }
-            if (dp[i] > maxLength) {
-                maxLength = dp[i];
-                lastIndex = i;
+            if (dp[i] > max_Length) {
+                max_Length = dp[i];
+                last_Index = i;
             }
         }
 
         vector<string> ans;
-        while (lastIndex != -1) {
-            ans.push_back(words[lastIndex]);
-            lastIndex = prev[lastIndex];
+        while (last_Index != -1) {
+            ans.push_back(words[last_Index]);
+            last_Index = prev[last_Index];
         }
         reverse(ans.begin(), ans.end());
         return ans;
