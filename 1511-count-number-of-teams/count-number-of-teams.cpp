@@ -4,7 +4,7 @@ public:
         int n = rating.size();
         int count = 0;
 
-        for (int j = 0; j < n ; ++j) {
+        for (int j = 1; j < n - 1; ++j) {
             int left_Smaller = 0, left_Greater = 0;
             int right_Smaller = 0, right_Greater = 0;
 
