@@ -1,10 +1,11 @@
+// https://www.youtube.com/watch?v=B3Wgf-g6i-k
 class UnionFind {
 public:
     vector<int> parent;
     vector<int> rank;
     vector<int> weight;
 
-    UnionFind(int n) : parent(n), rank(n, 0), weight(n, (1 << 17) - 1) {
+    UnionFind(int n) : parent(n), rank(n, 0), weight(n, INT_MAX) {
         for (int i = 0; i < n; i++) {
             parent[i] = i;
         }
