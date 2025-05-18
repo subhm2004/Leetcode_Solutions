@@ -11,12 +11,12 @@
  */
 class Solution {
 public:
-    TreeNode* removeLeafNodes(TreeNode* root, int target) {
+    TreeNode* helper(TreeNode* root, int target) {
         if (!root) {
             return nullptr;
         }
-        root->left = removeLeafNodes(root->left, target);
-        root->right = removeLeafNodes(root->right, target);
+        root->left = helper(root->left, target);
+        root->right = helper(root->right, target);
         if (!root->left && !root->right && root->val == target) {
             return nullptr;
         }
@@ -24,6 +24,6 @@ public:
     } 
 
     TreeNode* pruneTree(TreeNode* root) {
-        return removeLeafNodes(root,!1);
+        return helper(root, 0);
     }
 };
