@@ -10,10 +10,29 @@ public:
             }
         }
     }
-    
+
+    void bfs(int start, unordered_map<int, list<int>>& adjList, unordered_map<int, bool>& visited, vector<int>& ans) {
+        queue<int> q;
+        q.push(start);
+        visited[start] = true;
+
+        while (!q.empty()) {
+            int curr = q.front();
+            q.pop();
+            ans.push_back(curr);
+
+            for (int neighbor : adjList[curr]) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    q.push(neighbor);
+                }
+            }
+        }
+    }
+
     vector<int> restoreArray(vector<vector<int>>& adjacentPairs) {
         unordered_map<int, list<int>> adjList;
-        unordered_map<int, bool> visited;  // visited map
+        unordered_map<int, bool> visited;   
 
         // Build adjacency list
         for (auto& pair : adjacentPairs) {
@@ -31,7 +50,9 @@ public:
         }
 
         vector<int> ans;
-        dfs(start, adjList, visited, ans);
+        // dfs(start, adjList, visited, ans);
+        bfs(start, adjList, visited, ans);
+
 
         return ans;
     }
