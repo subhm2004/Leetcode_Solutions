@@ -1,25 +1,24 @@
 class Solution {
 public:
     vector<int> sumEvenAfterQueries(vector<int>& nums, vector<vector<int>>& queries) {
-        vector<int> ans;
+        vector<int> ans;  // yahan hum har query ke baad ka answer store karenge
 
         for (auto &q : queries) {
             int val = q[0];
-            int i = q[1];
+            int idx = q[1];
 
-            // Update nums
-            nums[i] += val;
+            nums[idx] += val;  // update kar diya
 
-            // Calculate sum of even numbers after update
-            int sum_Even = 0;
+            // Ab sum calculate karte hain sirf even numbers ka
+            int sum = 0;
             for (int num : nums) {
                 if (num % 2 == 0)
-                    sum_Even += num;
+                    sum += num;
             }
 
-            ans.push_back(sum_Even);
+            ans.push_back(sum);  // answer ans me daal diya
         }
 
-        return ans;
+        return ans;  // sab answers wapas kar do
     }
 };
