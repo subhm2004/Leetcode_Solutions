@@ -19,18 +19,19 @@ public:
         vector<pair<int,int>> directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
 
         while (!pq.empty()) {
-            auto [curDist, r, c] = pq.top();
+            auto [currDist, r, c] = pq.top();
             pq.pop();
 
-            if (r == m - 1 && c == n - 1) return curDist;
+            if (r == m - 1 && c == n - 1) return currDist;
+            if (currDist > dist[r][c]) continue;
 
             char ch = matrix[r][c];
             if (ch >= 'A' && ch <= 'Z' && used_Portals.find(ch) == used_Portals.end()) {
                 used_Portals.insert(ch);
                 for (auto &[pr, pc] : portal_Positions[ch]) {
-                    if (curDist < dist[pr][pc]) {
-                        dist[pr][pc] = curDist;
-                        pq.emplace(curDist, pr, pc); // teleportation me cost nhi lagti acc to problem
+                    if (currDist < dist[pr][pc]) {
+                        dist[pr][pc] = currDist;
+                        pq.emplace(currDist, pr, pc); // teleportation me cost nhi lagti acc to problem
                     }
                 }
             }
@@ -38,9 +39,9 @@ public:
             for (auto &[dr, dc] : directions) {
                 int nr = r + dr, nc = c + dc;
                 if (nr >= 0 && nr < m && nc >= 0 && nc < n && matrix[nr][nc] != '#') {
-                    if (curDist + 1 < dist[nr][nc]) {
-                        dist[nr][nc] = curDist + 1;
-                        pq.emplace(curDist + 1, nr, nc);
+                    if (currDist + 1 < dist[nr][nc]) {
+                        dist[nr][nc] = currDist + 1;
+                        pq.emplace(currDist + 1, nr, nc);
                     }
                 }
             }
