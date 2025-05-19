@@ -5,10 +5,10 @@ class Solution {
 
     // Find the largest side
     int maxSide = max({a, b, c});
-    int sumOfOthers = a + b + c - maxSide;
+    int sum_Of_Others = a + b + c - maxSide;
 
     // Triangle inequality: sum of two smaller > largest side
-    if (sumOfOthers <= maxSide)
+    if (sum_Of_Others <= maxSide)
       return "none";
 
     // Check for type
