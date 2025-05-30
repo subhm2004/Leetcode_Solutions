@@ -1,21 +1,22 @@
 class Solution {
 public:
-    void dijkstra(unordered_map<int, list<int>>& adjList, int start, vector<int>& dist, int n) {
+    void bfs(unordered_map<int, list<int>>& adjList, int start, vector<int>& dist, int n) {
+        queue<int> q;
+        vector<bool> visited(n, false);
+
+        q.push(start);
         dist[start] = 0;
-        // Min-heap: pair(distance, node)
-        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
-        pq.push({0, start});
+        visited[start] = true;
 
-        while (!pq.empty()) {
-            auto [currDist, u] = pq.top();
-            pq.pop();
-
-            if (currDist > dist[u]) continue;
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
 
             for (int v : adjList[u]) {
-                if (dist[u] + 1 < dist[v]) {  // edge weight = 1
+                if (!visited[v]) {
+                    visited[v] = true;
                     dist[v] = dist[u] + 1;
-                    pq.push({dist[v], v});
+                    q.push(v);
                 }
             }
         }
@@ -25,16 +26,18 @@ public:
         int n = edges.size();
         unordered_map<int, list<int>> adjList;
 
+        // Convert edges to adjacency list
         for (int u = 0; u < n; ++u) {
             if (edges[u] != -1) {
                 adjList[u].push_back(edges[u]);
             }
         }
 
-        vector<int> dist1(n, INT_MAX), dist2(n, INT_MAX);
+        vector<int> dist1(n, INT_MAX);
+        vector<int> dist2(n, INT_MAX);
 
-        dijkstra(adjList, node1, dist1, n);
-        dijkstra(adjList, node2, dist2, n);
+        bfs(adjList, node1, dist1, n);
+        bfs(adjList, node2, dist2, n);
 
         int ans = -1, minMaxDist = INT_MAX;
 
