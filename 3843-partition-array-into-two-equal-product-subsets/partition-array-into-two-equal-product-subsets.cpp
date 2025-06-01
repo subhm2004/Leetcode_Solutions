@@ -2,21 +2,22 @@ class Solution {
 public:
     bool found = false;
 
-    void backtrack(vector<int>& nums, int index, vector<int>& subsetA, vector<bool>& visited, long long prodA, long long target) {
-        if (prodA > target || found) return;  // Prune if product exceeds or solution already found
+    void backtrack(vector<int>& nums, int index, vector<int>& subset_A, vector<bool>& visited, long long prod_A, long long target) {
+        if (prod_A > target || found) return;  // Prune if product exceeds or solution already found
 
         int n = nums.size();
 
-        // If subsetA is not empty and not the whole array
-        if (!subsetA.empty() && subsetA.size() < n) {
-            long long prodB = 1;
+        // If subset_A is not empty and not the whole array
+        if (!subset_A.empty() && subset_A.size() < n) {
+            long long prod_B = 1;
             for (int i = 0; i < n; ++i) {
                 if (!visited[i]) {
-                    prodB *= nums[i];
-                    if (prodB > target) break;
+                    prod_B *= nums[i];
+                    if (prod_B > target) break;
                 }
             }
-            if (prodA == target && prodB == target) {
+
+            if (prod_A == target && prod_B == target) {
                 found = true;
                 return;
             }
@@ -24,20 +25,22 @@ public:
 
         for (int i = index; i < n; ++i) {
             if (found) return;
-            subsetA.push_back(nums[i]);
+            subset_A.push_back(nums[i]);
             visited[i] = true;
-            backtrack(nums, i + 1, subsetA, visited, prodA * nums[i], target);
+            backtrack(nums, i + 1, subset_A, visited, prod_A * nums[i], target);
+                        subset_A.pop_back();
+
             visited[i] = false;
-            subsetA.pop_back();
+            // subset_A.pop_back();
         }
     }
 
     bool checkEqualPartitions(vector<int>& nums, long long target) {
         int n = nums.size();
         vector<bool> visited(n, false);
-        vector<int> subsetA;
+        vector<int> subset_A;
         found = false;
-        backtrack(nums, 0, subsetA, visited, 1, target);
+        backtrack(nums, 0, subset_A, visited, 1, target);
         return found;
     }
 };
