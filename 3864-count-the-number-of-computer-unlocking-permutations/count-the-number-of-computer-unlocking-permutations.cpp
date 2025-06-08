@@ -2,7 +2,7 @@ class Factorial {
 public:
     typedef long long ll;
     const int M = 1e9 + 7;     // Prime Modulo
-    const int N = 2e5 + 2;     // Upper limit for factorial
+    const int N = 1e5+1;     // Upper limit for factorial
 
     vector<ll> fact;
     vector<ll> invFact;
