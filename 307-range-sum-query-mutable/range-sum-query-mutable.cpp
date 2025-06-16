@@ -9,9 +9,9 @@ private:
             return;
         }
         int mid = (l + r) / 2;
-        build_Tree(nums, 2 * i, l, mid);
-        build_Tree(nums, 2 * i + 1, mid + 1, r);
-        segTree[i] = segTree[2 * i] + segTree[2 * i + 1];
+        build_Tree(nums, 2 * i + 1, l, mid);
+        build_Tree(nums, 2 * i + 2, mid + 1, r);
+        segTree[i] = segTree[2 * i + 1] + segTree[2 * i + 2];
     }
 
     void update(int i, int l, int r, int pos, int val) {
@@ -21,36 +21,35 @@ private:
         }
         int mid = (l + r) / 2;
         if (pos <= mid)
-            update(2 * i, l, mid, pos, val);
+            update(2 * i + 1, l, mid, pos, val);
         else
-            update(2 * i + 1, mid + 1, r, pos, val);
-        segTree[i] = segTree[2 * i] + segTree[2 * i + 1];
+            update(2 * i + 2, mid + 1, r, pos, val);
+        segTree[i] = segTree[2 * i + 1] + segTree[2 * i + 2];
     }
 
-    int query(int i, int l, int r, int start, int right) {
-        if (right < l || start > r) return 0;
-        if (start <= l && r <= right) return segTree[i];
+    int query(int i, int l, int r, int ql, int qr) {
+        if (qr < l || ql > r) return 0;
+        if (ql <= l && r <= qr) return segTree[i];
         int mid = (l + r) / 2;
-        return query(2 * i, l, mid, start, right) +
-               query(2 * i + 1, mid + 1, r, start, right);
+        return query(2 * i + 1, l, mid, ql, qr) +
+               query(2 * i + 2, mid + 1, r, ql, qr);
     }
 
 public:
     SegmentTree(vector<int>& nums) {
         n = nums.size();
         segTree.resize(4 * n);
-        build_Tree(nums, 1, 0, n - 1);
+        build_Tree(nums, 0, 0, n - 1);
     }
 
     void update(int pos, int val) {
-        update(1, 0, n - 1, pos, val);
+        update(0, 0, n - 1, pos, val);
     }
 
     int query(int l, int r) {
-        return query(1, 0, n - 1, l, r);
+        return query(0, 0, n - 1, l, r);
     }
 };
-
 class NumArray {
 private:
     SegmentTree* segTree;
