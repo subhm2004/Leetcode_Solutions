@@ -1,3 +1,33 @@
+// class Solution {         TLE 47/57
+// public: 
+//     vector<int> longestRepeating(string s, string queryCharacters, vector<int>& queryIndices) {
+//         vector<int> ans;
+
+//         for (int i = 0; i < queryIndices.size(); ++i) {
+//             int idx = queryIndices[i];
+//             char ch = queryCharacters[i];
+
+//             //  Update character at index
+//             s[idx] = ch;
+
+//             // Find longest repeating substring by scanning
+//             int maxLen = 1, currLen = 1;
+//             for (int j = 1; j < s.size(); ++j) {
+//                 if (s[j] == s[j - 1]) {
+//                     currLen++;
+//                 } else {
+//                     currLen = 1;
+//                 }
+//                 maxLen = max(maxLen, currLen);
+//             }
+
+//             ans.push_back(maxLen);
+//         }
+
+//         return ans;
+//     }
+// };
+
 class SegmentTree {
     // \U0001f539 Har node me store hoga: segment ka info
     struct Node {
@@ -121,21 +151,3 @@ public:
         return ans;
     }
 };
-
-// class Solution { // Static Memory allocate krke kiya hai 
-// public:
-//     vector<int> longestRepeating(string s, string queryCharacters, vector<int>& queryIndices) {
-//         SegmentTree segTree(s); // \U0001f539 segment tree banao input string se
-//         vector<int> ans;
-
-//         for (int i = 0; i < queryIndices.size(); ++i) {
-//             int idx = queryIndices[i];
-//             char ch = queryCharacters[i];
-
-//             segTree.update(idx, ch); // \U0001f539 update character at index
-//             ans.push_back(segTree.get_Max_Len()); // \U0001f539 push current longest repeating substring
-//         }
-
-//         return ans;  
-//     }
-// };
