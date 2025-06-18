@@ -10,7 +10,9 @@ public:
             int b = nums[i + 1];
             int c = nums[i + 2];
 
-            // Check all 3 pairwise differences
+            // Check differences (nums[i+2] - nums[i] krke dekh lo agar ye hi
+            // range me aa gya to baki sare to aayenge hi kyoki sort kr diya hai
+            // humne vector to)
             if (abs(a - c) > k)
                 return {};
 
