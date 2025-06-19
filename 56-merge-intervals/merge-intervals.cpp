@@ -9,11 +9,14 @@ public:
         int end = intervals[0][1];
 
         for (int i = 1; i < intervals.size(); ++i) {
+            // Case 1: No Overlap
             if (intervals[i][0] > end) {
                 ans.push_back({start, end});
                 start = intervals[i][0];
                 end = intervals[i][1];
-            } else {
+            } 
+            // Case 2: Overlap
+            else {
                 end = max(end, intervals[i][1]);
             }
         }
