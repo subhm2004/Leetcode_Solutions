@@ -1,87 +1,88 @@
-#define MAX_RANGE 1e7
 class SegmentTree {
 private:
-    struct Node {
-        int val = INT_MAX, lazy = INT_MAX;
-        Node* left = nullptr;
-        Node* right = nullptr;
-    };
+    vector<int> segTree, lazy;
+    int n;
 
-    Node* root;
+    void build(int i, int l, int r) {
+        if (l == r) {
+            segTree[i] = INT_MAX;
+            return;
+        }
+        int mid = (l + r) / 2;
+        build(2 * i, l, mid);
+        build(2 * i + 1, mid + 1, r);
+        segTree[i] = min(segTree[2 * i], segTree[2 * i + 1]);
+    }
 
-    void push(Node* node, int l, int r) {
-        if (!node->left) node->left = new Node();
-        if (!node->right) node->right = new Node();
-
-        if (node->lazy != INT_MAX) {
-            node->val = min(node->val, node->lazy);
+    void push(int i, int l, int r) {
+        if (lazy[i] != INT_MAX) {
+            segTree[i] = min(segTree[i], lazy[i]);
             if (l != r) {
-                node->left->lazy = min(node->left->lazy, node->lazy);
-                node->right->lazy = min(node->right->lazy, node->lazy);
+                lazy[2 * i] = min(lazy[2 * i], lazy[i]);
+                lazy[2 * i + 1] = min(lazy[2 * i + 1], lazy[i]);
             }
-            node->lazy = INT_MAX;
+            lazy[i] = INT_MAX;
         }
     }
 
-    void update(Node* node, int l, int r, int ql, int qr, int val) {
-        push(node, l, r);
+    void update(int i, int l, int r, int ql, int qr, int val) {
+        push(i, l, r);
         if (r < ql || l > qr) return;
 
         if (ql <= l && r <= qr) {
-            node->lazy = val;
-            push(node, l, r);
+            lazy[i] = val;
+            push(i, l, r);
             return;
         }
 
         int mid = (l + r) / 2;
-        update(node->left, l, mid, ql, qr, val);
-        update(node->right, mid + 1, r, ql, qr, val);
-        node->val = min(node->left->val, node->right->val);
+        update(2 * i, l, mid, ql, qr, val);
+        update(2 * i + 1, mid + 1, r, ql, qr, val);
+        segTree[i] = min(segTree[2 * i], segTree[2 * i + 1]);
     }
 
-    int query(Node* node, int l, int r, int ql, int qr) {
-        push(node, l, r);
+    int query(int i, int l, int r, int ql, int qr) {
+        push(i, l, r);
         if (r < ql || l > qr) return INT_MAX;
-        if (ql <= l && r <= qr) return node->val;
+        if (ql <= l && r <= qr) return segTree[i];
 
         int mid = (l + r) / 2;
         return min(
-            query(node->left, l, mid, ql, qr),
-            query(node->right, mid + 1, r, ql, qr)
+            query(2 * i, l, mid, ql, qr),
+            query(2 * i + 1, mid + 1, r, ql, qr)
         );
     }
 
 public:
-    SegmentTree() {
-        root = new Node();
+    SegmentTree(int _n) : n(_n), segTree(4 * _n, INT_MAX), lazy(4 * _n, INT_MAX) {
+        build(1, 0, n - 1);
     }
 
     void update(int l, int r, int val) {
-        update(root, 0, MAX_RANGE, l, r, val);
+        update(1, 0, n - 1, l, r, val);
     }
 
     int query(int l, int r) {
-        return query(root, 0, MAX_RANGE, l, r);
+        return query(1, 0, n - 1, l, r);
     }
 };
 class Solution {
 public:
     vector<int> minInterval(vector<vector<int>>& intervals, vector<int>& queries) {
-        // Step 1: Coordinate compression
-        set<int> coords;
+        set<int> coordinates;
         for (auto& it : intervals) {
-            coords.insert(it[0]);
-            coords.insert(it[1]);
+            coordinates.insert(it[0]);
+            coordinates.insert(it[1]);
         }
-        for (int q : queries) coords.insert(q);
+        for (int q : queries) coordinates.insert(q);
 
         unordered_map<int, int> compress;
         int idx = 0;
-        for (int x : coords) compress[x] = idx++;
+        for (int x : coordinates) compress[x] = idx++;
 
-        SegmentTree seg;
+        int N = compress.size();
+        SegmentTree seg(N);
 
-        // Step 2: Update intervals with compressed coordinates
         for (auto& it : intervals) {
             int l = compress[it[0]];
             int r = compress[it[1]];
@@ -89,7 +90,6 @@ public:
             seg.update(l, r, size);
         }
 
-        // Step 3: Query on compressed coordinates
         vector<int> ans;
         for (int q : queries) {
             int cq = compress[q];
@@ -100,4 +100,3 @@ public:
         return ans;
     }
 };
-
