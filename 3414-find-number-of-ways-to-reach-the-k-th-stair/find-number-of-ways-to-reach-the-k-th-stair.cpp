@@ -1,3 +1,4 @@
+// https://www.youtube.com/watch?v=1lLmo2aC29o
 typedef unsigned long long ull;
 class Solution {
 public:
@@ -54,7 +55,7 @@ public:
 
         vector<long long> power(64);  
         
-        for (ull i = 0; i < 63; ++i) {
+        for (ull i = 0; i < 64; ++i) {
             // power[i] = pow(2, i);
             power[i] = (1LL << i);  // 2^i
         }
