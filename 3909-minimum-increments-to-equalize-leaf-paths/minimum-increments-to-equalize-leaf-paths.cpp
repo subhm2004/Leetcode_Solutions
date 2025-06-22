@@ -34,8 +34,7 @@ public:
 
         // Find the root (node with no parent)
         int root = 0;
-        while (has_Parent[root]) root++; // agar root 0 na ho to ye find kar dega root kya hai 
-
+ 
         dfs(cost, root);
         return ans;
     }
