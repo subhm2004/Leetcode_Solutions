@@ -15,15 +15,16 @@ private:
         if (!node || !node->lazy) return;
         
         node->val = high - low + 1;
+        
         if (low != high) {
-            if (!node->left) {
-                node->left = new Node();
-                node->right = new Node();
-            }
-            node->left->lazy = true;
-            node->right->lazy = true;
+            if (!node->left) node->left = new Node();
+            if (!node->right) node->right = new Node();
+            
+            node->left->lazy = 1;
+            node->right->lazy = 1;
         }
-        node->lazy = false;
+        
+        node->lazy = 0;
     }
     
     void update(Node*& node, int low, int high, int ql, int qr) {
