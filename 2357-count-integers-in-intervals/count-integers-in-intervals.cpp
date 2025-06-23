@@ -4,54 +4,54 @@ class SegmentTree {
 private:
     struct Node {
         int val = 0;
-        int lazy = 0;
+        int lazy = false;
         Node* left = nullptr;
         Node* right = nullptr;
     };
 
     Node* root;
 
-    void push(Node* node, int low, int high) {
+    void push(Node* node, int l, int r) {
         if (!node || !node->lazy)
             return;
         if (node->lazy != 0) {
-            
-            node->val = high - low + 1;
 
-            if (low != high) {
+            node->val = r - l + 1;
+
+            if (l != r) {
                 if (!node->left)
                     node->left = new Node();
                 if (!node->right)
                     node->right = new Node();
 
-                node->left->lazy = 1;
-                node->right->lazy = 1;
+                node->left->lazy = true;
+                node->right->lazy = true;
             }
 
-            node->lazy = 0;
+            node->lazy = false;
         }
     }
 
-    void update(Node*& node, int low, int high, int ql, int qr) {
+    void update(Node*& node, int l, int r, int ql, int qr) {
         // Create node if it doesn't exist
         if (!node)
             node = new Node();
 
         // No overlap case
-        if (high < ql || qr < low)
+        if (r < ql || qr < l)
             return;
 
         // Apply lazy propagation
-        push(node, low, high);
+        push(node, l, r);
 
         // If current range is already fully covered, return
-        if (node->val == high - low + 1)
+        if (node->val == r - l + 1)
             return;
 
         // Complete overlap case
-        if (low >= ql && high <= qr) {
+        if (l >= ql && r <= qr) {
             node->lazy = true;
-            push(node, low, high);
+            push(node, l, r);
             return;
         }
 
@@ -62,9 +62,9 @@ private:
         }
 
         // Partial overlap case
-        int mid = low + (high - low) / 2;
-        update(node->left, low, mid, ql, qr);
-        update(node->right, mid + 1, high, ql, qr);
+        int mid = l + (r - l) / 2;
+        update(node->left, l, mid, ql, qr);
+        update(node->right, mid + 1, r, ql, qr);
 
         // Update current node value from children
         node->val = node->left->val + node->right->val;
@@ -75,7 +75,7 @@ public:
 
     void update(int l, int r) { update(root, 0, MAX_RANGE, l, r); }
 
-    int getCount() { return root->val; }
+    int get_Count() { return root->val; }
 };
 
 class CountIntervals {
@@ -87,5 +87,5 @@ public:
 
     void add(int l, int r) { seg.update(l, r); }
 
-    int count() { return seg.getCount(); }
+    int count() { return seg.get_Count(); }
 };
