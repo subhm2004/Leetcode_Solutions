@@ -1,19 +1,32 @@
+// https://www.youtube.com/watch?v=Op6YFcs8R9M
 class Solution {
-    int max_sum = INT_MIN;  // class-level variable
 public:
+    int maxSum = INT_MIN;
+
     int dfs(TreeNode* root) {
-        if (!root) return 0;
+        if (root == NULL)
+            return 0;
 
-        int left = max(0, dfs(root->left));
-        int right = max(0, dfs(root->right));
+        int left = dfs(root->left);
+        int right = dfs(root->right);
 
-        max_sum = max(max_sum, root->val + left + right);
+        int neeche_hi_milgaya_answer = left + right + root->val; //(1)
 
-        return root->val + max(left, right);
+        int koi_ek_acha = max(left, right) + root->val; //(2)
+
+        int only_root_acha = root->val; //(3)
+
+        maxSum = max(
+            {maxSum, neeche_hi_milgaya_answer, koi_ek_acha, only_root_acha});
+
+        // most important part
+        return max(koi_ek_acha, only_root_acha);
     }
 
     int maxPathSum(TreeNode* root) {
+
         dfs(root);
-        return max_sum;
+
+        return maxSum;
     }
 };
