@@ -11,12 +11,12 @@ private:
     
     Node* root;
     
-    void update(Node*& node, int low, int high, int l, int r) {
+    void update(Node*& node, int low, int high, int ql, int qr) {
         // Create node if it doesn't exist
         if (!node) node = new Node();
         
         // No overlap case
-        if (high < l || r < low) return;
+        if (high < ql || qr < low) return;
         
         // Create child nodes if they don't exist
         if (!node->left) {
@@ -38,7 +38,7 @@ private:
         if (node->val == high - low + 1) return;
         
         // Complete overlap case
-        if (low >= l && high <= r) {
+        if (low >= ql && high <= qr) {
             node->val = high - low + 1;
             if (low != high) {
                 node->left->lazy = 1;
@@ -50,8 +50,8 @@ private:
         
         // Partial overlap case
         int mid = low + (high - low) / 2;
-        update(node->left, low, mid, l, r);
-        update(node->right, mid + 1, high, l, r);
+        update(node->left, low, mid, ql, qr);
+        update(node->right, mid + 1, high, ql, qr);
         
         // Update current node value from children
         node->val = node->left->val + node->right->val;
@@ -78,8 +78,8 @@ private:
 public:
     CountIntervals() {}
     
-    void add(int left, int right) {
-        seg.update(left, right);
+    void add(int l, int r) {
+        seg.update(l, r);
     }
     
     int count() {
