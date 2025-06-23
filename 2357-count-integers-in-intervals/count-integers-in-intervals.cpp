@@ -11,6 +11,21 @@ private:
     
     Node* root;
     
+    void push(Node* node, int low, int high) {
+        if (!node || !node->lazy) return;
+        
+        node->val = high - low + 1;
+        if (low != high) {
+            if (!node->left) {
+                node->left = new Node();
+                node->right = new Node();
+            }
+            node->left->lazy = true;
+            node->right->lazy = true;
+        }
+        node->lazy = false;
+    }
+    
     void update(Node*& node, int low, int high, int ql, int qr) {
         // Create node if it doesn't exist
         if (!node) node = new Node();
@@ -18,34 +33,23 @@ private:
         // No overlap case
         if (high < ql || qr < low) return;
         
-        // Create child nodes if they don't exist
-        if (!node->left) {
-            node->left = new Node();
-            node->right = new Node();
-        }
-        
         // Apply lazy propagation
-        if (node->lazy) {
-            node->val = high - low + 1;
-            if (low != high) {
-                node->left->lazy = 1;
-                node->right->lazy = 1;
-            }
-            node->lazy = 0;
-        }
+        push(node, low, high);
         
         // If current range is already fully covered, return
         if (node->val == high - low + 1) return;
         
         // Complete overlap case
         if (low >= ql && high <= qr) {
-            node->val = high - low + 1;
-            if (low != high) {
-                node->left->lazy = 1;
-                node->right->lazy = 1;
-            }
-            node->lazy = 0;
+            node->lazy = true;
+            push(node, low, high);
             return;
+        }
+        
+        // Create child nodes for partial overlap
+        if (!node->left) {
+            node->left = new Node();
+            node->right = new Node();
         }
         
         // Partial overlap case
