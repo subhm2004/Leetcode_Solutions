@@ -1,40 +1,31 @@
-class Solution {          // DIFFERENCE ARRAY TECHNIQUE SE HUA HAI 
+class Solution {
 public:
-    bool checkWithDifferenceArrayTeq(vector<int>& nums, vector<vector<int>>& queries, int k) {
+    bool isZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
         int n = nums.size();
         vector<int> diff(n, 0);
 
-        // Apply queries up to indeval k
-        for (int i = 0; i <= k; i++) {
-            int l = queries[i][0], r = queries[i][1], val = 1;
+        // Step 1: Apply each query with val = 1 using difference array
+        for (int i = 0; i < queries.size(); i++) {
+            int l = queries[i][0], r = queries[i][1];
+            int val = 1;
+
             diff[l] += val;
-            if (r + 1 < n) diff[r + 1] -= val;
+            if (r + 1 < n)
+                diff[r + 1] -= val;
         }
 
-        int cumSum = 0;
+        // Step 2: Convert diff to cumulative sum in-place
+        for (int i = 1; i < n; i++) {
+            diff[i] += diff[i - 1];
+        }
+
+        // Step 3: Check if nums[i] - diff[i] <= 0 for all i
         for (int i = 0; i < n; i++) {
-            cumSum += diff[i];
-            if (nums[i] - cumSum > 0) return false; // nums[i] couldn't be reduced to zero
-        }
-
-        return true;
-    }
-
-    bool isZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
-        if (all_of(nums.begin(), nums.end(), [](int val) { return val == 0; })) {
-            return true; // Return true instead of 0
-        }
-
-        int left = 0, right = queries.size() - 1;
-
-        while (left <= right) {
-            int mid = (left + right) >> 1;
-            if (checkWithDifferenceArrayTeq(nums, queries, mid)) {
-                return true;  // If it works, the array can be reduced to zero
-            } else {
-                left = mid + 1;
+            if (nums[i] - diff[i] > 0) {
+                return false;  // Not enough reductions
             }
         }
-        return false; 
+
+        return true;  // All values reduced to 0 or less
     }
 };
