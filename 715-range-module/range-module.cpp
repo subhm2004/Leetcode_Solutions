@@ -8,7 +8,6 @@ private:
         Node* left = nullptr;
         Node* right = nullptr;
 
-        Node(int l, int r, bool state) : l(l), r(r), state(state) {}
     };
 
     Node* root;
@@ -66,15 +65,15 @@ public:
         destroy(root);
     }
 
-    void setRange(int l, int r) {
+    void set_Range(int l, int r) {
         update(root, l, r, true);
     }
 
-    void unsetRange(int l, int r) {
+    void unset_Range(int l, int r) {
         update(root, l, r, false);
     }
 
-    bool isRangeSet(int l, int r) {
+    bool is_Range_Set(int l, int r) {
         return query(root, l, r);
     }
 };
@@ -86,14 +85,14 @@ public:
     RangeModule() {}
 
     void addRange(int left, int right) {
-        seg.setRange(left, right);
+        seg.set_Range(left, right);
     }
 
     void removeRange(int left, int right) {
-        seg.unsetRange(left, right);
+        seg.unset_Range(left, right);
     }
 
     bool queryRange(int left, int right) {
-        return seg.isRangeSet(left, right);
+        return seg.is_Range_Set(left, right);
     }
 };
