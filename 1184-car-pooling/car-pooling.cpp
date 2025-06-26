@@ -1,60 +1,39 @@
-// class Solution {
-// public:
-//     bool carPooling(vector<vector<int>>& trips, int capacity) {
-//         // Step 1: Trips ko unke start time ke basis pe sort kar lo
-//         sort(trips.begin(), trips.end(), [](const vector<int>& a, const vector<int>& b) {
-//             return a[1] < b[1];  // start time compare kar rahe hain
-//         });
-
-//         // Min-heap banate hain jo har active trip ka {end_time, passengers} store karega
-//         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
-
-//         int currentPassengers = 0;
-
-//         // Step 2: Har trip ko process karo
-//         for (auto& trip : trips) {
-//             int passengers = trip[0];
-//             int start = trip[1];
-//             int end = trip[2];
-
-//             // Step 3: Jo trips already khatam ho chuki hain unhe heap se hata do
-//             while (!minHeap.empty() && minHeap.top().first <= start) {
-//                 currentPassengers -= minHeap.top().second; // utarne wale passengers hatao
-//                 minHeap.pop();
-//             }
-
-//             // Step 4: Current trip ko heap me add karo
-//             minHeap.emplace(end, passengers);
-//             currentPassengers += passengers;
-
-//             // Step 5: Agar capacity exceed ho gayi to return false
-//             if (currentPassengers > capacity)
-//                 return false;
-//         }
-
-//         // Agar koi bhi trip capacity ko exceed nahi karti to return true
-//         return true;
-//     }
-// };
 class Solution {
 public:
-    bool carPooling(vector<vector<int>>& trips, int capacity) {
-        vector<int> timeline(1001, 0);  // location 0 to 1000
+    vector<int> difference_array_technique(vector<vector<int>>& queries, int n) {
+        vector<int> diff(n, 0);
 
+        for (const auto& q : queries) {
+            int l = q[0] ;
+            int r = q[1] ;
+            int val = q[2];
+
+            diff[l] += val;
+            if (r + 1 < n)
+                diff[r + 1] -= val;
+        }
+
+        for (int i = 1; i < n; i++) {
+            diff[i] += diff[i - 1];
+        }
+
+        return diff;
+    }
+    
+    bool carPooling(vector<vector<int>>& trips, int capacity) {
+        vector<vector<int>> queries;
         for (auto& trip : trips) {
             int passengers = trip[0];
             int start = trip[1];
-            int end = trip[2];
+            int end = trip[2] - 1;  // end - 1 because it's exclusive
 
-            timeline[start] += passengers;   // passengers chadh gaye
-            timeline[end] -= passengers;     // passengers utar gaye
+            queries.push_back({start , end , passengers});   
         }
 
-        int currentPassengers = 0;
-        for (int i = 0; i <= 1000; ++i) {
-            currentPassengers += timeline[i];
-            if (currentPassengers > capacity)
-                return false;
+        vector<int> ans = difference_array_technique(queries, 1001);
+
+        for (int p : ans) {
+            if (p > capacity) return false;
         }
 
         return true;
