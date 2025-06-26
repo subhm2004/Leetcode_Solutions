@@ -1,7 +1,7 @@
 class Solution {
 public:
-    vector<int> difference_array_technique(vector<vector<int>>& queries, int k) {
-        vector<int> diff(k, 0);
+    vector<int> difference_array_technique(vector<vector<int>>& queries, int n) {
+        vector<int> diff(n, 0);
 
         // Step 1: Use for-each loop to apply each query
         for (const auto& q : queries) {
@@ -10,12 +10,12 @@ public:
             int val = q[2];
 
             diff[l] += val;
-            if (r + 1 < k)
+            if (r + 1 < n)
                 diff[r + 1] -= val;
         }
 
         // Step 2: Prefix sum to apply the difference array
-        for (int i = 1; i < k; i++) {
+        for (int i = 1; i < n; i++) {
             diff[i] += diff[i - 1];
         }
 
