@@ -26,9 +26,13 @@ public:
     }
 
      double separateSquares(vector<vector<int>>& arr) { // standard form hai binary search on floating-point values.
-        double low = 0.0;
-        double high = 1e9 + 7.0;
-        double eps = 1e-6;  
+        double low = INT_MAX, high = 0.0;
+        for (const auto& sq : arr) {
+            low = min(low, (double)sq[1]);             // yBottom
+            high = max(high, (double)sq[1] + sq[2]);   // yTop
+        }
+
+        double eps = 1e-5;  
 
         while (high - low > eps) {
             double mid = (low + high) / 2.0;
