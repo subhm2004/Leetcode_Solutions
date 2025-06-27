@@ -25,23 +25,21 @@ public:
         return upperArea > lowerArea;
     }
 
-     double separateSquares(vector<vector<int>>& arr) {
+     double separateSquares(vector<vector<int>>& arr) { // standard form hai binary search on floating-point values.
         double low = 0.0;
         double high = 1e9 + 7.0;
-        double eps = 1e-6;
-        double ans = 0.0;
+        double eps = 1e-6;  
 
-        while (low <= high) {
+        while (high - low > eps) {
             double mid = (low + high) / 2.0;
 
             if (upper_area_bada_hai(mid, arr)) {
-                ans = mid;      
-                low = mid + eps;
+                low = mid;  // upar cut lagega
             } else {
-                high = mid - eps;
+                high = mid; // neeche cut lagega
             }
         }
 
-        return ans;
+        return low;   
     }
 };
