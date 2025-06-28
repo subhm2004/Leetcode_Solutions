@@ -24,26 +24,26 @@ public:
     }
 
     // Step 2: strStr using KMP
-    int strStr(string haystack, string needle) {
-        if (needle.empty()) return 0;  // Edge case: empty needle
+    int strStr(string &text, string &pattern) {
+        if (pattern.empty()) return 0;  // Edge case: empty pattern
 
-        int n = haystack.length();
-        int m = needle.length();
+        int n = text.length();
+        int m = pattern.length();
         vector<int> lps(m, 0);
 
-        compute_LPS(needle, lps); // LPS array banao
+        compute_LPS(pattern, lps); // LPS array banao
 
         int i = 0, j = 0;
 
         while (i < n) {
-            if (haystack[i] == needle[j]) {
+            if (text[i] == pattern[j]) {
                 i++;
                 j++;
             }
 
             if (j == m) {
                 return i - j; // pehla match mila
-            } else if (i < n && haystack[i] != needle[j]) {
+            } else if (i < n && text[i] != pattern[j]) {
                 if (j != 0) {
                     j = lps[j - 1];
                 } else {
