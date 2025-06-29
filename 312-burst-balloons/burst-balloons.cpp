@@ -1,6 +1,5 @@
 class Solution {
 public:
-    // Burst Balloons problem ka recursive solution
     int solveRE(vector<int>& nums, int start, int end) {
         // Base case: Agar start > end hai, matlab koi balloon nahi bacha burst karne ke liye
         // is range mein, toh 0 coins return karo
@@ -22,18 +21,18 @@ public:
             // - nums[end+1]: Right boundary balloon (exist karega jab 'i' last mein burst hoga)
             
             // Current balloon 'i' ko last mein burst karne se milne wale coins
-            int currentCoins = nums[start - 1] * nums[i] * nums[end + 1];
+            int current_Coins = nums[start - 1] * nums[i] * nums[end + 1];
             
             // Left subproblem: start se i-1 tak ke sabhi balloons burst karo recursively
             // Ye balloons balloon 'i' se pehle burst honge
-            int leftSubproblem = solveRE(nums, start, i - 1);
+            int left_Subproblem = solveRE(nums, start, i - 1);
             
             // Right subproblem: i+1 se end tak ke sabhi balloons burst karo recursively
             // Ye balloons bhi balloon 'i' se pehle burst honge
-            int rightSubproblem = solveRE(nums, i + 1, end);
+            int right_Subproblem = solveRE(nums, i + 1, end);
             
             // Total coins = current balloon ke coins + left subproblem + right subproblem
-            int totalCoins = currentCoins + leftSubproblem + rightSubproblem;
+            int totalCoins = current_Coins + left_Subproblem + right_Subproblem;
             
             // Maximum coins ka track rakho
             coins = max(coins, totalCoins);
