@@ -22,47 +22,37 @@
 //     }
 // };
 
-class Solution {          // KMP algo
+class Solution {
 public:
-    string shortestPalindrome(string s) {
-        int n = s.size();
+    void compute_LPS(string pattern, vector<int>& lps) {
+        int length = 0;
+        lps[0] = 0;
 
-        // Step 1: Reverse the original string
-        string reversed = s;
-        reverse(reversed.begin(), reversed.end());
-
-        // Step 2: Create a combined string to apply KMP
-        string combined = s + "#" + reversed;
-
-        // Step 3: Build the LPS (Longest Prefix Suffix) array
-        int m = combined.size();
-        vector<int> lps(m, 0);
-
-        for (int i = 1; i < m; ++i) {
-            int len = lps[i - 1];
-
-            // Backtrack until match is found or len becomes 0
-            while (len > 0 && combined[i] != combined[len]) {
-                len = lps[len - 1];
+        for (int i = 1; i < pattern.size(); ++i) {
+            while (length > 0 && pattern[i] != pattern[length]) {
+                length = lps[length - 1];
             }
-
-            // If characters match, increment length
-            if (combined[i] == combined[len]) {
-                ++len;
+            if (pattern[i] == pattern[length]) {
+                length++;
             }
-
-            lps[i] = len;
+            lps[i] = length;
         }
+    }
 
-        // Step 4: LPS tells us the longest palindrome starting at index 0
-        int palinPrefixLen = lps[m - 1];
+    string shortestPalindrome(string s) {
+        string rev = s;
+        reverse(rev.begin(), rev.end());
 
-        // Step 5: Take remaining suffix, reverse it and add in front
-        string remainingSuffix = s.substr(palinPrefixLen);
-        reverse(remainingSuffix.begin(), remainingSuffix.end());
+        string combined = s + "#" + rev;
 
-        // Final shortest palindrome
-        return remainingSuffix + s;
+        vector<int> lps(combined.size(), 0);
+        compute_LPS(combined, lps);
+
+        int palinPrefixLen = lps.back(); // Last value of LPS array
+
+        string suffix = s.substr(palinPrefixLen);
+        reverse(suffix.begin(), suffix.end());
+
+        return suffix + s;
     }
 };
-
