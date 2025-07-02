@@ -14,9 +14,11 @@ public:
             } else if (count_1 == 0) {
                 candidate_1 = nums[i];
                 count_1 = 1;
+                continue;
             } else if (count_2 == 0) {
                 candidate_2 = nums[i];
                 count_2 = 1;
+                continue;
             } else {
                 count_1--;
                 count_2--;
