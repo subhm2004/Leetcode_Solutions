@@ -1,33 +1,16 @@
 class Solution {
 public:
-    char nextChar(char ch) {
-            return (ch == 'z') ? 'a' : ch + 1;
-        }
-
-    char getCharAt(int k, int length) {
-            if (k == 1) return 'a';
-
-            int half = length / 2;
-
-            if (k <= half) {
-                return getCharAt(k, half);
-            } else {
-                // The second half is transformed version of first half
-                char ch = getCharAt(k - half, half);
-                return nextChar(ch);
-            }
-        }
-
     char kthCharacter(int k) {
-        string word = "a";
-        int length = 1;
-
-        // Step 1: Find how many rounds we need until length >= k
-        while (length < k) {
-            length *= 2;
+        string s = "a";
+        while (s.size() < k) {
+            string temp = "";
+            for (int i = 0; i < s.size(); i++) {
+                // Get the next character cyclically (z -> a)
+                char next = (s[i] == 'z') ? 'a' : s[i] + 1;
+                temp += next;
+            }
+            s += temp;
         }
-
-        return getCharAt(k, length);
+        return s[k - 1];  // 1-based indexing
     }
-
 };
