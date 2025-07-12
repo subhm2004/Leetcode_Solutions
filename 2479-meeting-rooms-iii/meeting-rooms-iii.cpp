@@ -1,53 +1,56 @@
 class Solution {
 public:
-    int mostBooked(int n, vector<vector<int>>& meetings) {
-        int m = meetings.size();
+    int mostBooked(int n, vector<vector<int>>& arr) {
+        int m = arr.size();
 
-        sort(begin(meetings), end(meetings)); //sort by starting time of meetings
+        sort(begin(arr), end(arr)); // Meetings ko start time ke hisaab se sort kar diya
 
-        vector<int> roomsUsedCount(n, 0); //Each room is used 0 times in the beginning
-        vector<long long> lastAvailableAt(n, 0); //Each room will be last available at
-        
+        vector<int> rooms_Used_Count(n, 0); // Har room kitni baar use hua hai track karne ke liye
+        vector<long long> last_available_at(n, 0); // Har room last kab free hoga uska time
 
-        for(vector<int>& meet : meetings) {
-            int start  = meet[0];
-            int end    = meet[1];
-            bool found = false;
+        // Har meeting ke liye ek ek karke dekhenge
+        for (vector<int>& meet : arr) {
+            int start = meet[0];
+            int end = meet[1];
+            bool found = false; // Yeh batayega koi room mila ya nahi
 
-            long long EarlyEndRoomTime = LLONG_MAX;
-            int EarlyEndRoom     = 0;
+            long long Early_End_Room_Time = LLONG_MAX; // Sabse jaldi available room ka time
+            int Early_End_Room_ = 0; // Sabse jaldi available room ka index
 
-            //Find the first available meeting room
-            for(int room = 0; room < n; room++) {
-                if(lastAvailableAt[room] <= start) {
+            // Har room check karo
+            for (int room = 0; room < n; room++) {
+                if (last_available_at[room] <= start) {
+                    // Agar yeh room start time tak free ho gaya to isi room mein meeting karwa do
                     found = true;
-                    lastAvailableAt[room] = end;
-                    roomsUsedCount[room]++;
+                    last_available_at[room] = end; // Room ab end tak busy hai
+                    rooms_Used_Count[room]++; // Room use count badhao
                     break;
                 }
 
-                if(lastAvailableAt[room] < EarlyEndRoomTime) {
-                    EarlyEndRoom = room;
-                    EarlyEndRoomTime = lastAvailableAt[room];
+                // Agar koi bhi room free nahi mila, to sabse jaldi free hone wale room ko yaad rakho
+                if (last_available_at[room] < Early_End_Room_Time) {
+                    Early_End_Room_ = room;
+                    Early_End_Room_Time = last_available_at[room];
                 }
             }
 
-            if(!found) {
-                lastAvailableAt[EarlyEndRoom] += (end - start);
-                roomsUsedCount[EarlyEndRoom]++;
-            }
-
-        }
-
-        int resultRoom = -1;
-        int maxUse     = 0;  
-        for(int room = 0; room < n; room++) {
-            if(roomsUsedCount[room] > maxUse) {
-                maxUse = roomsUsedCount[room];
-                resultRoom = room;
+            if (!found) {
+                // Koi room free nahi mila, to sabse jaldi free hone wale room mein meeting delay karke karwao
+                last_available_at[Early_End_Room_] += (end - start);
+                rooms_Used_Count[Early_End_Room_]++;
             }
         }
 
-        return resultRoom;
+        // Ab humein sabse zyada baar use hone wala room find karna hai
+        int ans = 0;
+        int max_use = 0;
+        for (int room = 0; room < n; room++) {
+            if (rooms_Used_Count[room] > max_use) {
+                max_use = rooms_Used_Count[room];
+                ans = room;
+            }
+        }
+
+        return ans; // Sabse zyada baar use hone wala room ka number return karo
     }
 };
