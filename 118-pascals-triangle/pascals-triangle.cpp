@@ -1,21 +1,15 @@
 class Combinatorics {
-protected:  
+protected:
     typedef long long ll;
     const int M = 1e9 + 7;
-    const int N =  100 ;
+    const int N = 100;
     vector<ll> fact;
 
-    ll mod(ll x) {
-        return ((x % M + M) % M);
-    }
+    ll mod(ll x) { return ((x % M + M) % M); }
 
-    ll add(ll a, ll b) {
-        return mod(a + b);
-    }
+    ll add(ll a, ll b) { return mod(a + b); }
 
-    ll mul(ll a, ll b) {
-        return mod(a * b);
-    }
+    ll mul(ll a, ll b) { return mod(a * b); }
 
     ll modPow(ll a, ll b) {
         ll res = 1;
@@ -28,17 +22,11 @@ protected:
         return res;
     }
 
-    ll inv(ll x) {
-        return modPow(x, M - 2);
-    }
+    ll inv(ll x) { return modPow(x, M - 2); }
 
-    ll modSub(ll a, ll b) {
-        return mod(a - b);
-    }
+    ll modSub(ll a, ll b) { return mod(a - b); }
 
-    ll modDiv(ll a, ll b) {
-        return mul(a, inv(b));
-    }
+    ll modDiv(ll a, ll b) { return mul(a, inv(b)); }
 
 public:
     Combinatorics() {
@@ -78,11 +66,10 @@ public:
         for (int i = 0; i < numRows; i++) {
             vector<int> ans;
             for (int j = 0; j <= i; j++) {
-                ans.push_back(nCr(i, j)); 
+                ans.push_back(nCr(i, j));
             }
             result.push_back(ans);
         }
         return result;
     }
 };
-
