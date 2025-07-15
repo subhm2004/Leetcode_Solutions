@@ -16,13 +16,11 @@ public:
             if (!isalpha(ch) && !isdigit(ch))
                 return false;
 
-            else {
-                if (isalpha(ch)) {
-                    if (is_vowel(ch)) {
-                        vowel = true;
-                    } else {
-                        consonant = true;
-                    }
+            if (isalpha(ch)) {
+                if (is_vowel(ch)) {
+                    vowel = true;
+                } else {
+                    consonant = true;
                 }
             }
         }
