@@ -74,29 +74,47 @@ public:
         int n = nums.size();
         int max_len = 0;
         
-        // For k = 1, all numbers have remainder 0, so answer is n
+        // Special case: k=1 me saare numbers ka remainder 0 hota hai
+        // Isliye saare elements ko le sakte hain, answer = n
         if (k == 1) return n;
         
+        // Har possible target remainder (0 se k-1 tak) try karte hain
         for (int target_rem = 0; target_rem < k; target_rem++) {
+            
+            // dp[rem] = maximum length of subsequence ending with remainder 'rem'
+            // Matlab dp[i] me store hai ki remainder i ke saath ending subsequence ki max length kya hai
             vector<int> dp(k, 0);
             
+            // Har element ko process karte hain
             for (int num : nums) {
+                // Current number ka remainder nikaalte hain
                 int curr_rem = num % k;
                 
-                // Calculate what previous remainder we need
+                // MAGIC FORMULA: Humein pata karna hai ki previous element ka remainder kya hona chahiye
+                // Taaki prev_rem + curr_rem = target_rem (mod k)
+                // Mathematical calculation: prev_rem = (target_rem - curr_rem + k) % k
+                // +k isliye add kiya kyunki negative values handle karne ke liye
                 int needed_prev = (target_rem - curr_rem + k) % k;
                 
-                int new_len = 1; // Single element subsequence
+                // Minimum length 1 hai (single element subsequence)
+                int new_len = 1;
                 
-                // If we can extend from the needed previous remainder
+                // Check karte hain ki kya needed_prev remainder ke saath koi subsequence exist karta hai
+                // Agar dp[needed_prev] > 0 hai matlab koi subsequence hai jo needed_prev remainder ke saath end hota hai
                 if (dp[needed_prev] > 0) {
+                    // Existing subsequence ko extend kar sakte hain
                     new_len = max(new_len, dp[needed_prev] + 1);
                 }
                 
+                // dp[curr_rem] ko update karte hain
+                // Agar pehle se koi better subsequence curr_rem ke saath ending hai to usse max lenge
                 dp[curr_rem] = max(dp[curr_rem], new_len);
+                
+                // Overall maximum length track karte hain
                 max_len = max(max_len, dp[curr_rem]);
             }
             
+            // Early termination: Agar max possible length mil gaya (n) to break kar do
             if (max_len == n) break;
         }
         
@@ -125,9 +143,6 @@ public:
 
        return solve_bottom_up_optmized(nums,k);
 
- 
-    
-
-        // return max_len;
+    // return max_len;
     }
 };
