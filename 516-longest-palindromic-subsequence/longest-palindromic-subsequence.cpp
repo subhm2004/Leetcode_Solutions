@@ -1,4 +1,4 @@
-class Solution {
+class Solution {  // lcs ka use hua hai 
 public:
     int solveRE(string& a, string& b, int i, int j) {
         if (i == a.length() || j == b.length()) {
