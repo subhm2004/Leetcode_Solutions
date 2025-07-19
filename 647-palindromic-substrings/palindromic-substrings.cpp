@@ -29,14 +29,14 @@
 
 //-----------------------------------------------------------------------------------------------------
 
-
-class Solution {
+//https://www.youtube.com/watch?v=tGAMyZxlwuA
+class Solution {       // Bhayankar logic use hua hai maza aa jata hai ek khandani template hai ye 
 public:
     int solve_bottom_up(string &s) {
         int n = s.length();
         int count = 0;
 
-        // dp[i][j] = true agar s[i..j] ek palindrome hai
+        // dp[i][j] = true agar s[i..j] ek palindrome hai i and j are inclusive 
         vector<vector<bool>> dp(n, vector<bool>(n, false));
 
         // L = length of substring
@@ -58,6 +58,8 @@ public:
 
         return count;
     }
+
+    
 
     int countSubstrings(string s) {
         return solve_bottom_up(s);
