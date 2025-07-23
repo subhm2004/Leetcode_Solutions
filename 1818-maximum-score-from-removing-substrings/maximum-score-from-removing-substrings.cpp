@@ -13,14 +13,14 @@ public:
             }
         }
 
-        string remaining;
+        string remaining_str;
         while (!st.empty()) {
-            remaining.push_back(st.top());
+            remaining_str.push_back(st.top());
             st.pop();
         }
-        reverse(remaining.begin(), remaining.end());
+        reverse(remaining_str.begin(), remaining_str.end());
 
-        return {score, remaining};
+        return {score, remaining_str};
     }
 
     int maximumGain(string s, int x, int y) {
@@ -29,8 +29,8 @@ public:
         int gain1 = max(x, y);
         int gain2 = min(x, y);
 
-        auto [score1, remaining1] = helper(s, max_str, gain1);
-        auto [score2, _] = helper(remaining1, min_str, gain2);
+        auto [score1, remaining_str] = helper(s, max_str, gain1);
+        auto [score2, _] = helper(remaining_str, min_str, gain2);
 
         return score1 + score2;
     }
