@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int helper(string& s, const string& matchStr, int gain, string& remaining) {
+    pair<int, string> helper(const string& s, const string& matchStr, int gain) {
         stack<char> st;
         int score = 0;
 
@@ -13,15 +13,14 @@ public:
             }
         }
 
-        // Build the remaining string after removal
-        remaining.clear();
+        string remaining;
         while (!st.empty()) {
             remaining.push_back(st.top());
             st.pop();
         }
         reverse(remaining.begin(), remaining.end());
 
-        return score;
+        return {score, remaining};
     }
 
     int maximumGain(string s, int x, int y) {
@@ -30,12 +29,9 @@ public:
         int gain1 = max(x, y);
         int gain2 = min(x, y);
 
-        string first_parse;
-        int score = helper(s, max_str, gain1, first_parse);
+        auto [score1, remaining1] = helper(s, max_str, gain1);
+        auto [score2, _] = helper(remaining1, min_str, gain2);
 
-        string second_parse;
-        score += helper(first_parse, min_str, gain2, second_parse);
-
-        return score;
+        return score1 + score2;
     }
 };
