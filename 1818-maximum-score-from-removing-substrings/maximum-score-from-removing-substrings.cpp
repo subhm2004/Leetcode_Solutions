@@ -1,11 +1,11 @@
 class Solution {
 public:
-    pair<int, string> helper(const string& s, const string& matchStr, int gain) {
+    pair<int, string> helper(const string& s, const string& match_str, int gain) {
         stack<char> st;
         int score = 0;
 
         for (char ch : s) {
-            if (!st.empty() && st.top() == matchStr[0] && ch == matchStr[1]) {
+            if (!st.empty() && st.top() == match_str[0] && ch == match_str[1]) {
                 st.pop();
                 score += gain;
             } else {
