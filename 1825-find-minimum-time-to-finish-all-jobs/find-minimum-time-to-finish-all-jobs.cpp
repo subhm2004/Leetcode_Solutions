@@ -29,13 +29,13 @@ public:
         int high = accumulate(jobs.begin(), jobs.end(), 0);
         int ans = high;
 
-        while (low < high) {
+        while (low <= high) {
             int mid = low + (high - low) / 2;
             vector<int> workers(k, 0);
 
             if (canDistribute(0, jobs, k, mid, workers)) {
                 ans = mid;
-                high = mid;
+                high = mid-1;
             } else {
                 low = mid + 1;
             }
