@@ -1,14 +1,27 @@
 class Solution {
 public:
     int maxSum(vector<int>& nums) {
-        unordered_set<int> unique_nums(nums.begin(), nums.end());
-        int max_element = INT_MIN, max_sum = 0;
-
-        for (auto& num : unique_nums) {
-            max_element = max(max_element, num);
-            max_sum = max(max_sum, num + max_sum);
+        unordered_map<int, int> count;
+        for (int num : nums) {
+            if (num > 0) {
+                count[num]++;
+            }
         }
-
-        return max_element < 1 ? max_element : max_sum;
+        
+        vector<int> unique_positive_nums;
+        for (auto& p : count) {
+            unique_positive_nums.push_back(p.first);
+        }
+        
+        if (unique_positive_nums.empty()) {
+            return *max_element(nums.begin(), nums.end());
+        }
+        
+        long long ans = 0;
+        for (int num : unique_positive_nums) {
+            ans += num;
+        }
+        
+        return ans;
     }
 };
