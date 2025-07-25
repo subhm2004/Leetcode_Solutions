@@ -39,3 +39,7 @@ public:
         return m + n - 2 * lcs_length;
     }
 };
+/*    FORMULA USED :-
+min deletions = (word1.length() - LCS) + (word2.length() - LCS)
+              = word1.length() + word2.length() - 2 * LCS
+*/
