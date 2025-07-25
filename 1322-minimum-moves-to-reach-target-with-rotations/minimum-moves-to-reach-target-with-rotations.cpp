@@ -4,6 +4,7 @@ public:
         int n = arr.size();
         queue<tuple<int, int, int, int>> q; // (row, col, orientation, moves)
         vector<vector<vector<bool>>> visited(n, vector<vector<bool>>(n, vector<bool>(2, false)));
+        // visited[r][c][orientation]
 
         q.push({0, 0, 0, 0}); // Start from top-left, horizontal, 0 moves
         visited[0][0][0] = true;
@@ -71,3 +72,15 @@ public:
         return bfs(arr);
     }
 };
+/*
+
+| Action               | Orientation | Cells to Check                 |
+| -------------------- | ----------- | ------------------------------ |
+| Move right           | Horizontal  | `arr[r][c+2]`                  |
+| Move down            | Horizontal  | `arr[r+1][c]`, `arr[r+1][c+1]` |
+| Rotate to vertical   | Horizontal  | `arr[r+1][c]`, `arr[r+1][c+1]` |
+| Move right           | Vertical    | `arr[r][c+1]`, `arr[r+1][c+1]` |
+| Move down            | Vertical    | `arr[r+2][c]`                  |
+| Rotate to horizontal | Vertical    | `arr[r][c+1]`, `arr[r+1][c+1]` |
+
+*/
