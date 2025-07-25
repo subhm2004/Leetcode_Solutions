@@ -1,56 +1,66 @@
-class Solution {
+class Solution { // Edit Distance varient hai
 public:
-    int solveRE(const string& s1, const string& s2, int i, int j) {
-        if (i < 0) { // Delete all remaining characters in s2
+    int solveRE(string& a, string& b, int i, int j) {
+        // Base case: agar s1 khatam ho gaya
+        if (i == a.length()) {
             int sum = 0;
-            for (int k = 0; k <= j; ++k)
-                sum += s2[k];
-            return sum;
-        }
-        if (j < 0) { // Delete all remaining characters in s1
-            int sum = 0;
-            for (int k = 0; k <= i; ++k)
-                sum += s1[k];
+            while (j < b.length()) {
+                sum += b[j++];
+            }
             return sum;
         }
 
-        if (s1[i] == s2[j]) // No deletion needed
-            return solveRE(s1, s2, i - 1, j - 1);
+        // Base case: agar s2 khatam ho gaya
+        if (j == b.length()) {
+            int sum = 0;
+            while (i < a.length()) {
+                sum += a[i++];
+            }
+            return sum;
+        }
 
-        // Either delete s1[i] or delete s2[j], take the minimum cost
-        return min(solveRE(s1, s2, i - 1, j) + s1[i],
-                   solveRE(s1, s2, i, j - 1) + s2[j]);
+         if (a[i] == b[j]) {
+            return solveRE(a, b, i + 1, j + 1);
+        } else {
+            int delete_From_A = int(a[i]) + solveRE(a, b, i + 1, j);
+            int delete_From_B = int(b[j]) + solveRE(a, b, i, j + 1);
+            return min(delete_From_A, delete_From_B);
+        }
     }
 
-    int solveME(const string& s1, const string& s2, int i, int j,
-                vector<vector<int>>& dp) {
-        if (i < 0) {
-            int sum = 0;
-            for (int k = 0; k <= j; ++k)
-                sum += s2[k];
-            return sum;
+    int solveME(string& a, string& b, int i, int j, vector<vector<int>>& dp) {
+    if (i == a.length()) {
+        int sum = 0;
+        while (j < b.length()) {
+            sum += b[j++];
         }
-        if (j < 0) {
-            int sum = 0;
-            for (int k = 0; k <= i; ++k)
-                sum += s1[k];
-            return sum;
-        }
-
-        if (dp[i][j] != -1)
-            return dp[i][j];
-
-        if (s1[i] == s2[j])
-            return dp[i][j] = solveME(s1, s2, i - 1, j - 1, dp);
-
-        return dp[i][j] = min(solveME(s1, s2, i - 1, j, dp) + s1[i],
-                              solveME(s1, s2, i, j - 1, dp) + s2[j]);
+        return sum;
     }
 
-    int minimumDeleteSum(string s1, string s2) {
-        int m = s1.length(), n = s2.length();
-        vector<vector<int>> dp(m, vector<int>(n, -1));
-        // return solveRE(s1, s2, m - 1, n - 1);
-        return solveME(s1, s2, m - 1, n - 1, dp);
+    if (j == b.length()) {
+        int sum = 0;
+        while (i < a.length()) {
+            sum += a[i++];
+        }
+        return sum;
     }
+
+     if (dp[i][j] != -1)
+        return dp[i][j];
+
+     if (a[i] == b[j]) {
+        return dp[i][j] = solveME(a, b, i + 1, j + 1, dp);
+    } else {
+        int delete_From_A = int(a[i]) + solveME(a, b, i + 1, j, dp);
+        int delete_From_B = int(b[j]) + solveME(a, b, i, j + 1, dp);
+        return dp[i][j] = min(delete_From_A, delete_From_B);
+    }
+}
+
+int minimumDeleteSum(string s1, string s2) {
+    int m = s1.length(), n = s2.length();
+    vector<vector<int>> dp(m, vector<int>(n, -1));
+    return solveME(s1, s2, 0, 0, dp);
+}
+
 };
