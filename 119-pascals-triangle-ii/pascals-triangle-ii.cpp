@@ -1,5 +1,14 @@
 class Solution {
 public:
+    long long nCr(int n, int r) {
+    long long res = 1;
+    for (int i = 1; i <= r; ++i) {
+        res = res * (n - i + 1) / i;
+    }
+    return res;
+}
+
+
     vector<int> getRow(int rowIndex) {
         vector<int> row(rowIndex + 1);  // Initialize row with size (rowIndex + 1)
         long long val = 1;
