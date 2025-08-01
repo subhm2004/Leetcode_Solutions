@@ -12,14 +12,14 @@
 //     ll mul(ll a, ll b) { return mod(a * b); }
 
 //     ll modPow(ll a, ll b) {
-//         ll res = 1;
+//         ll ans = 1;
 //         while (b) {
 //             if (b % 2)
-//                 res = mul(res, a);
+//                 ans = mul(ans, a);
 //             a = mul(a, a);
 //             b /= 2;
 //         }
-//         return res;
+//         return ans;
 //     }
 
 //     ll inv(ll x) { return modPow(x, M - 2); }
@@ -30,7 +30,7 @@
 
 // public:
 //     Combinatorics() {
-//         fact.resize(N, 1);
+//         fact.ansize(N, 1);
 //         precalc();
 //     }
 
@@ -62,11 +62,11 @@
 class Solution {
 public:
   long long nCr(int n, int r) {
-    long long res = 1;
+    long long ans = 1;
     for (int i = 1; i <= r; ++i) {
-        res = res * (n - i + 1) / i;
+        ans = ans * (n - i + 1) / i;
     }
-    return res;
+    return ans;
 }
     vector<vector<int>> generate(int numRows) {
         vector<vector<int>> result;
