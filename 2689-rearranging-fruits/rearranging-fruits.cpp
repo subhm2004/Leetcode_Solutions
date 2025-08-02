@@ -1,14 +1,10 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 class Solution {
 public:
     long long minCost(vector<int>& basket1, vector<int>& basket2) {
         unordered_map<int, int> freq;
         int min_element = INT_MAX;
 
-        // Count net frequency difference and find the minimum element
-        for (int x : basket1) {
+         for (int x : basket1) {
             freq[x]++;
             min_element = min(min_element, x);
         }
