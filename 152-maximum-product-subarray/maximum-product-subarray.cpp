@@ -1,60 +1,60 @@
-typedef long long ll;
+// class Solution {
+// public:
+//     int maxProduct(vector<int>& nums) {
+//         int n = nums.size();
+//         int maxProd = nums[0];  // Final max product store karega
+//         int maxSoFar = nums[0]; // Current position tak ka max product
+//         int minSoFar = nums[0]; // Current position tak ka min product (negative values handle karne ke liye)
 
+//         for (int i = 1; i < n; i++) {
+//             if (nums[i] < 0) swap(maxSoFar, minSoFar);  // Agar negative number aaya toh max aur min ko swap karna padega
+
+//             maxSoFar = max(nums[i], maxSoFar * nums[i]); // Current index pe max product nikalna
+//             minSoFar = min(nums[i], minSoFar * nums[i]); // Current index pe min product nikalna (negative ka effect dekhne ke liye)
+
+//             maxProd = max(maxProd, maxSoFar); // Global max product update karna
+//         }
+
+//         return maxProd; // Final maximum product return karna
+//     }
+// };
 class Solution {
 public:
-    // Recursive function with memoization
-    // i: current index
-    // isMax: agar true hai toh max product chahiye, else min product
-    ll solveME(const vector<int>& nums, int i, bool isMax, vector<vector<ll>>& dp) {
-        // Base case: agar i array ke bahar chala gaya toh
-        if (i < 0)
-            return isMax ? LLONG_MIN : LLONG_MAX;
+    vector<vector<int>> dp; // Memoization ke liye DP array
 
-        // Agar value pehle se calculate ho chuki hai toh wahi return karo
-        if (dp[isMax][i] != LLONG_MAX)
-            return dp[isMax][i];
+    // Helper function jo recursion aur memoization ka use karke max aur min product nikalta hai
+    int helper(vector<int>& nums, int i, bool isMax) {
+        if (i < 0) return isMax ? INT_MIN : INT_MAX; // Base case: Agar index out of bound ho gaya
 
-        ll curr = nums[i];
-        ll maxProd = curr, minProd = curr;
+        if (dp[isMax][i] != INT_MAX) return dp[isMax][i]; // Agar pehle se calculate hai toh return kar do
 
-        // Agar i > 0 hai toh pehle ke max aur min products nikal ke current ke saath combine karo
-        if (i > 0) {
-            ll prevMax = solveME(nums, i - 1, true, dp);   // Previous max product
-            ll prevMin = solveME(nums, i - 1, false, dp);  // Previous min product
+        int curr = nums[i]; // Current element
+        int maxProd = curr, minProd = curr; // Maximum aur minimum product initialize karna
 
-            // Teen possibilities: 
-            // 1. Sirf current element
-            // 2. current * previous max
-            // 3. current * previous min
+        if (i > 0) { // Agar index 0 se bada hai toh previous elements ka product consider karenge
+            int prevMax = helper(nums, i - 1, true);  // Pehle ka max product
+            int prevMin = helper(nums, i - 1, false); // Pehle ka min product
+
+            // Maximum aur minimum product calculate karna (negative values handle karne ke liye)
             maxProd = max(curr, max(curr * prevMax, curr * prevMin));
             minProd = min(curr, min(curr * prevMax, curr * prevMin));
         }
 
-        // DP array mein result store karo taaki dobara calculate na ho
-        dp[true][i] = maxProd;
-        dp[false][i] = minProd;
+        dp[true][i] = maxProd;  // DP me max product store karna
+        dp[false][i] = minProd; // DP me min product store karna
 
-        // isMax ke basis pe max ya min product return karo
-        return isMax ? maxProd : minProd;
+        return isMax ? maxProd : minProd; // Agar max chahiye toh maxProd return hoga warna minProd
     }
 
-    ll maxProduct(vector<int>& nums) {
+    int maxProduct(vector<int>& nums) {
         int n = nums.size();
-        if (n == 0)
-            return 0;
+        dp = vector<vector<int>>(2, vector<int>(n, INT_MAX)); // DP table initialize karna
+        int result = INT_MIN;
 
-        // DP array: 2 rows → 0 for min, 1 for max
-        // Har index ke liye initially LLONG_MAX set kiya hai (means not computed yet)
-        vector<vector<ll>> dp(2, vector<ll>(n, LLONG_MAX));
-
-        ll ans = LLONG_MIN;
-
-        // Har index tak ka max product calculate karke global answer update karo
         for (int i = 0; i < n; ++i) {
-            ll maxProdAtI = solveME(nums, i, true, dp);  // i-th index tak max product ending at i
-            ans = max(ans, maxProdAtI);  // Global max update karo
+            result = max(result, helper(nums, i, true)); // Har index ke liye max product calculate karna
         }
 
-        return ans;
+        return result; // Final maximum product return karna
     }
 };
