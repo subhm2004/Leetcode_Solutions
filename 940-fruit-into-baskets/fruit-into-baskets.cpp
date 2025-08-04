@@ -1,22 +1,22 @@
 class Solution {
 public:
-    int totalFruit(vector<int>& fruits) {
-        int ans = 0, left = 0;
-        unordered_map<int, int>
-            count; // Har fruit ka count store karne ke liye map
+    int totalFruit(vector<int>& arr) {
+        unordered_map<int, int> mp;
 
-        for (int right = 0; right < fruits.size(); ++right) {
-            count[fruits[right]]++; // Naya fruit add karo ya count badhao
+        int ans = 0;
+        int left = 0;
 
-            while (count.size() > 2) { // Agar 2 se zyada alag type ke fruits ho
-                                       // gaye toh window chhoti karo
-                if (--count[fruits[left]] == 0)
-                    count.erase(fruits[left]); // Agar kisi fruit ka count 0 ho
-                                               // gaya toh use hata do
-                left++;                        // Window ka left side badhao
+        for (int right = 0; right < arr.size(); right++) {
+            mp[arr[right]]++;
+
+            while (mp.size() > 2) {
+                if (--mp[arr[left]] == 0)
+                    mp.erase(arr[left]);
+
+                left++;
             }
 
-            ans = max(ans, right - left + 1); // Maximum window size update karo
+            ans = max(ans, right - left + 1);
         }
         return ans;
     }
