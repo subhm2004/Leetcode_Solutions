@@ -10,7 +10,8 @@ public:
             mp[arr[right]]++;
 
             while (mp.size() > 2) {
-                if (--mp[arr[left]] == 0)
+                --mp[arr[left]];
+                if (mp[arr[left]] == 0)
                     mp.erase(arr[left]);
 
                 left++;
