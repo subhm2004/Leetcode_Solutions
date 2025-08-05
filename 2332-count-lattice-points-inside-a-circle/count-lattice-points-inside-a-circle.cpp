@@ -9,6 +9,7 @@ public:
             for (int i = x - r; i <= x + r; i++) {
                 for (int j = y - r; j <= y + r; j++) {
                     // Check if point (i, j) lies inside or on the circle
+                    // (x - xc)^2 + (y - yc)^2 <= r^2
                     if ((i - x) * (i - x) + (j - y) * (j - y) <= r * r) {
                         lattice_points.insert({i, j});
                     }
