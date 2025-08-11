@@ -45,9 +45,23 @@ public:
         }
         return powers;
     }
-
+    vector<int> extract_powers_of_2_easy(int n) {
+    vector<int> powers;
+    int power = 0;
+    
+    while (n > 0) {
+        if (n % 2 == 1) {  // If last digit is 1
+            powers.push_back(pow(2, power));
+        }
+        n = n / 2;  // Remove last digit
+        power++;
+    }
+    return powers;
+}
     vector<int> productQueries(int n, vector<vector<int>>& queries) {
-        vector<int> powers = extract_powers_of_2(n);
+        // vector<int> powers = extract_powers_of_2(n);
+        vector<int> powers = extract_powers_of_2_easy(n);
+
 
         SegmentTree segTree(powers);
 
