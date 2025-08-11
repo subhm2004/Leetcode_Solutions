@@ -59,8 +59,8 @@ public:
     return powers;
 }
     vector<int> productQueries(int n, vector<vector<int>>& queries) {
-        // vector<int> powers = extract_powers_of_2(n);
-        vector<int> powers = extract_powers_of_2_easy(n);
+        vector<int> powers = extract_powers_of_2(n);
+        // vector<int> powers = extract_powers_of_2_easy(n);
 
 
         SegmentTree segTree(powers);
