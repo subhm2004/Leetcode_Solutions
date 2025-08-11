@@ -38,13 +38,23 @@ public:
 
 class Solution {
 public:
-     vector<int> extract_powers_of_2(int n) {
-        vector<int> powers;
-        for (int bit = 0; n > 0; ++bit, n >>= 1) {
-            if (n & 1) powers.push_back(1 << bit);
-        }
-        return powers;
+    vector<int> extract_powers_of_2(int n) {
+    vector<int> powers; // yeh vector store karega woh saare powers of 2 jo n me present hain
+
+    // 'bit' ka use hum current bit position track karne ke liye kar rahe hain (0 = LSB, 1 = next bit, etc.)
+    // Loop tab tak chalega jab tak n > 0 hai
+    // Har iteration me n ko 1 bit right shift karenge (n >>= 1), matlab last binary digit remove karenge
+    for (int bit = 0; n > 0; bit++ , n >>= 1) {
+
+        // (n & 1) check karta hai ki last binary digit (LSB) 1 hai ya nahi
+        // Agar last bit 1 hai to iska matlab hai ki yeh bit position n me contribute kar rahi hai
+        if (n & 1)
+            powers.push_back(1 << bit); // 1 << bit ka matlab hota hai 2^bit (bitwise left shift se power of 2 milta hai)
     }
+
+    return powers; // powers vector return karte hain jisme saare powers of 2 hote hain jo n banate hain
+}
+
     vector<int> extract_powers_of_2_easy(int n) {
     vector<int> powers;
     int power = 0;
