@@ -40,6 +40,7 @@ public:
     }
 
     int numberOfWays(int n, int x) {
+        if(!n) return 1;
         // return solveRE(1, 0, n, x);  
         vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
         return solveME(1, 0, n, x, dp);
