@@ -31,7 +31,7 @@ public:
 
         long long power = (long long)pow(i, x);
 
-        if (power > target) return dp[i][sum] = 0;
+        if (power > target) return 0;
 
         int include = solveME(i + 1, sum + power, target, x, dp) % MOD;
         int exclude = solveME(i + 1, sum, target, x, dp) % MOD;
