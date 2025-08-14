@@ -5,39 +5,29 @@ public:
     vector<vector<int>> visited;
     vector<pair<int,int>> borders;
 
-    void bfs(int sr, int sc, vector<vector<int>>& grid) {
-        queue<pair<int,int>> q;
-        q.push({sr, sc});
-        visited[sr][sc] = 1;
+    void dfs(int x, int y, vector<vector<int>>& grid) {
+        visited[x][y] = 1;
+        bool is_border = false;
 
-        while (!q.empty()) {
-            auto [x, y] = q.front();
-            q.pop();
+        for (auto [dx, dy] : directions) {
+            int nx = x + dx, ny = y + dy;
 
-            bool is_border = false;
-
-             for (auto [dx, dy] : directions) {
-                int nx = x + dx;
-                int ny = y + dy;
-
-                if (nx < 0 || ny < 0 || nx >= m || ny >= n) {
-                    is_border = true;
-                    continue;
-                }
-
-                if (grid[nx][ny] != original_color) {
-                    is_border = true;
-                }
-
-                if (!visited[nx][ny] && grid[nx][ny] == original_color) {
-                    visited[nx][ny] = 1;
-                    q.push({nx, ny});
-                }
+            if (nx < 0 || ny < 0 || nx >= m || ny >= n) {
+                is_border = true;
+                continue;
             }
 
-            if (is_border) {
-                borders.push_back({x, y});
+            if (grid[nx][ny] != original_color) {
+                is_border = true;
             }
+
+            if (!visited[nx][ny] && grid[nx][ny] == original_color) {
+                dfs(nx, ny, grid);
+            }
+        }
+
+        if (is_border) {
+            borders.push_back({x, y});
         }
     }
 
@@ -49,7 +39,7 @@ public:
         original_color = grid[row][col];
         new_color = color;
 
-        bfs(row, col, grid);
+        dfs(row, col, grid);
 
         for (auto &[bx, by] : borders) {
             grid[bx][by] = new_color;
