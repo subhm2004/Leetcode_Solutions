@@ -50,6 +50,7 @@ public:
         return query(0, 0, n - 1, l, r);
     }
 };
+
 class NumArray {
 private:
     SegmentTree* segTree;
