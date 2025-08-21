@@ -46,7 +46,7 @@ public:
         vector<int> distance(n, INT_MAX);
         distance[src] = 0;  // Source tak 0 stops mein pahunch sakte hain
         
-        // distance ARRAY KA PURPOSE:
+        // distance ARRAY KA PURPOSE: ye represent karta hai minStops ko 
         // distance[i] = minimum stops needed to reach city i
         // Agar kisi city tak pehle se kam stops mein pahunch chuke hain,
         // to current path (jo zyada stops use karta hai) ko skip kar sakte hain
