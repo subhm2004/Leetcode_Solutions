@@ -1,40 +1,47 @@
 class Solution {
 public:
-
-    
-    // Method 2: Bellman-Ford Approach (Alternative)
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        vector<int> dist(n, INT_MAX);
-        dist[src] = 0;
-        
-        // K+1 iterations (kyunki maximum K stops allowed hai)
-        for (int i = 0; i <= k; i++) {
-            vector<int> temp = dist;
-            
-            for (auto& flight : flights) {
-                int u = flight[0], v = flight[1], w = flight[2];
-                
-                if (dist[u] != INT_MAX && dist[u] + w < temp[v]) {
-                    temp[v] = dist[u] + w;
-                }
+        // Step 1: adjList ko adjacency list ke form me build karte hain
+        unordered_map<int, list<pair<int, int>>> adjList;
+        for (auto& flight : flights) {
+            int u = flight[0], v = flight[1], w = flight[2]; // (UVW Representation)
+            adjList[u].push_back({v, w}); // u se v tak ka path with cost w
+        }
+
+        // Step 2: Priority Queue (Min-Heap) jo cheapest cost wale nodes ko pehle pick karega
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> pq;
+        pq.push({0, src, 0}); // {cost, src, stops} -> Pehle cost 0, source se shuru karenge, 0 stops
+
+        // Step 3: Har city tak pahunchne ke liye minimum stops track karne ke liye vector
+        vector<int> visited(n, INT_MAX);
+        visited[src] = 0; // Source tak pahunchne ke liye 0 stops
+
+        // Step 4: BFS traversal (Dijkstra jaisa) jo cheapest cost pe focus karega
+        while (!pq.empty()) {
+            auto [cost, city, stops] = pq.top(); // Current node ka cost, city aur stops nikalte hain
+            pq.pop();
+
+            // Agar destination pahunch gaye to cost return kar do
+            if (city == dst)
+                return cost;
+
+            // Agar stops allowed limit se zyada ho gaye to ignore kar do
+            if (stops > k)
+                continue;
+
+            // Agar current city pe pehle hi kam stops me pahunch chuke hain to skip kar do
+            if (visited[city] < stops)
+                continue;
+
+            // Current city tak ka minimum stops update karte hain
+            visited[city] = stops;
+
+            // Ab saare neighbors explore karte hain
+            for (auto& [next_city, price] : adjList[city]) {
+                pq.push({cost + price, next_city, stops + 1}); // Cost update karke next_city queue me daal do
             }
-            
-            dist = temp;
         }
         
-        return dist[dst] == INT_MAX ? -1 : dist[dst];
+        return -1; // Agar destination tak koi valid path nahi mila to -1 return kar do
     }
 };
-
-// Usage example:
-/*
-Input: 
-n = 4, flights = [[0,1,100],[1,2,100],[2,0,100],[1,3,600],[2,3,200]]
-src = 0, dst = 3, k = 1
-
-Expected Output: 700
-
-Explanation:
-Path: 0->1->3 with cost 100+600=700 (1 stop)
-Alternative: 0->1->2->3 would be 100+100+200=400 but needs 2 stops (not allowed)
-*/
