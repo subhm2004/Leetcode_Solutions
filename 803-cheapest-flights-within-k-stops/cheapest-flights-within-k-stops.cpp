@@ -1,53 +1,9 @@
 class Solution {
 public:
-    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        // Method 1: Standard Dijkstra with State (city, stops)
-        
-        // Graph building
-        unordered_map<int, vector<pair<int, int>>> graph;
-        for (auto& flight : flights) {
-            int u = flight[0], v = flight[1], w = flight[2];
-            graph[u].push_back({v, w});
-        }
-        
-        // Priority Queue: {cost, city, stops}
-        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> pq;
-        pq.push({0, src, 0});
-        
-        // Distance array: dist[city][stops] = minimum cost
-        vector<vector<int>> dist(n, vector<int>(k + 2, INT_MAX));
-        dist[src][0] = 0;
-        
-        while (!pq.empty()) {
-            auto [cost, city, stops] = pq.top();
-            pq.pop();
-            
-            // Early termination
-            if (city == dst) return cost;
-            
-            // Stop constraint check
-            if (stops > k) continue;
-            
-            // Pruning: agar already better solution mil gaya hai
-            if (dist[city][stops] < cost) continue;
-            
-            // Explore neighbors
-            for (auto& [nextCity, price] : graph[city]) {
-                int newCost = cost + price;
-                int newStops = stops + 1;
-                
-                if (newStops <= k + 1 && newCost < dist[nextCity][newStops]) {
-                    dist[nextCity][newStops] = newCost;
-                    pq.push({newCost, nextCity, newStops});
-                }
-            }
-        }
-        
-        return -1;
-    }
+
     
     // Method 2: Bellman-Ford Approach (Alternative)
-    int findCheapestPriceBellmanFord(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
         vector<int> dist(n, INT_MAX);
         dist[src] = 0;
         
