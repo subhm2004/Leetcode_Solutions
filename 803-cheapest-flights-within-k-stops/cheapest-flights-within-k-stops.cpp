@@ -60,7 +60,7 @@ public:
         while (!pq.empty()) {
             
             // STEP 4A: Cheapest unprocessed path nikalte hain
-            auto [cost, city, stops] = pq.top();  // Structured binding (C++17 feature)
+            auto [cost, city, stops] = pq.top();   
             pq.pop();
             
             // CURRENT STATE:
