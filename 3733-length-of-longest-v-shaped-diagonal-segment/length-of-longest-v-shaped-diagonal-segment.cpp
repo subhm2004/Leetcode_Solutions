@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 class Solution {
 public:
     int n, m;
@@ -8,7 +5,7 @@ public:
     vector<pair<int,int>> directions = {{1,1}, {1,-1}, {-1,1}, {-1,-1}};
     
     // Get the clockwise 90-degree turn direction
-    int getClockwiseTurn(int dir) {
+    int get_clock_wise_turn(int dir) {
         // directions: 0: down-right, 1: down-left, 2: up-right, 3: up-left
         // Clockwise turns:
         // down-right (0) -> down-left (1)
@@ -33,8 +30,8 @@ public:
         
         // Try turning clockwise (only if we haven't turned yet)
         if (!turned) {
-            int newDir = getClockwiseTurn(dir);
-            best = max(best, 1 + solveRE(i + directions[newDir].first, j + directions[newDir].second, newDir, 1, step + 1));
+            int new_dir = get_clock_wise_turn(dir);
+            best = max(best, 1 + solveRE(i + directions[new_dir].first, j + directions[new_dir].second, new_dir, 1, step + 1));
         }
         
         return best;
