@@ -7,10 +7,10 @@ public:
         unordered_map<int,int> freq;
         for (int x : nums) freq[x]++;
 
-        int totalGroups = n / k;
+        int total_groups = n / k;
 
         for (auto [num, count] : freq) {
-            if (count > totalGroups) return false; 
+            if (count > total_groups) return false; 
         }
 
         return true;
