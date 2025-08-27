@@ -10,6 +10,7 @@ const auto __ = []() {
   return 0;
 }();
 #endif
+
 class Solution {
 public:
     int n, m;
