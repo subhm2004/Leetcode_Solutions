@@ -8,12 +8,7 @@ class Solution {
 public:
     int numberOfPairs(vector<vector<int>>& points) {
         int n = points.size();
-        unordered_set<pair<int,int>, pair_hash> st;
         
-        // store all points in a set for O(1) 
-        for (auto &p : points) {
-            st.insert({p[0], p[1]});
-        }
         
         int ans = 0;
         
