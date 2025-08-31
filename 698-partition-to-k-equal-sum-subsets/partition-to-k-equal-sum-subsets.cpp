@@ -29,7 +29,8 @@ public:
 
             // Optimization: if current subset is empty and didn't fit, skip other empty subsets
             if (subset_sum[i] == 0) break;
-        }
+
+          }
 
         return false;
     }
@@ -39,7 +40,9 @@ public:
         if (sum % k != 0) return false;
         int target = sum / k;
 
+        sort(nums.rbegin(), nums.rend());
         sort(nums.begin(), nums.end());
+
 
         vector<int> subset_sum(k, 0);
         return backtrack(nums, 0, subset_sum, target);
