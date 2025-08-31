@@ -41,7 +41,7 @@ public:
         int target = sum / k;
 
         sort(nums.rbegin(), nums.rend());
-        sort(nums.begin(), nums.end());
+        // sort(nums.begin(), nums.end());
 
 
         vector<int> subset_sum(k, 0);
