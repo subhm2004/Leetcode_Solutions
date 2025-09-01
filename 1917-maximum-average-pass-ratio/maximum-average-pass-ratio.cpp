@@ -46,13 +46,13 @@ public:
         }
 
         // Step 3: Sabhi classes ka final average calculate karo
-        double total_avg = 0.0;
+        double total_ratio = 0.0;
         while (!max_heap.empty()) {
             auto [_, counts] = max_heap.top();
             max_heap.pop();
-            total_avg += (double)counts.first / counts.second;
+            total_ratio += (double)counts.first / counts.second;
         }
 
-        return total_avg / classes.size(); // final average 
+        return total_ratio / classes.size(); // final average 
     }
 };
