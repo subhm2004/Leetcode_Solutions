@@ -30,8 +30,9 @@ public:
                         }
                     }
 
-                    if (valid)
+                    if (valid){
                         ans++;
+                    }
                 }
             }
         }
