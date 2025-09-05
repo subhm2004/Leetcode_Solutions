@@ -3,6 +3,9 @@ public:
     bool is_vowel(char c) {
         return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
     }
+    bool is_consonant(char c) {
+    return (c >= 'a' && c <= 'z') && !is_vowel(c);
+}
     int maxVowels(string s, int k) {
         int n = s.size();
         int count = 0, max_count = 0;
