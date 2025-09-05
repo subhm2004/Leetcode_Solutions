@@ -5,10 +5,10 @@ public:
         int ans = INT_MAX;
 
         for (int i = 0; i < n; i++) {
-            int currOR = 0;
+            int curr_OR = 0;
             for (int j = i; j < n; j++) {
-                currOR |= nums[j];
-                if (currOR >= k) {
+                curr_OR |= nums[j];
+                if (curr_OR >= k) {
                     ans = min(ans, j - i + 1);
                     break; 
                 }
