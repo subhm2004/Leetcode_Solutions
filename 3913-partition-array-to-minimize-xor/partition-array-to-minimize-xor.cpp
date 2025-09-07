@@ -1,71 +1,75 @@
 class Solution {
 public:
-    //  function to calculate XOR of subarray [l..r]
-    int calculateXOR(vector<int>& nums, int l, int r) {
-        int xorResult = 0;
+    // function to calculate Xor of a subarray [l......r]
+    int calculate_XOR(vector<int>& arr, int l, int r) {
+        int xor_ans = 0;
         for (int i = l; i <= r; i++) {
-            xorResult ^= nums[i];
+            xor_ans ^= arr[i];
         }
-        return xorResult;
+        return xor_ans;
     }
-
-     int solveRE(vector<int>& nums, int i, int k) {
-        int n = nums.size();
+    
+    int solveRE(vector<int>& arr, int i, int k) {
+        int n = arr.size();
+        if (i >= n)
+            return INT_MAX;
 
         if (k == 1) {
-            return calculateXOR(nums, i, n - 1);
+            return calculate_XOR(arr, i, n - 1);
         }
 
-        if (i >= n) return INT_MAX;
-
-        int minMax = INT_MAX;
-
+        int min_max = INT_MAX;
+        //[i....................n]
+        // jab i se j tak ek partition ho chuka hai [i.......j] [j+1.................n]
+        //                                          1 partition        k-1 partition
+        // n - (j+1) >= k-1
+        // n - j - 1 >= k-1
+        // n - j >= k 
+        // j <= n - k
+        
         for (int j = i; j <= n - k; j++) {
-            int leftXOR = calculateXOR(nums, i, j);
-            int right = solveRE(nums, j + 1, k - 1);
+            int left_XOR = calculate_XOR(arr, i, j);
+            int right = solveRE(arr, j + 1, k - 1);
 
             if (right != INT_MAX) {
-                int maxXOR = max(leftXOR, right);
-                minMax = min(minMax, maxXOR);
+                int max_XOR = max(left_XOR, right);
+                min_max = min(min_max, max_XOR);
             }
         }
-
-        return minMax;
+        return min_max;
     }
-
-     int solveME(vector<int>& nums, int i, int k, vector<vector<int>>& dp) {
-        int n = nums.size();
+    
+    int solveME(vector<int>& arr, int i, int k , vector<vector<int>>& dp) {
+        int n = arr.size();
+        if (i >= n)
+            return INT_MAX;
 
         if (k == 1) {
-            return calculateXOR(nums, i, n - 1);
+            return calculate_XOR(arr, i, n - 1);
         }
-
-        if (i >= n) return INT_MAX;
-
-        if (dp[i][k] != -1) return dp[i][k];
-
-        int minMax = INT_MAX;
-
+        
+        if(dp[i][k] != -1 ) return dp[i][k];
+        
+        int min_max = INT_MAX;
+        
+        
         for (int j = i; j <= n - k; j++) {
-            int leftXOR = calculateXOR(nums, i, j);
-            int right = solveME(nums, j + 1, k - 1, dp);
+            int left_XOR = calculate_XOR(arr, i, j);
+            int right = solveME(arr, j + 1, k - 1,dp);
 
             if (right != INT_MAX) {
-                int maxXOR = max(leftXOR, right);
-                minMax = min(minMax, maxXOR);
+                int max_XOR = max(left_XOR, right);
+                min_max = min(min_max, max_XOR);
             }
         }
-
-        return dp[i][k] = minMax;
+        return  dp[i][k] = min_max;
     }
-
-     int minXor(vector<int>& nums, int k) {
-        int n = nums.size();
-
-         vector<vector<int>> dp(n + 1, vector<int>(k + 1, -1));
-
- 
-        // return solveRE(nums, 0, k);          
-        return solveME(nums, 0, k, dp);         
+    
+    int minXor(vector<int>& arr, int k) {
+        int n = arr.size();
+        // return solveRE(arr, 0, k);
+        
+        vector<vector<int>>dp(n+1,vector<int>(k+1,-1));
+        return solveME(arr,0,k,dp);
     }
 };
