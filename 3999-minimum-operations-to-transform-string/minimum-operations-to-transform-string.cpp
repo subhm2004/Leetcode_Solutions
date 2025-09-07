@@ -1,11 +1,11 @@
 class Solution {
 public:
     int minOperations(string s) {
-        int max_steps = 0;
-        for (char ch : s) {
-            int steps = (26 - (ch - 'a')) % 26; 
-            max_steps = max(max_steps, steps);
+        int maxi = INT_MIN;
+        for(char ch : s){
+            int steps = (26-(ch-'a'))%26;
+            maxi = max(maxi,steps);
         }
-        return max_steps;
+        return maxi;
     }
 };
