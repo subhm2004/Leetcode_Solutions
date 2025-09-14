@@ -8,7 +8,7 @@ public:
         // step 2: sort in descending order
         sort(unique_nums.begin(), unique_nums.end(), greater<int>());
 
-        // step 3: collect at most k elements without resize
+        // step 3: collect at most k elements  
         vector<int> ans;
         for (int i = 0; i < k && i < unique_nums.size(); i++) {
             ans.push_back(unique_nums[i]);
