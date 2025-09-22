@@ -77,10 +77,12 @@ public:
         // Key insight: For global inversions to equal local inversions,
         // each element can be at most 1 position away from its correct position
         // In other words: abs(nums[i] - i) <= 1 for all i
-        // Key Insight: For an array to have equal global and local inversions,
-        // every global inversion must also be a local inversion. This means
-        // that for any element at position i, it can only be "out of place" by
-        // at most 1 position from where it should be in a sorted array.
+
+        // Array ek permutation hai [0,1,2,...,n-1].
+        // Normal sorted array me har element apne index ke equal hota hai (nums[i] = i).
+        // Agar koi element apni jagah se 1 step se zyada dur chala gaya to
+        // Wo kisi aur ke saath ek “non-local” inversion banayega.
+        // Isliye rule hai: abs(nums[i] - i) <= 1 for all i.
         for (int i = 0; i < n; i++) {
             if (abs(nums[i] - i) > 1) {
                 return false;
