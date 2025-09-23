@@ -20,12 +20,12 @@ public:
         vector<int> arr;
         string temp;
 
-        for (char c : s) {
-            if (c == '.') {
+        for (char ch : s) {
+            if (ch == '.') {
                 arr.push_back(stoi(temp)); // ek number complete ho gaya
                 temp.clear();
             } else {
-                temp.push_back(c);
+                temp.push_back(ch);
             }
         }
         arr.push_back(stoi(temp)); // last number add karna mat bhoolna
