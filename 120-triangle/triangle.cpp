@@ -127,7 +127,7 @@ public:
         // return solveRE(0, 0, arr);
         vector<vector<int>> dp(arr.size(), vector<int>(arr.size(), -1));
         // return solveME(0, 0, arr, dp);
-        // return solve_bottom_up(arr);
-        return solveME_top_down(arr);
+        return solve_bottom_up(arr);
+        // return solveME_top_down(arr);
     }
 };
