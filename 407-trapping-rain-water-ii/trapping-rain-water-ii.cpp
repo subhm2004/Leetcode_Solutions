@@ -1,69 +1,54 @@
 class Solution {
 public:
-
-    int trapRainWater(vector<vector<int>>& heightMap) {
-        // Agar heightMap empty hai ya valid nahi hai to return 0 kar do
-        if (heightMap.empty() || heightMap[0].empty())
+    int trapRainWater(vector<vector<int>>& arr) {
+        if (arr.empty() || arr[0].empty())
             return 0;
 
-        int m = heightMap.size(), n = heightMap[0].size();
-
-        // Visited ka ek 2D vector banate hain jo initially false hoga
+        int m = arr.size(), n = arr[0].size();
         vector<vector<bool>> visited(m, vector<bool>(n, false));
 
-        // Priority queue ka use karte hain jo chhoti height wale cells ko pehle
-        // process karega 
+        // priority_queue with tuple: (height, row, col)
         priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> pq;
 
-        // Directions ko define karte hain: right, down, left, up (using vector<pair<int, int>>)
-        vector<pair<int, int>> dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        vector<pair<int, int>> directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
 
-        // Boundary cells ko priority queue me dalte hain aur visited mark karte
-        // hain
+        // Push boundary cells
         for (int i = 0; i < m; ++i) {
-            for (int j : {0, n - 1}) { // Left aur right boundary
-                pq.emplace(heightMap[i][j], i, j);
-                visited[i][j] = true; // Is cell ko visited mark kar diya
+            for (int j : {0, n - 1}) {
+                pq.emplace(arr[i][j], i, j);
+                visited[i][j] = true;
             }
         }
         for (int j = 0; j < n; ++j) {
-            for (int i : {0, m - 1}) { // Top aur bottom boundary
+            for (int i : {0, m - 1}) {
                 if (!visited[i][j]) {
-                    pq.emplace(heightMap[i][j], i, j);
-                    visited[i][j] = true; // Is cell ko visited mark kar diya
+                    pq.emplace(arr[i][j], i, j);
+                    visited[i][j] = true;
                 }
             }
         }
 
-        int waterTrapped = 0; // Total pani jo trap hoga
+        int water_trapped = 0;
 
-        // Jab tak priority queue empty na ho, process karte raho
+        // Process queue
         while (!pq.empty()) {
-            auto [height, row, col] = pq.top(); // Current cell nikalte hain
+            auto [height, row, col] = pq.top();  
             pq.pop();
 
-            // Har direction me jaane ke liye loop (ab pair ka use karke)
-            for (const auto& dir : dirs) {
-                int newRow = row + dir.first; // Naya row calculate
-                int newCol = col + dir.second; // Naya column calculate
+            for (auto [dr, dc] : directions) {  
+                int new_row = row + dr;
+                int new_col = col + dc;
 
-                // Agar cell valid nahi hai ya pehle hi visited hai to continue
-                if (newRow < 0 || newRow >= m || newCol < 0 || newCol >= n ||
-                    visited[newRow][newCol]) {
+                if (new_row < 0 || new_row >= m || new_col < 0 || new_col >= n || visited[new_row][new_col])
                     continue;
-                }
 
-                // Trap hone wale pani ka calculation
-                waterTrapped += max(0, height - heightMap[newRow][newCol]);
+                water_trapped += max(0, height - arr[new_row][new_col]);
 
-                // Naye height ke saath neighbor cell ko queue me daalo
-                pq.emplace(max(height, heightMap[newRow][newCol]), newRow,
-                           newCol);
-                visited[newRow][newCol] =
-                    true; // Is cell ko visited mark kar do
+                pq.emplace(max(height, arr[new_row][new_col]), new_row, new_col);
+                visited[new_row][new_col] = true;
             }
         }
 
-        return waterTrapped; // Total pani jo trap hua return karo
+        return water_trapped;
     }
 };
