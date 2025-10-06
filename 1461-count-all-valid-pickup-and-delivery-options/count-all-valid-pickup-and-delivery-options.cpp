@@ -1,19 +1,12 @@
 class Solution {
 public:
-    const long long MOD = 1e9 + 7;
-    vector<long long> dp;
-
-    long long solveME(int n) {
-        if (n == 1)
-            return 1;
-        if (dp[n] != -1)
-            return dp[n];
-        long long ans = solveME(n - 1) * (2 * n - 1) * n % MOD;
-        return dp[n] = ans;
-    }
+    long long MOD = 1e9 + 7;
 
     int countOrders(int n) {
-        dp.assign(n + 1, -1);
-        return solveME(n);
+        long long ans = 1;
+        for (int i = 2; i <= n; i++) {
+            ans = (ans * i * (2 * i - 1)) % MOD;
+        }
+        return ans;
     }
 };
