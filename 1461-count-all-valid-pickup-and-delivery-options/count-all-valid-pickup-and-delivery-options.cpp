@@ -1,17 +1,19 @@
 class Solution {
 public:
-    int MOD = 1e9 + 7;
+    const long long MOD = 1e9 + 7;
+    vector<long long> dp;
+
+    long long solveME(int n) {
+        if (n == 1)
+            return 1;
+        if (dp[n] != -1)
+            return dp[n];
+        long long ans = solveME(n - 1) * (2 * n - 1) * n % MOD;
+        return dp[n] = ans;
+    }
 
     int countOrders(int n) {
-        long long total_ways = 1;
-        long long slots = 2 * n;
-
-        for (int i = n; i >= 1; i--) {
-            long long ways_for_current = (slots * (slots - 1)) / 2;
-            total_ways = (total_ways * ways_for_current) % MOD;
-            slots -= 2;
-        }
-
-        return (int)total_ways;
+        dp.assign(n + 1, -1);
+        return solveME(n);
     }
 };
