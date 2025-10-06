@@ -10,7 +10,10 @@ public:
         return ans;
     }
 };
-
+    // Here, i = the number of the current order being placed.
+    // (2*i - 1) = number of valid positions for the delivery of that order after its pickup.
+    // So we are only counting valid cases. Any arrangement where Di comes before Pi is automatically excluded.
+    
 /*
         Explanation:
 
