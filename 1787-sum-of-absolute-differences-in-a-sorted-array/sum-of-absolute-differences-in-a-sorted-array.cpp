@@ -45,3 +45,21 @@ public:
         return ans;
     }
 };
+/*
+Count ka formula:
+
+Number of elements in a range [start, end] = end - start + 1
+
+Yahan, start = i+1
+      end   = n-1
+
+Toh:
+Count = (n-1) - (i+1) + 1
+
+Simplify:
+(n-1) - (i+1) + 1
+= n - 1 - i - 1 + 1
+= n - i - 1
+
+Yani humara n - i - 1 hai — number of elements strictly right of index i
+*/
