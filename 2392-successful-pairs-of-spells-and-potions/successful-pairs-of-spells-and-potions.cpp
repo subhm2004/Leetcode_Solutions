@@ -7,18 +7,18 @@ public:
 
         for (int spell : spells) {
             long long min_potion = ceil(1.0 * success / spell);
-            int left = 0;
-            int right = m - 1;
+            int low = 0;
+            int high = m - 1;
             int idx = m;
 
-            while (left <= right) {
-                int mid = (left + right) >> 1;
+            while (low <= high) {
+                int mid = (low + high) >> 1;
 
                 if (min_potion <= potions[mid]) {
                     idx = mid;
-                    right = mid - 1;
+                    high = mid - 1;
                 } else {
-                    left = mid + 1;
+                    low = mid + 1;
                 }
             }
             ans.push_back(m - idx);
