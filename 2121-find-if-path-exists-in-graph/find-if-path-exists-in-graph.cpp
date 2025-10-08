@@ -1,10 +1,11 @@
 #include <vector>
+#include <unordered_map>
 #include <list>
 using namespace std;
 
 class Solution {
 public:
-    bool dfs(int node, int destination, vector<list<int>>& adjList, vector<bool>& visited) {
+    bool dfs(int node, int destination, unordered_map<int, list<int>>& adjList, vector<bool>& visited) {
         if (node == destination) {
             return true;
         }
@@ -18,8 +19,8 @@ public:
     }
 
     bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
-        vector<list<int>> adjList(n);
-        vector<bool> visited(n, false);
+        unordered_map<int, list<int>> adjList;
+        vector<bool> visited(n, false);  
 
         for (const auto& e : edges) {
             int u = e[0], v = e[1];
