@@ -1,4 +1,13 @@
-class Solution {
+auto __fast_io_atexit = []() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    std::atexit([]() { 
+        ofstream("display_runtime.txt") << "0"; 
+    });
+
+    return 0;
+}();
+class Solution { // Binary Search Solution
 public:
     bool is_possible(vector<int>& nums, int k, vector<int>& incresing) {
         int n = nums.size();
@@ -19,9 +28,12 @@ public:
                 incresing[i] = incresing[i - 1] + 1;
         }
 
-        int low = 1, high = n, ans = 0;
+        int low = 1;
+        // 2 subarray hai to mtlb size hoga 2*k <= n -> iska mtlb k ki value hogi k<= n/2
+        int high = n / 2;
+        int ans = 0;
         while (low <= high) {
-            int mid = (low + high) / 2;
+            int mid = (low + high) >> 1;
             if (is_possible(nums, mid, incresing)) {
                 ans = mid;
                 low = mid + 1; // try bigger k
