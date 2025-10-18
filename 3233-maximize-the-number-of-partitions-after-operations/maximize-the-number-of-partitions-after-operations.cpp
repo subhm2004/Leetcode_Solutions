@@ -34,7 +34,7 @@ public:
         }
 
         if (can_change) {
-            for (int new_char_idx = 0; new_char_idx < 26; ++new_char_idx) {
+            for (int new_char_idx = 0; new_char_idx < 26; new_char_idx++) {
                 int new_set = unique_chars | (1 << new_char_idx);
                 int new_unique_char_count = __builtin_popcount(new_set);
 
