@@ -1,65 +1,48 @@
+// Rabin Karp Algorithm - Double Hashing  TC :- O(m+n)
+typedef long long ll;
 class Solution {
 public:
-    // Step 1: LPS (Longest Prefix Suffix) array banate hain
-    void compute_LPS(string pattern, vector<int>& lps) {
-        int length = 0;
-        lps[0] = 0;
+    const ll RADIX_1 = 26;
+    const ll MOD_1 = 1e9 + 7;
+    const ll RADIX_2 = 27;
+    const ll MOD_2 = 1e9 + 33;
 
-        int i = 1;
-        while (i < pattern.size()) {
-            if (pattern[i] == pattern[length]) {
-                length++;
-                lps[i] = length;
-                i++;
-            } else {
-                if (length != 0) {
-                    length = lps[length - 1];
-                } else {
-                    lps[i] = 0;
-                    i++;
-                }
-            }
+    pair<ll, ll> hash_pair(string str, ll m) {
+        ll hash_1 = 0, hash_2 = 0;
+        ll factor_1 = 1, factor_2 = 1;
+        for (ll i = m - 1; i >= 0; i--) {
+            hash_1 += ((str[i] - 'a') * factor_1) % MOD_1;
+            factor_1 = (factor_1 * RADIX_1) % MOD_1;
+            hash_2 += ((str[i] - 'a') * factor_2) % MOD_2;
+            factor_2 = (factor_2 * RADIX_2) % MOD_2;
         }
+        return {hash_1 % MOD_1, hash_2 % MOD_2};
     }
-
-    // Step 2: Return all occurrences using KMP
-    vector<int> KMP(string &text, string &pattern) {
-        vector<int> ans;
-        if (pattern.empty()) return ans;
-
-        int n = text.length();
-        int m = pattern.length();
-        vector<int> lps(m, 0);
-
-        compute_LPS(pattern, lps);
-
-        int i = 0, j = 0;
-
-        while (i < n) {
-            if (text[i] == pattern[j]) {
-                i++;
-                j++;
-            }
-
-            if (j == m) {
-                ans.push_back(i - j); // match mila, store karo
-                j = lps[j - 1]; // continue matching from here
-            } else if (i < n && text[i] != pattern[j]) {
-                if (j != 0) {
-                    j = lps[j - 1];
-                } else {
-                    i++;
-                }
-            }
-        }
-
-        return ans; // saare matches ka list
-    }
-
-    // Step 3: strStr() function that returns only first occurrence
     int strStr(string haystack, string needle) {
-        vector<int> matches = KMP(haystack, needle);
-        if (matches.empty()) return -1;
-        return matches[0]; // pehla match return karo
+        ll n = haystack.size();
+        ll m = needle.size();
+        if(n < m) return -1;
+
+        ll MAX_WEIGHT_1 = 1, MAX_WEIGHT_2 = 1;
+        for (ll i = 0; i < m; i++) {
+            MAX_WEIGHT_1 = (MAX_WEIGHT_1 * RADIX_1) % MOD_1;
+            MAX_WEIGHT_2 = (MAX_WEIGHT_2 * RADIX_2) % MOD_2;
+        }
+        pair<ll, ll> hash_needle = hash_pair(needle, m);
+        pair<ll, ll> hash_hey = {0, 0};
+
+        for (ll i = 0; i <= n - m; i++) {
+            if (i == 0) {
+                hash_hey = hash_pair(haystack, m);
+            } else {
+                hash_hey.first = ((hash_hey.first * RADIX_1) % MOD_1 - ((haystack[i - 1] - 'a') * MAX_WEIGHT_1) % MOD_1 + (haystack[i + m - 1] - 'a') + MOD_1) % MOD_1;
+
+                hash_hey.second = ((hash_hey.second * RADIX_2) % MOD_2 - ((haystack[i - 1] - 'a') * MAX_WEIGHT_2) % MOD_2 + (haystack[i + m - 1] - 'a') + MOD_2) % MOD_2;
+            }
+            if(hash_needle.first == hash_hey.first && hash_needle.second == hash_hey.second){
+                return i;
+            }
+        }
+        return -1;
     }
 };
