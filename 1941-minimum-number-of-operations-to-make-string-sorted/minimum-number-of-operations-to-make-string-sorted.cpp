@@ -17,7 +17,7 @@ public:
     typedef long long ll;
     const int M = 1e9 + 7; // Prime Modulo
     const int N = 3005; // Factorial limit
-    vector<ll> fact, invFact;
+    vector<ll> fact, inv_fact;
 
     ll mod(ll x) { return ((x % M + M) % M); }
     ll add(ll a, ll b) { return mod(a + b); }
@@ -43,7 +43,7 @@ public:
     Combinatorics()
     {
         fact.resize(N, 1);
-        invFact.resize(N, 1);
+        inv_fact.resize(N, 1);
         precalc();
     }
 
@@ -56,10 +56,10 @@ public:
         }
 
         // Precompute inverse factorials using Fermat's little theorem
-        invFact[N - 1] = inv(fact[N - 1]);
+        inv_fact[N - 1] = inv(fact[N - 1]);
         for (int i = N - 2; i >= 0; i--)
         {
-            invFact[i] = mul(invFact[i + 1], i + 1);
+            inv_fact[i] = mul(inv_fact[i + 1], i + 1);
         }
     }
 
@@ -67,14 +67,14 @@ public:
     {
         if (r > n || r < 0)
             return 0;
-        return mul(fact[n], mul(invFact[r], invFact[n - r]));
+        return mul(fact[n], mul(inv_fact[r], inv_fact[n - r]));
     }
 
     ll nPr(ll n, ll r)
     {
         if (r > n || r < 0)
             return 0;
-        return mul(fact[n], invFact[n - r]);
+        return mul(fact[n], inv_fact[n - r]);
     }
 
     ll factorial(ll r)
@@ -88,7 +88,7 @@ public:
     {
         if (r < 0)
             return 0;
-        return invFact[r];
+        return inv_fact[r];
     }
     /*
         rank = 1 + Σ (i = 0 to n-1) [ (count of characters smaller than s[i] on right) × (n - i - 1)! / Π(freq[ch]!) ]
