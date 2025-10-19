@@ -25,7 +25,7 @@ public:
             hash_2 = (hash_2 + arr[i] * factor_2) % MOD_2;
             factor_2 = (factor_2 * RADIX_2) % MOD_2;
         }
-        return {hash_1 %MOD_1, hash_2%MOD_2};
+        return {hash_1 % MOD_1, hash_2 % MOD_2};
     }
 
     int countMatchingSubarrays(vector<int>& nums, vector<int>& pattern) {
@@ -36,12 +36,12 @@ public:
         // Step 1: Build nums_mapping array which is nothing but mapping for elements of nums
         vector<int> nums_mapping(n-1);
         for(int i = 0; i < n-1; i++) {
-            if(nums[i+1] > nums[i]) nums_mapping[i] = 1;
-            else if(nums[i+1] == nums[i]) nums_mapping[i] = 0;
+            if(nums[i] < nums[i+1]) nums_mapping[i] = 1;
+            else if(nums[i] == nums[i+1]) nums_mapping[i] = 0;
             else nums_mapping[i] = 2; // -1 ko 2 me map kiya
         }
 
-        // Step 2: Convert pattern to same mapping 
+        // Step 2: Build pattern_mapping array which is nothing but mapping for elements of pattern
         vector<int> pattern_mapping(m);
             for(int i = 0; i < m; i++) {
              pattern_mapping[i] = (pattern[i] == -1 ? 2 : pattern[i]);
