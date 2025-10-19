@@ -33,7 +33,7 @@ public:
         int m = pattern.size();
         if(n < m + 1) return 0;
 
-        // Step 1: Build diff array
+        // Step 1: Build diff array which is nothing but mapping for elements of nums
         vector<int> diff(n-1);
         for(int i = 0; i < n-1; i++) {
             if(nums[i+1] > nums[i]) diff[i] = 1;
@@ -41,7 +41,7 @@ public:
             else diff[i] = 2; // -1 ko 2 me map kiya
         }
 
-        // Step 2: Convert pattern to same mapping
+        // Step 2: Convert pattern to same mapping 
         vector<int> pattern_mapping(m);
             for(int i = 0; i < m; i++) {
              pattern_mapping[i] = (pattern[i] == -1 ? 2 : pattern[i]);
