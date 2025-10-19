@@ -63,7 +63,7 @@ public:
             if(i == 0) {
                 hash_window = hash_pair(nums_mapping, 0, m);
             } else {
-                // Rolling hash
+                // Rolling hash (Double Hashing)
                 hash_window.first = ((hash_window.first * RADIX_1) % MOD_1 - (nums_mapping[i-1] * MAX_WEIGHT_1) % MOD_1 + nums_mapping[i+m-1] + MOD_1) % MOD_1;
                 hash_window.second = ((hash_window.second * RADIX_2) % MOD_2 - (nums_mapping[i-1] * MAX_WEIGHT_2) % MOD_2 + nums_mapping[i+m-1] + MOD_2) % MOD_2;
             }
