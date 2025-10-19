@@ -33,12 +33,12 @@ public:
         int m = pattern.size();
         if(n < m + 1) return 0;
 
-        // Step 1: Build diff array which is nothing but mapping for elements of nums
-        vector<int> diff(n-1);
+        // Step 1: Build nums_mapping array which is nothing but mapping for elements of nums
+        vector<int> nums_mapping(n-1);
         for(int i = 0; i < n-1; i++) {
-            if(nums[i+1] > nums[i]) diff[i] = 1;
-            else if(nums[i+1] == nums[i]) diff[i] = 0;
-            else diff[i] = 2; // -1 ko 2 me map kiya
+            if(nums[i+1] > nums[i]) nums_mapping[i] = 1;
+            else if(nums[i+1] == nums[i]) nums_mapping[i] = 0;
+            else nums_mapping[i] = 2; // -1 ko 2 me map kiya
         }
 
         // Step 2: Convert pattern to same mapping 
@@ -61,11 +61,11 @@ public:
         int count = 0;
         for(int i = 0; i <= n - m - 1; i++) {
             if(i == 0) {
-                hash_window = hash_pair(diff, 0, m);
+                hash_window = hash_pair(nums_mapping, 0, m);
             } else {
                 // Rolling hash
-                hash_window.first = ((hash_window.first * RADIX_1) % MOD_1 - (diff[i-1] * MAX_WEIGHT_1) % MOD_1 + diff[i+m-1] + MOD_1) % MOD_1;
-                hash_window.second = ((hash_window.second * RADIX_2) % MOD_2 - (diff[i-1] * MAX_WEIGHT_2) % MOD_2 + diff[i+m-1] + MOD_2) % MOD_2;
+                hash_window.first = ((hash_window.first * RADIX_1) % MOD_1 - (nums_mapping[i-1] * MAX_WEIGHT_1) % MOD_1 + nums_mapping[i+m-1] + MOD_1) % MOD_1;
+                hash_window.second = ((hash_window.second * RADIX_2) % MOD_2 - (nums_mapping[i-1] * MAX_WEIGHT_2) % MOD_2 + nums_mapping[i+m-1] + MOD_2) % MOD_2;
             }
 
             if(hash_window.first == hash_patter.first && hash_window.second == hash_patter.second) count++;
