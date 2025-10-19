@@ -59,6 +59,7 @@ public:
         pair<ll,ll> hash_window = {0,0};
 
         int count = 0;
+        // Last possible starting index i jaha subarray length m+1 fit ho → i + (m+1) - 1 = n-1 => ise solve krne p aayega i + m = n-1 => i= n - m -1 
         for(int i = 0; i <= n - m - 1; i++) {
             if(i == 0) {
                 hash_window = hash_pair(nums_mapping, 0, m);
