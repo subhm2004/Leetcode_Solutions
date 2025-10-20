@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int longest_subarray_with_sum(vector<int>& nums, int target) {
+    int longest_subarray_with_target_sum(vector<int>& nums, int target) {
         int n = nums.size();
         int left = 0;
         int curr_sum = 0;
@@ -29,7 +29,7 @@ public:
         if (target == 0)
             return nums.size();
 
-        int length = longest_subarray_with_sum(nums, target);
+        int length = longest_subarray_with_target_sum(nums, target);
         if (length == -1)
             return -1;
 
