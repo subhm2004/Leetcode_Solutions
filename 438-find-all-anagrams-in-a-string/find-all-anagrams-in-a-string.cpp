@@ -30,3 +30,6 @@ public:
         return ans;
     }
 };
+
+
+// safety check k liye hum add kr skte the ki i>= m-1 tak index out of boun na jaye 
