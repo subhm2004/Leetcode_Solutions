@@ -2,7 +2,7 @@ typedef long long ll;
 class Solution {
 public:
     string shortestPalindrome(string s) {
-        const ll RADIX = 31;
+        const ll RADIX = 26;
         const ll MOD = 1e9 + 7;
         int n = s.size();
         if (n == 0) return s;
