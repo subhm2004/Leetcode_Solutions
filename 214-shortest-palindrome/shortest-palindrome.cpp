@@ -1,58 +1,41 @@
-// class Solution {        //TLE 121/126
-// public:
-//     string shortestPalindrome(string s) {
-//         int n = s.size();
-//         int end = n;
-
-//         // Sabse longest prefix dhundhna jo ek palindrome ho
-//         while (end > 0) {
-//             string prefix = s.substr(0, end);          // prefix nikaal rahe hain
-//             string revPrefix = prefix;                 
-//             reverse(revPrefix.begin(), revPrefix.end()); // uska reverse le rahe hain
-
-//             if (prefix == revPrefix) break; // agar prefix palindrome hai toh break kar do
-//             end--;                          // warna end ko ek kam kar ke check karo
-//         }
-
-//         // jo remaining suffix hai uska reverse leke aage add karna hai
-//         string suffix = s.substr(end);         // suffix jo palindrome part ke baad bacha
-//         reverse(suffix.begin(), suffix.end()); // uska reverse liya
-
-//         return suffix + s; // reverse suffix ko original s ke aage laga diya
-//     }
-// };
-
+typedef long long ll;
 class Solution {
 public:
-    void compute_LPS(string pattern, vector<int>& lps) {
-        int length = 0;
-        lps[0] = 0;
-
-        for (int i = 1; i < pattern.size(); ++i) {
-            while (length > 0 && pattern[i] != pattern[length]) {
-                length = lps[length - 1];
-            }
-            if (pattern[i] == pattern[length]) {
-                length++;
-            }
-            lps[i] = length;
-        }
-    }
-
     string shortestPalindrome(string s) {
-        string rev = s;
-        reverse(rev.begin(), rev.end());
+        const ll RADIX = 31;
+        const ll MOD = 1e9 + 7;
+        int n = s.size();
+        if (n == 0) return s;
 
-        string combined = s + "#" + rev;
+        vector<ll> prefix(n + 1, 0);   // prefix[0] = 0 for empty string
+        vector<ll> r_prefix(n + 1, 0); // reverse prefix hash
+        vector<ll> power(n + 1, 1);    // RADIX ke powers store karne ke liye
 
-        vector<int> lps(combined.size(), 0);
-        compute_LPS(combined, lps);
+        // RADIX ke powers precompute kar rahe hain
+        for (int i = 1; i <= n; i++)
+            power[i] = (power[i - 1] * RADIX) % MOD;
 
-        int palinPrefixLen = lps.back(); // Last value of LPS array
+        int longest_pal_prefix = 0; // palindrome prefix ka last char ka index (0-based)
 
-        string suffix = s.substr(palinPrefixLen);
-        reverse(suffix.begin(), suffix.end());
+        for (int i = 0; i < n; i++) {
+            int val = s[i] - 'a'; // 0-based mapping: 'a'->0, 'b'->1, ...
 
-        return suffix + s;
+            // Forward hash: s[0..i] ka hash
+            prefix[i + 1] = (prefix[i] * RADIX + val) % MOD;
+
+            // Reverse prefix hash: reversed s[0..i] ka hash
+            r_prefix[i + 1] = (r_prefix[i] + val * power[i]) % MOD;
+
+            // Check kar rahe hain agar prefix s[0..i] palindrome hai
+            if (prefix[i + 1] == r_prefix[i + 1]) {
+                longest_pal_prefix = i; // 0-based index update
+            }
+        }
+
+        // Palindrome prefix ke baad ka remaining part
+        string remain = s.substr(longest_pal_prefix + 1);
+        reverse(remain.begin(), remain.end()); // suffix ko reverse kar ke prepend karenge
+
+        return remain + s; // shortest palindrome return karenge
     }
 };
