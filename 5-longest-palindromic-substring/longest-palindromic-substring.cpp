@@ -9,7 +9,7 @@ public:
         }
     string longestPalindrome(string s) {
         int n = s.length();
-        int max_len = 1, start = 0;
+        int max_len = 1, start_idx = 0;
 
         // Check all substrings s[i..j]
         for (int i = 0; i < n; ++i) {
@@ -18,12 +18,12 @@ public:
                     int len = j - i + 1;
                     if (len > max_len) {
                         max_len = len;
-                        start = i;
+                        start_idx = i;
                     }
                 }
             }
         }
 
-        return s.substr(start, max_len);
+        return s.substr(start_idx, max_len);
     }
 };
