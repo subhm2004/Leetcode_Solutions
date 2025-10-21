@@ -1,21 +1,17 @@
 class Solution {
 public:
     bool hasSameDigits(string s) {
-        int n = s.size();
-        
-        // Copy input string to modify
-        string temp = s;
+        // Base case: when only 2 digits remain
+        if (s.size() == 2)
+            return s[0] == s[1];
 
-        int length = n - 1;  // Start with length - 1 since each step reduces the size
-        while (length > 1) {
-            for (int i = 0; i < length; ++i) {
-                // Compute new digit by summing adjacent ones, modulo 10
-                temp[i] = ((temp[i] - '0') + (temp[i + 1] - '0')) % 10 + '0';
-            }
-            length--;  // Reduce length in each iteration
+        string next = "";
+        for (int i = 0; i + 1 < s.size(); ++i) {
+            int sum = ((s[i] - '0') + (s[i + 1] - '0')) % 10;
+            next = next + char(sum + '0');  
         }
 
-        // Check if the last two digits are the same
-        return temp[0] == temp[1];
+        // Recursive call on the smaller string
+        return hasSameDigits(next);
     }
 };
