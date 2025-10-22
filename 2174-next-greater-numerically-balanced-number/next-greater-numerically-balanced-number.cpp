@@ -25,6 +25,7 @@ public:
     
 
     int nextBeautifulNumber(int n) {
+        // 0 <= n <= 1e6 diya hai mtlb max 7 digits ka number ho skta hai or 7 digit ka number jo ise satisfy kre wo hoga 1224444
         for (int i = n + 1; i <= 1224444; i++) {
             if (is_balanced(i))
                 return i;
