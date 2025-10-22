@@ -1,8 +1,7 @@
 class Solution {
 public:
-
     // Helper function: check karega kya non-zero freq values same hain
-    bool allSame(const vector<int>& freq) {
+    bool all_same_freq(const vector<int>& freq) {
         int same = -1;
 
         for (auto& f : freq) {
@@ -28,12 +27,13 @@ public:
 
             freq[i]--;  // Ek character hatao
 
-            if (allSame(freq))  // Check karo sabka freq same hai kya
+            if (all_same_freq(freq)){ // Check karo sabka freq same hai kya
                 return true;
+            }
 
             freq[i]++;  // Wapas original freq pe lao
         }
 
-        return false;  // Koi bhi aisa case nahi mila
+        return false;   
     }
 };
