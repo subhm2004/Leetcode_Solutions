@@ -32,7 +32,10 @@ public:
             if (i >= m) 
                 window_freq[s[i - m] - 'a']--; // remove character going out of window
 
-            if (is_anagram_freq(window_freq, p_freq))
+            
+            
+            // Check for anagram only when the window size is at least m
+            if (i >= m - 1 && is_anagram_freq(window_freq, p_freq))
                 ans.push_back(i - m + 1); // store starting index
         }
 
