@@ -1,5 +1,16 @@
 class Solution {
 public:
+    // current sum leke solve kiya agar end pr aa gya or surrent sum = target to ek ans h 
+    int solve_RE_2(vector<int>& nums, int target, int i, int curr_sum) {
+        if (i >= nums.size())
+            return curr_sum == target ? 1 : 0;
+
+        int plus = solve_RE_2(nums, target, i + 1, curr_sum + nums[i]);
+        int minus = solve_RE_2(nums, target, i + 1, curr_sum - nums[i]);
+
+        return plus + minus;
+    }
+
     int solveRE(vector<int>& nums, int target, int i) {
         if (i == nums.size())
             return target == 0 ? 1 : 0;
@@ -24,18 +35,9 @@ public:
         return dp[i][shifted_target] = plus + minus;
     }
 
-    int solve_RE_2(vector<int>& nums, int target, int i, int curr_sum) {
-        if (i >= nums.size())
-            return curr_sum == target ? 1 : 0;
-
-        int plus = solve_RE_2(nums, target, i + 1, curr_sum + nums[i]);
-        int minus = solve_RE_2(nums, target, i + 1, curr_sum - nums[i]);
-
-        return plus + minus;
-    }
 
     int findTargetSumWays(vector<int>& nums, int target) {
-        // return solveRE(nums,target,0);
+        return solveRE(nums,target,0);
         // curr_sum leke kar do 
         return solve_RE_2(nums,target,0,0);
         vector<vector<int>> dp(nums.size(), vector<int>(2001, -1));
