@@ -37,9 +37,10 @@ public:
 
 
     int findTargetSumWays(vector<int>& nums, int target) {
-        return solveRE(nums,target,0);
+        // return solveRE(nums,target,0);
+
         // curr_sum leke kar do 
-        return solve_RE_2(nums,target,0,0);
+        // return solve_RE_2(nums,target,0,0);
         vector<vector<int>> dp(nums.size(), vector<int>(2001, -1));
         return solveME(nums, target, 0, dp);
     }
