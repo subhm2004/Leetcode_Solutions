@@ -56,7 +56,8 @@ public:
         int root = arr[0];
         vector<int> left, right;
 
-        // Split array on BST property
+        // Split array on BST property 
+        // Relative order to same hi rhega ese store kruga to 
         for (int i = 1; i < n; i++) {
             if (arr[i] < root) left.push_back(arr[i]);
             else right.push_back(arr[i]);
