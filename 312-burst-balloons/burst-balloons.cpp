@@ -1,3 +1,9 @@
+/*
+Agar hum har balloon ko randomly burst karega, toh har step pe uske neighbors (left & right) change hote rahenge — jo recursion ke liye bahut complex ho jaata hai.
+
+Isiliye hum ye assume karte hain: ( “kaunsa balloon pehle burst karu” ye na soch kr hum sochte hai “kaunsa balloon last me burst hoga”)
+"Sab balloons pehle hi burst ho chuke hain — ab main decide kar raha hoon ki iss range [start, end] me kaunsa balloon last burst hoga."
+*/
 class Solution {
 public:
     int solveRE(vector<int>& nums, int start, int end) {
@@ -10,9 +16,7 @@ public:
         int coins = INT_MIN;
         
         // Har balloon 'i' ko range [start, end] mein LAST balloon ke roop mein burst karne ka try karo
-        // Key insight: Hum har balloon ko last wala consider karte hain jo burst hoga
-        // Isse ensure hota hai ki jab balloon 'i' burst hoga, uske neighbors honge
-        // nums[start-1] aur nums[end+1] (boundary balloons)
+        // Key insight: Hum har balloon ko last wala consider karte hain jo burst hoga Isse ensure hota hai ki jab balloon 'i' burst hoga, uske neighbors honge nums[start-1] aur nums[end+1] (boundary balloons)
         for (int i = start; i <= end; i++) {
             
             // Balloon 'i' ko last balloon ke roop mein burst karne se kitne coins milenge:
