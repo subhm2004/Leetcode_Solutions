@@ -42,7 +42,7 @@ public:
 
         // Compute alternating max_score
         long long max_score = 0;
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < n; i++) {
             long long val = 1LL * arr[i] * arr[i];
             if (i % 2 == 0) max_score += val;
             else max_score -= val;
