@@ -37,13 +37,13 @@ public:
             for (int j = i + 1; j < n; j++) {
                 curr_gcd = gcd(curr_gcd, nums[j]);
                 if (curr_gcd == 1) {
-                    min_len = min(min_len, j - i + 1);
+                    min_len = min(min_len, j - i );
                     break; // stop expanding this subarray
                 }
             }
         }
 
-        // Step 5: Minimum operations = (len - 1) to make one '1' + (n - 1) to spread it
-        return (min_len - 1) + (n - 1);
+        // Step 5: Minimum operations = (len ) to make one '1' + (n - 1) to spread it
+        return (min_len) + (n - 1);
     }
 };
