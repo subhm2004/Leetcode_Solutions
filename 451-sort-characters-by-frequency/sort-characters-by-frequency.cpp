@@ -22,22 +22,14 @@ public:
             return a.second > b.second;
         });
 
-        // Final result string bana rahe hain — har character ko uski frequency ke times add kar rahe hain
-   
-    //     string result;
-    //     for (auto& [ch, count] : chars) {
-    //         result += string(count, ch);
-    //     }
-
-    //     return result;
-        string result;
+        string ans;
         for (auto& [ch, count] : chars) {
-            // Loop se character ko 'count' times result mein add kar rahe hain
+            // Loop se character ko 'count' times ans mein add kar rahe hain
             for (int i = 0; i < count; ++i) {
-                result += ch;
+                ans += ch;
             }
         }
 
-        return result;
+        return ans;
     }
 };
