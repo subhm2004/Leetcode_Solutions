@@ -9,19 +9,19 @@ public:
         }
 
         int length = 0;
-        bool hasOdd = false;
+        bool has_odd = false;
 
         for (auto& [ch, count] : freq) {
             if (count % 2 == 0) {
                 length += count;          // even frequency -> fully useable
             } else {
                 length += count - 1;      // odd frequency -> use max even part
-                hasOdd = true;            // ek character ko center me use kar sakte ho
+                has_odd = true;            // ek character ko center me use kar sakte ho
             }
         }
 
         // Agar koi odd frequency tha, to center me 1 character use ho sakta hai
-        if (hasOdd) {
+        if (has_odd) {
             length += 1;
         }
 
