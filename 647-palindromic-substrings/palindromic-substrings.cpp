@@ -1,5 +1,6 @@
 class Solution {    // badhiya method hai 
 public:
+// expand around center
     int count_palindrom(string s, int left, int right) {
         int count = 0;
         while (left >= 0 && right < s.size() && s[left] == s[right]) {
