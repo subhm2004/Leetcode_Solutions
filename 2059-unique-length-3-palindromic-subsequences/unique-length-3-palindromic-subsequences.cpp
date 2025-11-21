@@ -19,13 +19,13 @@ class Solution {
         for (int j = first[i] + 1; j < last[i]; ++j) {
           middle[s[j] - 'a'] = true;
         }
-        int uniqueCount = 0;
+        int unique_count = 0;
         for (int k = 0; k < 26; ++k) {
           if (middle[k]) {
-            uniqueCount++;
+            unique_count++;
           }
         }
-        result += uniqueCount;
+        result += unique_count;
       }
     }
 
