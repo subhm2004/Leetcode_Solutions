@@ -4,7 +4,7 @@ public:
     int m, n, k;
     vector<vector<vector<int>>> dp;
 
-    int dfs(int i, int j, int sum, vector<vector<int>>& grid) {
+    int solveME(int i, int j, int sum, vector<vector<int>>& grid) {
         if (i >= m || j >= n)
             return 0;
 
@@ -24,7 +24,7 @@ public:
             int ni = i + dx;
             int nj = j + dy;
             if (ni < m && nj < n) {
-                ways = (ways + dfs(ni, nj, sum, grid)) % MOD;
+                ways = (ways + solveME(ni, nj, sum, grid)) % MOD;
             }
         }
 
@@ -39,6 +39,6 @@ public:
         dp = vector<vector<vector<int>>>(
             m, vector<vector<int>>(n, vector<int>(k, -1)));
 
-        return dfs(0, 0, 0, grid);
+        return solveME(0, 0, 0, grid);
     }
 };
