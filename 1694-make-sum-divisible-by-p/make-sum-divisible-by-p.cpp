@@ -2,41 +2,41 @@ class Solution {
 public:
     int minSubarray(vector<int>& nums, int p) {
         int n = nums.size();
-        unordered_map<int, int> remainderIndex; // remainder -> last index
+        unordered_map<int, int> remainder_idx; // remainder -> last index
         
-        int totalRemainder = 0; // poore array ka sum ka remainder
+        int total_remainder = 0; // poore array ka sum ka remainder
         
         // Step 1: Poore array ka total remainder nikaal rahe hain
         for (int num : nums) {
-            totalRemainder = (totalRemainder + num) % p;
+            total_remainder = (total_remainder + num) % p;
         }
         
         // Step 2: Agar total remainder 0 hai, matlab poora array p se divisible hai
-        if (totalRemainder == 0) {
+        if (total_remainder == 0) {
             return 0;
         }
         
-        remainderIndex[0] = -1; // Shuru me remainder 0 ke liye index -1 set kar rahe hain
+        remainder_idx[0] = -1; // Shuru me remainder 0 ke liye index -1 set kar rahe hain
         
         int ans = INT_MAX; // Answer ko initially maximum length set kar rahe hain
-        int currentRemainder = 0; // ab tak ka prefix sum remainder
+        int current_remainder = 0; // ab tak ka prefix sum remainder
         
         // Step 3: Traverse karte hain array ko
         for (int i = 0; i < n; i++) {
             // Current prefix sum remainder update karte hain
-            currentRemainder = (currentRemainder + nums[i]) % p;
+            current_remainder = (current_remainder + nums[i]) % p;
             
             // Required remainder calculate karte hain
-            int required = (currentRemainder - totalRemainder + p) % p;
+            int required = (current_remainder - total_remainder + p) % p;
             
             // Check karte hain ki required remainder kab mila tha
-            if (remainderIndex.find(required) != remainderIndex.end()) {
+            if (remainder_idx.find(required) != remainder_idx.end()) {
                 // Agar mila, to minimum length update karte hain
-                ans = min(ans, i - remainderIndex[required]);
+                ans = min(ans, i - remainder_idx[required]);
             }
             
             // Current remainder ka last index update karte hain
-            remainderIndex[currentRemainder] = i;
+            remainder_idx[current_remainder] = i;
         }
         
         // Step 4: Final answer return karte hain
