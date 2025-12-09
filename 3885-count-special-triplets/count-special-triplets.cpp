@@ -50,36 +50,24 @@ public:
     int specialTriplets(vector<int>& nums) {
         int MOD = 1e9 + 7;
 
-        unordered_map<long long, int> left,
-            right; // left: j ke pehle wale numbers ka count, right: j ke baad
-                   // wale numbers ka count
+        unordered_map<long long, int> left, right;
 
-        // Sabhi numbers ka count right map mein store kar liya (abhi tak hum
-        // kisi element pe nahi aaye)
         for (int num : nums)
             right[num]++;
 
-        long long ans = 0; // Final answer store karne ke liye
+        long long ans = 0;
 
-        // Har index ko j maan ke loop chalayenge (j beech wala hoga triplet
-        // mein)
         for (int j = 0; j < nums.size(); ++j) {
-            right[nums[j]]--; // Ab hum j pe aa gaye hain, to right se is number
-                              // ka ek count kam kar diya
+            right[nums[j]]--;
 
-            long long x = nums[j] * 2LL; // Hume aise i aur k chahiye jinke
-                                         // value 2 * nums[j] ke barabar ho
+            long long x = nums[j] * 2LL;
 
-            int count_left =
-                left[x]; // Check karo left mein x kitni baar aaya hai (valid i)
-            int count_right =
-                right[x]; // Check karo right mein x kitni baar aayega (valid k)
+            int count_left = left[x];
+            int count_right = right[x];
 
-            // Total valid triplets = count_left * count_right
             ans = (ans + 1LL * count_left * count_right) % MOD;
 
-            left[nums[j]]++; // j ko left mein daal diya (kyunki ab j ke aage
-                             // badh chuke hain)
+            left[nums[j]]++;
         }
 
         return ans;
