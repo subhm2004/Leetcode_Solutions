@@ -32,7 +32,7 @@
 class Solution {
 public:
     // Expand from the center and return length of palindrome
-    int expandAroundCenter(const string &s, int left, int right) {
+    int expand_around_center(const string &s, int left, int right) {
         while (left >= 0 && right < s.size() && s[left] == s[right]) {
             left--;
             right++;
@@ -45,8 +45,8 @@ public:
         int start = 0, end = 0;
 
         for (int i = 0; i < s.size(); i++) {
-            int len1 = expandAroundCenter(s, i, i);     // Odd length
-            int len2 = expandAroundCenter(s, i, i + 1); // Even length
+            int len1 = expand_around_center(s, i, i);     // Odd length
+            int len2 = expand_around_center(s, i, i + 1); // Even length
             int len = max(len1, len2);
 
             if (len > end - start) {
