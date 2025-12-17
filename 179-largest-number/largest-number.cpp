@@ -3,14 +3,14 @@ public:
     string largestNumber(vector<int>& nums) {
         // Step 1: Sabse pehle vector<int> ko vector<string> mein convert karna hai
         // Kyunki string concatenation aur comparison karna hai
-        vector<string> numStrings;
+        vector<string> num_strings;
         for (int num : nums) {
-            numStrings.push_back(to_string(num));  // har integer ko string mein convert kar rahe
+            num_strings.push_back(to_string(num));  // har integer ko string mein convert kar rahe
         }
         
         // Step 2: Custom sorting using lambda function
         // Ye sabse important part hai - concatenation ke basis pe sorting
-        sort(numStrings.begin(), numStrings.end(), 
+        sort(num_strings.begin(), num_strings.end(), 
              [](const string& a, const string& b) { 
                  // Agar a+b > b+a hai to a pehle aana chahiye
                  // Example: a="3", b="30" 
@@ -19,19 +19,19 @@ public:
                  return a + b > b + a; 
              });
         
-        // Step 3: Sorted strings ko concatenate karke final result banayenge
-        string result;
-        for (const string& str : numStrings) {
-            result += str;  // sabko jod rahe hain
+        // Step 3: Sorted strings ko concatenate karke final ans banayenge
+        string ans;
+        for (auto& str : num_strings) {
+            ans += str;  // sabko jod rahe hain
         }
         
         // Step 4: Edge case handle karna - agar sabhi numbers 0 hain
-        // Example: [0,0,0] ka result "000" hoga, but hume "0" return karna hai
-        if (result[0] == '0') {
+        // Example: [0,0,0] ka ans "000" hoga, but hume "0" return karna hai
+        if (ans[0] == '0') {
             return "0";
         }
         
-        return result;
+        return ans;
     }
 };
 
@@ -47,7 +47,7 @@ Algorithm ka main logic:
 Input: nums = [3, 30, 34, 5, 9]
 
 Step 1: Convert to strings
-numStrings = ["3", "30", "34", "5", "9"]
+num_strings = ["3", "30", "34", "5", "9"]
 
 Step 2: Custom sorting with lambda comparator
 Comparisons during sorting:
@@ -75,10 +75,10 @@ Comparisons during sorting:
 After complete sorting: ["9", "5", "34", "3", "30"]
 
 Step 3: Concatenate strings
-result = "9" + "5" + "34" + "3" + "30" = "9534330"
+ans = "9" + "5" + "34" + "3" + "30" = "9534330"
 
 Step 4: Check edge case
-result[0] = '9' ≠ '0', so no edge case
+ans[0] = '9' ≠ '0', so no edge case
 
 Final Answer: "9534330"
 
