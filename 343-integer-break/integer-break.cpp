@@ -5,7 +5,7 @@ public:
             return 0;
         int max_prod = 0;
         //  splitting `n` into two parts: `i` and `n - i`
-        for (int i = 1; i < n; ++i) {
+        for (int i = 1; i < n; i++) {
             int product = max(i * (n - i), i * solveRE(n - i));
             max_prod = max(max_prod, product);
         }
@@ -20,7 +20,7 @@ public:
             return dp[n];
 
         int max_prod = 0;
-        for (int i = 1; i < n; ++i) {
+        for (int i = 1; i < n; i++) {
             int product = max(i * (n - i), i * solveME(n - i, dp));
             max_prod = max(max_prod, product);
         }
