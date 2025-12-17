@@ -3,7 +3,7 @@ public:
     int solveRE(int n) {
         if (n <= 1)
             return 0;
-        int max_prod = 0;
+        int max_prod = 1;
         //  splitting `n` into two parts: `i` and `n - i`
         for (int i = 1; i < n; i++) {
             int product = max(i * (n - i), i * solveRE(n - i));
@@ -19,7 +19,7 @@ public:
         if (dp[n] != -1)
             return dp[n];
 
-        int max_prod = 0;
+        int max_prod = 1;
         for (int i = 1; i < n; i++) {
             int product = max(i * (n - i), i * solveME(n - i, dp));
             max_prod = max(max_prod, product);
