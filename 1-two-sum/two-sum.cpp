@@ -1,30 +1,33 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        int n = nums.size();
-        vector<pair<int, int>> numWithIndex;
 
-        // Step 1: Store values with original indices
-        for (int i = 0; i < n; ++i) {
-            numWithIndex.push_back({nums[i], i});
+        // value + original index
+        vector<pair<int,int>> arr;
+        for (int i = 0; i < nums.size(); i++) {
+            arr.push_back({nums[i], i});
         }
 
-        // Step 2: Sort the pair vector by values
-        sort(numWithIndex.begin(), numWithIndex.end());
+        // sort by value
+        sort(arr.begin(), arr.end());
 
-        // Step 3: Two-pointer approach
-        int left = 0, right = n - 1;
+        int left = 0;
+        int right = arr.size() - 1;
+
         while (left < right) {
-            int sum = numWithIndex[left].first + numWithIndex[right].first;
+            int sum = arr[left].first + arr[right].first;
+
             if (sum == target) {
-                return {numWithIndex[left].second, numWithIndex[right].second};
-            } else if (sum < target) {
+                return {arr[left].second, arr[right].second};
+            }
+            else if (sum < target) {
                 left++;
-            } else {
+            }
+            else {
                 right--;
             }
         }
 
-        return {}; // No pair found
+        return {}; // never reached (guaranteed solution)
     }
 };
