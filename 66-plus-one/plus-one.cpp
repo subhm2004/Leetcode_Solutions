@@ -11,7 +11,7 @@ public:
             digits[i] = 0;
         }
 
-        // If we reach here, it means all digits were 9
+        // agar hum yha aaye hai iska mtlb sare digits 9 the 
         digits.insert(digits.begin(), 1);
         return digits;
     }
