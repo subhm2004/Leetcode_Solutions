@@ -1,8 +1,8 @@
 class Solution {
 public:
-    int dp[11][2][10];
+    int dp[11][2][10]; // idx , tight , cnt of 1
     int solve(string& s, int idx, bool tight, int cnt) {
-        if (idx == s.size())
+        if (idx >= s.size())
             return cnt;
 
         if (dp[idx][tight][cnt] != -1)
@@ -12,7 +12,8 @@ public:
         int ans = 0;
         for (int i = 0; i <= limit; i++) {
             int updated_cnt = cnt + (i == 1 ? 1 : 0);
-            ans += solve(s, idx + 1, (tight && i == limit), updated_cnt);
+            bool updated_tight = (tight && i == limit);
+            ans += solve(s, idx + 1, updated_tight, updated_cnt);
         }
         return dp[idx][tight][cnt] = ans;
     }
