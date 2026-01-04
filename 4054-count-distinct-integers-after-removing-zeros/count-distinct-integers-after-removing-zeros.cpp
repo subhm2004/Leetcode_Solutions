@@ -17,7 +17,7 @@ public:
 
         for (int d = 0; d <= limit; d++) {
             bool updated_tight = tight && (d == limit);
-            bool updated_started = started;
+            bool updated_started = started || (d != 0);
             bool updated_has_zero = has_zero;
 
             if (!started) {
