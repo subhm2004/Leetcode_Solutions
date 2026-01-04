@@ -28,11 +28,17 @@ public:
     int findIntegers(int n) {
         // convert n to binary string s
         s.clear();
-        while (n > 0) {
-            s.push_back((n & 1) + '0');
-            n >>= 1;
-        }
-        reverse(s.begin(), s.end());
+        s = bitset<32>(n).to_string();
+
+
+        //CONVENTIONAL METHOD OF CONVERSION
+
+        // s.clear();
+        // while (n > 0) {
+        //     s.push_back((n & 1) + '0');
+        //     n >>= 1;
+        // }
+        // reverse(s.begin(), s.end());
 
         memset(dp, -1, sizeof(dp));
         return solve(0, true, false);
