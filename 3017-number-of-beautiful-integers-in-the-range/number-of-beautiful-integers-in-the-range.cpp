@@ -18,21 +18,21 @@ public:
         int ans = 0;
 
         for (int d = 0; d <= limit; d++) {
-            bool newStarted = started || (d != 0);
-            bool newTight = tight && (d == limit);
+            bool updated_started = started || (d != 0);
+            bool updated_tight = tight & (d == limit);
 
-            int newRem = rem;
-            int newDiff = diff;
+            int updated_rem = rem;
+            int updated_diff = diff;
 
-            if (newStarted) {
-                newRem = (rem * 10 + d) % k;
+            if (updated_started) {
+                updated_rem = (rem * 10 + d) % k;
                 if (d % 2 == 0)
-                    newDiff++;
+                    updated_diff++;
                 else
-                    newDiff--;
+                    updated_diff--;
             }
 
-            ans += solve(s, idx + 1, newTight, newRem, newDiff, newStarted);
+            ans += solve(s, idx + 1, updated_tight, updated_rem, updated_diff, updated_started);
         }
 
         return dp[idx][tight][rem][diff + OFFSET][started] = ans;
