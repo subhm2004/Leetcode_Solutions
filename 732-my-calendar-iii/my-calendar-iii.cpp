@@ -24,6 +24,8 @@ private:
         }
     }
 
+    
+    
     void update(Node* node, int l, int r, int ql, int qr, int val) {
         push(node, l, r);
         if (r < ql || l > qr) return;
