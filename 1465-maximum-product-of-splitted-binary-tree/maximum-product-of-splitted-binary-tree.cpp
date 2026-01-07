@@ -32,3 +32,21 @@ public:
         return ans % MOD;
     }
 };
+/*
+
+When you remove one edge, the tree splits into:
+
+Subtree A → sum = subtree_Sum
+
+Remaining Tree → sum = total_Sum - subtree_Sum
+
+Product = subtree_Sum ×(total_Sum−subtree_Sum)
+
+So the problem becomes:
+
+For every subtree, compute its sum and try cutting the edge above it.
+Choose the cut that maximizes the product.
+
+
+
+*/
