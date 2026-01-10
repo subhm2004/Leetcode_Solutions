@@ -126,8 +126,8 @@ public:
         int i = 0;
         int j = 0;
 
-        vector<vector<int> > dp(word1.length(), vector<int>(word2.length(),
-        -1));
+        vector<vector<int> > dp(word1.length(), vector<int>(word2.length(), -1));
+        // memset(dp,-1,sizeof(dp));
 
         return solveME(word1, word2, i, j, dp);
         // return solveRE(word1, word2, i, j);
