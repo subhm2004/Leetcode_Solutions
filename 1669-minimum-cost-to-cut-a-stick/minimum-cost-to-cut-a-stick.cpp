@@ -10,7 +10,7 @@ public:
         int mincost = INT_MAX;
 
         // i aur j ke beech wale har possible cut position try karo kyoki i or j pr to scale ki values hai or cuts ki postion start hoti h i+1 se j-1 tak 
-        for (int k = i + 1; k < j; ++k) {
+        for (int k = i + 1; k < j; k++) {
             int cost = cuts[j] - cuts[i]; // current stick ka length
             int total_cost = /* Left scale */solveME(cuts, i, k) + /* Right scale */solveME(cuts, k, j) + cost;
             mincost = min(mincost, total_cost);
