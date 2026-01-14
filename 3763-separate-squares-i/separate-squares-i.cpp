@@ -2,7 +2,8 @@ class Solution {
 public:
     // Helper function: given a line at y = mid, calculates area above and below
     bool upper_area_bada_hai(double yLine, const vector<vector<int>>& arr) {
-        double upperArea = 0.0, lowerArea = 0.0;
+        double upper_area = 0.0;
+        double lower_area = 0.0;
 
         for (const auto& a : arr) {
             double yBottom = a[1];
@@ -11,22 +12,24 @@ public:
 
             if (yBottom >= yLine) {
                 // Entire a is above the line
-                upperArea += side * side;
+                upper_area += side * side;
             } else if (yTop <= yLine) {
                 // Entire a is below the line
-                lowerArea += side * side;
+                lower_area += side * side;
             } else {
                 // a intersects the line
-                upperArea += (yTop - yLine) * side;
-                lowerArea += (yLine - yBottom) * side;
+                upper_area += (yTop - yLine) * side;
+                lower_area += (yLine - yBottom) * side;
             }
         }
 
-        return upperArea > lowerArea;
+        return upper_area > lower_area;
     }
 
-     double separateSquares(vector<vector<int>>& arr) { // standard form hai binary search on floating-point values.
-        double low = INT_MAX, high = 0.0;
+     double separateSquares(vector<vector<int>>& arr) { 
+        // standard form hai binary search on floating-point values.
+        double low = INT_MAX;
+        double high = 0.0;
         for (const auto& sq : arr) {
             low = min(low, (double)sq[1]);             // yBottom
             high = max(high, (double)sq[1] + sq[2]);   // yTop
