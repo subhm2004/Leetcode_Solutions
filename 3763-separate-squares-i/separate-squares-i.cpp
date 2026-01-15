@@ -1,4 +1,4 @@
-// Floating Point Binary Search 
+// Floating Point Binary Search
 class Solution {
 public:
     // Helper function: given a line at y = mid, calculates area above and below
@@ -27,27 +27,27 @@ public:
         return upper_area > lower_area;
     }
 
-     double separateSquares(vector<vector<int>>& arr) { 
+    double separateSquares(vector<vector<int>>& arr) {
         // standard form hai binary search on floating-point values.
         double low = INT_MAX;
         double high = 0.0;
         for (const auto& sq : arr) {
-            low = min(low, (double)sq[1]);             // yBottom
-            high = max(high, (double)sq[1] + sq[2]);   // yTop
+            low = min(low, (double)sq[1]);           // yBottom
+            high = max(high, (double)sq[1] + sq[2]); // yTop
         }
 
-        double eps = 1e-5;  
+        double eps = 1e-5;
 
         while (high - low > eps) {
             double mid = (low + high) / 2.0;
 
-            if (upper_area_bada_hai(mid, arr)) {
-                low = mid;  // upar cut lagega
+            if (upper_area_bada_hai(mid, arr) == true) {
+                low = mid; // upar cut lagega
             } else {
                 high = mid; // neeche cut lagega
             }
         }
 
-        return low;   
+        return low;
     }
 };
