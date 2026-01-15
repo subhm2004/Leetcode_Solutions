@@ -1,3 +1,4 @@
+// Floating Point Binary Search 
 class Solution {
 public:
     // Helper function: given a line at y = mid, calculates area above and below
