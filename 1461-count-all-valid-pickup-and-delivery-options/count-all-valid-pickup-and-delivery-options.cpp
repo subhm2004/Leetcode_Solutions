@@ -10,9 +10,12 @@ public:
         return ans;
     }
 };
-    // Here, i = the number of the current order being placed.
-    // (2*i - 1) = number of valid positions for the delivery of that order after its pickup.
-    // So we are only counting valid cases. Any arrangement where Di comes before Pi is automatically excluded.
+
+    // (2*i - 1) = the number of the spaces where we can put pi (i-1 order place ho chuke hai to mtlb 2(i-1) places filled hai iska ltb ki Total spaces hai 2(i-1) + 1 = 2i -1)
+    // ab jab 2i-1 spaces me se ek par hum ne pi ko rakh diya to ab bari aati hai di ko rakhen ki jisme se total spaces ab banete hai 2(i-1) + 2 = 2i spaces lekin in me se aadhe ese hone jo invalid hoge kyoki un me di aage hoga pi se to total valid postions hogi 2i/2 = i 
+
+    // Here, i = number of valid positions for the delivery of that order after its pickup.
+
     
 /*
         Explanation:
