@@ -1,38 +1,35 @@
 class Solution {
 public:
     int m, n;
-    int t[501][501];
-    
+    vector<vector<int>> dp;
+
     int solve(vector<int>& nums1, vector<int>& nums2, int i, int j) {
-        if(i == m || j == n)
-            return -100000000; //send a large negative number. Don't send 0 because we can have -ve product as well. For example : {-1, -1}, {1, 1}, output should be -1.
-        
-        if(t[i][j] != -1e9)
-            return t[i][j];
-        
+        if (i == m || j == n)
+            return -1e9; // big negative to keep non-empty subseq constraint
+
+        if (dp[i][j] != INT_MIN)
+            return dp[i][j];
+
         int val = nums1[i] * nums2[j];
-        
-        int take_i_j = solve(nums1, nums2, i+1, j+1) + val;
-        
-        int take_i = solve(nums1, nums2, i, j+1);
-        int take_j = solve(nums1, nums2, i+1, j);
-        
-        
-        return t[i][j] = max({val, take_i_j, take_i, take_j});
-        
-        
+
+        // Option 1 : take both
+        int take_ij = val + max(solve(nums1, nums2, i+1, j+1), 0);
+
+        // Option 2 : skip nums2[j]
+        int skip2 = solve(nums1, nums2, i, j+1);
+
+        // Option 3 : skip nums1[i]
+        int skip1 = solve(nums1, nums2, i+1, j);
+
+        return dp[i][j] = max({val, take_ij, skip1, skip2});
     }
-    
+
     int maxDotProduct(vector<int>& nums1, vector<int>& nums2) {
         m = nums1.size();
         n = nums2.size();
-        
-        for(int i = 0; i<501; i++) {
-            for(int j = 0; j < 501; j++) {
-                t[i][j] = -1e9;
-            }
-        }
-        
+
+        dp.assign(m, vector<int>(n, INT_MIN));  
+
         return solve(nums1, nums2, 0, 0);
     }
 };
