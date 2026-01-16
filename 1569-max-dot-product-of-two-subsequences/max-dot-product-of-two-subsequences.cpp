@@ -3,7 +3,7 @@ public:
     int m, n;
     vector<vector<int>> dp;
 
-    int solve(vector<int>& nums1, vector<int>& nums2, int i, int j) {
+    int solveME(vector<int>& nums1, vector<int>& nums2, int i, int j) {
         if (i == m || j == n)
             return -1e9; // big negative to keep non-empty subseq constraint
 
@@ -13,13 +13,13 @@ public:
         int val = nums1[i] * nums2[j];
 
         // Option 1 : take both
-        int take_ij = val + max(solve(nums1, nums2, i+1, j+1), 0);
+        int take_ij = val + max(solveME(nums1, nums2, i+1, j+1), 0);
 
         // Option 2 : skip nums2[j]
-        int skip2 = solve(nums1, nums2, i, j+1);
+        int skip2 = solveME(nums1, nums2, i, j+1);
 
         // Option 3 : skip nums1[i]
-        int skip1 = solve(nums1, nums2, i+1, j);
+        int skip1 = solveME(nums1, nums2, i+1, j);
 
         return dp[i][j] = max({val, take_ij, skip1, skip2});
     }
@@ -30,6 +30,6 @@ public:
 
         dp.assign(m, vector<int>(n, INT_MIN));  
 
-        return solve(nums1, nums2, 0, 0);
+        return solveME(nums1, nums2, 0, 0);
     }
 };
