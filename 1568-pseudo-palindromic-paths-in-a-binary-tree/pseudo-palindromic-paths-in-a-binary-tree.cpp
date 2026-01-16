@@ -47,10 +47,10 @@ public:
         // leaf node
         if (!node->left && !node->right) {
             // check pseudo-palindromic ya fir seedha power of two check kr lo
-            // if ((mask & (mask - 1)) == 0)
-            //     ans++;
-            if ((__builtin_popcount(mask) <= 1))
+            if ((mask & (mask - 1)) == 0)
                 ans++;
+            // if ((__builtin_popcount(mask) <= 1))
+            //     ans++;
         }
 
         dfs(node->left, mask);
