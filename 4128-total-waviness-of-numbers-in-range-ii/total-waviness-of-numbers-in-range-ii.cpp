@@ -24,7 +24,7 @@ public:
 
         for (int d = 0; d <= limit; d++) {
             bool updated_tight = tight && (d == limit);
-            bool updated_started = started || (d > 0);
+            bool updated_started = started || (d != 0);
             int updated_waviness = waviness;
 
             // Check krte hai if prev1 forms a peak or valley
