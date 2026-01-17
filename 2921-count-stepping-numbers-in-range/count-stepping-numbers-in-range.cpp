@@ -43,27 +43,21 @@ public:
         memset(dp, -1, sizeof(dp));
         return solve(0, true, false, 0);
     }
-
-    string minus_one(string& x) {
-        if (x == "0")
-            return "0";
-
+    
+    void subtract_minus_one(string &x) {
         int i = x.size() - 1;
-        while (x[i] == '0') {
+        while (i >= 0 && x[i] == '0') {
             x[i] = '9';
             i--;
         }
-        x[i]--;
-
-        if (x[0] == '0')
-            x.erase(0, 1);
-        return x;
+        if (i >= 0) x[i]--;
     }
 
     int countSteppingNumbers(string low, string high) {
         int right = count(high);
-        string low_minus_one = minus_one(low);
-        int left = count(low_minus_one);
+        string a = low;
+        subtract_minus_one(a);
+        int left = count(a);
         return (right - left + MOD) % MOD;
     }
 };
