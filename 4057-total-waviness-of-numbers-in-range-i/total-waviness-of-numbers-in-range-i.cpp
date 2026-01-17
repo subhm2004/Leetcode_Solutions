@@ -1,38 +1,61 @@
-auto __fast_io_atexit = []() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    std::atexit([]() { 
-        ofstream("display_runtime.txt") << "0"; 
-    });
-
-    return 0;
-}();
 class Solution {
 public:
-    int waviness(int x) {
-        string s = to_string(x);
-        int n = s.size();
-        if (n < 3) return 0;
-
-        int count = 0;
-
-        // check all middle digits
-        for (int i = 1; i + 1 < n; i++) {
-            int a = s[i-1] - '0';
-            int b = s[i] - '0';
-            int c = s[i+1] - '0';
-
-            if (b > a && b > c) count++;      // peak
-            else if (b < a && b < c) count++; // valley
+    // dp[idx][prev1+1][prev2+1][tight][started][waviness]
+    long long dp[6][11][11][2][2][11];
+    string s;
+    
+    long long solve(int idx, int prev1, int prev2, bool tight, bool started, int waviness) {
+        // prev1 and prev2: -1 mtlb not set, 0-9 are actual digits
+        
+        if (idx >= s.size()) {
+            return started ? waviness : 0;
         }
-        return count;
+        
+        //(add 1 to handle -1)
+        int p1 = prev1 + 1;
+        int p2 = prev2 + 1;
+        
+        if (dp[idx][p1][p2][tight][started][waviness] != -1) {
+            return dp[idx][p1][p2][tight][started][waviness];
+        }
+        
+        long long ans = 0;
+        int limit = tight ? (s[idx] - '0') : 9;
+        
+        for (int d = 0; d <= limit; d++) {
+            bool updated_tight = tight && (d == limit);
+            bool updated_started = started || (d > 0);
+            int updated_waviness = waviness;
+            
+            // Check krte hai if prev1 forms a peak or valley
+            // Only check jab started hai or valid prev1 and prev2 hai 
+            if (updated_started && prev2 != -1 && prev1 != -1) {
+                if (prev1 > prev2 && prev1 > d) {
+                    updated_waviness++; // prev1 peak hai 
+                } else if (prev1 < prev2 && prev1 < d) {
+                    updated_waviness++; // prev1 valley hai 
+                }
+            }
+            
+            // Update karte hai prev1 or prev2 iff started
+            int updated_prev1 = updated_started ? d : -1;
+            int updated_prev2 = updated_started ? prev1 : -1;
+            
+            ans += solve(idx + 1, updated_prev1, updated_prev2, updated_tight, updated_started, updated_waviness);
+        }
+        
+        return dp[idx][p1][p2][tight][started][waviness] = ans;
     }
-
+    
+    long long count_waviness(int num) {
+        s = to_string(num);
+        memset(dp, -1, sizeof(dp));
+        return solve(0, -1, -1, true, false, 0);
+    }
+    
     int totalWaviness(int num1, int num2) {
-        int ans = 0;
-        for (int x = num1; x <= num2; x++) {
-            ans += waviness(x);
-        }
-        return ans;
+        long long sum2 = count_waviness(num2);
+        long long sum1 = (num1 == 0) ? 0 : count_waviness(num1 - 1);
+        return sum2 - sum1;
     }
 };
