@@ -51,11 +51,10 @@ public:
         this->min_sum = min_sum;
         this->max_sum = max_sum;
 
-        string a = num1;
-        subtract_minus_one(a);
+        subtract_minus_one(num1);
 
         long long r = count_limit_to(num2);
-        long long l = (num1 == "0") ? 0 : count_limit_to(a);
+        long long l = (num1 == "0") ? 0 : count_limit_to(num1);
 
         long long ans = (r - l + MOD) % MOD;
         return ans;
