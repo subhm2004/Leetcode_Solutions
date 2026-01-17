@@ -10,7 +10,7 @@ public:
         // BC
         if (sum > max_sum) return 0;
 
-        if (idx == (int)s.size()) {
+        if (idx >= s.size()) {
             return (started && sum >= min_sum && sum <= max_sum) ? 1 : 0;
         }
 
