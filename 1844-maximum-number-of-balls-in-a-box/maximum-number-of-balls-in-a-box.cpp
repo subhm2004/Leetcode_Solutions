@@ -1,20 +1,24 @@
 class Solution {
 public:
-    int getDigitSum(int num) {
-        int digitSum = 0;
+    int digit_sum(int num) {
+        int sum = 0;
         while (num > 0) {
-            digitSum += num % 10;
+            sum += num % 10;
             num /= 10;
         }
-        return digitSum;
+        return sum;
     }
-    int countBalls(int low, int high) {
-        int max_Digit_Sum = 9 * 5; // 99999
-        int ans = 0;
-        vector<int> count(max_Digit_Sum + 1);
 
-        for (int num = low; num <= high; num++)
-            ans = max(ans, ++count[getDigitSum(num)]);
+    int countBalls(int low, int high) {
+        int max_Digit_Sum = 9 * 5; // for maximum 99999
+        vector<int> count(max_Digit_Sum + 1, 0);
+        int ans = 0;
+
+        for (int num = low; num <= high; num++) {
+            int s = digit_sum(num);
+            count[s]++;
+            ans = max(ans, count[s]);
+        }
 
         return ans;
     }
