@@ -1,38 +1,37 @@
 class Solution {
 public:
-    // dp[pos][tight][started]
+    // dp[idx][tight][started]
     long long dp[20][2][2];
     string s;
     int limit;
     
-    long long solve(int pos, bool tight, bool started) {
+    long long solve(int idx, bool tight, bool started) {
         // Base case: reached end
-        if (pos == s.size()) {
+        if (idx >= s.size()) {
             // Count all numbers, even if started=false (prefix can be 0)
             return 1;
         }
         
-        // Check memoization
-        if (dp[pos][tight][started] != -1) {
-            return dp[pos][tight][started];
+         if (dp[idx][tight][started] != -1) {
+            return dp[idx][tight][started];
         }
         
-        long long result = 0;
-        int upperLimit = tight ? (s[pos] - '0') : 9;
+        long long ans = 0;
+        int uper_limit = tight ? (s[idx] - '0') : 9;
         
-        // Try digits from 0 to min(upperLimit, limit)
-        for (int digit = 0; digit <= min(upperLimit, limit); digit++) {
-            bool newStarted = started || (digit > 0);
-            bool newTight = tight && (digit == upperLimit);
+        // Try digits from 0 to min(uper_limit, limit)
+        for (int d = 0; d <= min(uper_limit, limit); d++) {
+            bool updated_started = started || (d != 0);
+            bool updated_tight = tight && (d == uper_limit);
             
-            result += solve(pos + 1, newTight, newStarted);
+            ans += solve(idx + 1, updated_tight, updated_started);
         }
         
         // Store in dp (for both tight and non-tight)
-        return dp[pos][tight][started] = result;
+        return dp[idx][tight][started] = ans;
     }
     
-    long long countPrefix(long long num) {
+    long long count_Prefix(long long num) {
         if (num < 0) return 0;
         
         s = to_string(num);
@@ -40,21 +39,19 @@ public:
         return solve(0, true, false);
     }
     
-    long long numberOfPowerfulInt(long long start, long long finish, int lim, string suffix) {
-        limit = lim;
+    long long numberOfPowerfulInt(long long start, long long finish, int limit, string suffix) {
+        this->limit = limit;
         
         int k = suffix.size();
         long long S = stoll(suffix);  // suffix ka numeric value
         
         // Check if suffix itself is in valid range
-        // If S > finish, no valid numbers possible
+        // If S > finish, no valid numbers idxsible
         if (S > finish) return 0;
         
         // Calculate 10^k
-        long long pow10 = 1;
-        for (int i = 0; i < k; i++) {
-            pow10 *= 10;
-        }
+        long long pow10 = pow(10,k);
+        
         
         // Transform problem:
         // Original: start <= prefix*10^k + S <= finish
@@ -75,7 +72,7 @@ public:
         if (L < 0) L = 0;
         
         // Count prefixes in [L, R] where each digit <= limit
-        return countPrefix(R) - countPrefix(L - 1);
+        return count_Prefix(R) - count_Prefix(L - 1);
     }
 };
 
@@ -118,7 +115,7 @@ Step 4: Handle integer bounds
   R = ⌊(finish - S) / 10^k⌋  (floor)
 
 Step 5: Ceiling trick in C++
-  ceil(a/b) = (a + b - 1) / b  (for positive b)
+  ceil(a/b) = (a + b - 1) / b  (for idxitive b)
   
   L = (start - S + pow10 - 1) / pow10
 
@@ -218,7 +215,7 @@ Return 0 immediately ✓
 Answer: 0 ✓
 
 Explanation:
-  Smallest possible number = 0 × 10000 + 3000 = 3000
+  Smallest idxsible number = 0 × 10000 + 3000 = 3000
   But 3000 > finish (2000)
   So NO valid numbers exist
 
@@ -279,19 +276,19 @@ WHY THIS TRANSFORMATION WORKS:
 
 DIGIT DP STATES:
 
-dp[pos][tight][started]
+dp[idx][tight][started]
 
-pos: current position in prefix
+idx: current idxition in prefix
 tight: are we bounded by upper limit
 started: have we placed a non-zero digit (for leading zeros)
 
 Transitions:
-- Try digit d from 0 to min(upperLimit, limit)
-- Update tight: newTight = tight && (d == upperLimit)
-- Update started: newStarted = started || (d > 0)
+- Try digit d from 0 to min(uper_limit, limit)
+- Update tight: updated_tight = tight && (d == uper_limit)
+- Update started: updated_started = started || (d > 0)
 
 Base case:
-- pos == prefixLength: return 1 if started, else 0
+- idx == prefixLength: return 1 if started, else 0
 
 ═══════════════════════════════════════════════════════════════════════════
 
