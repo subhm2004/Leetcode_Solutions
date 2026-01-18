@@ -1,15 +1,15 @@
 class Solution {
 public:
     vector<int> get_powers(int base, int bound) {
-        vector<int> v;
-        long long cur = 1;
+        vector<int> arr;
+        long long curr = 1;
 
-        while (cur <= bound) {
-            v.push_back(cur);
+        while (curr <= bound) {
+            arr.push_back(curr);
             if (base == 1) break;
-            cur *= base;
+            curr *= base;
         }
-        return v;
+        return arr;
     }
 
     vector<int> powerfulIntegers(int x, int y, int bound) {
