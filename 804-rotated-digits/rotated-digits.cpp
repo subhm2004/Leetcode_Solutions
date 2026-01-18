@@ -5,11 +5,11 @@ public:
     // idx, tight, has_good, started
 
     bool bad_digit(int d) {
-        return d == 3 || d == 4 || d == 7;
+        return d == 3 || d == 4 || d == 7 ;
     }
 
     bool good_digit(int d) {
-        return d == 2 || d == 5 || d == 6 || d == 9;
+        return d == 2 || d == 5 || d == 6 || d == 9 ;
     }
 
     int solve(int idx, bool tight, int has_good, bool started) {
