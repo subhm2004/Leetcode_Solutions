@@ -1,31 +1,47 @@
+// Digit DP se ho jati hai iff 1 <= n <= 10^15 or  10^22 or 10^25 advanced solution 
 class Solution {
 public:
-    bool isGood(int n) {
-        bool changed = false;
+    string s;
+    int dp[12][2][2][2]; 
+    // idx, tight, has_good, started
 
-        while (n > 0) {
-            int d = n % 10;
+    bool bad_digit(int d) {
+        return d == 3 || d == 4 || d == 7 ;
+    }
 
-            // invalid digits
-            if (d == 3 || d == 4 || d == 7)
-                return false;
+    bool good_digit(int d) {
+        return d == 2 || d == 5 || d == 6 || d == 9 ;
+    }
 
-            // digits that change after rotation
-            if (d == 2 || d == 5 || d == 6 || d == 9)
-                changed = true;
-
-            n /= 10;
+    int solve(int idx, bool tight, int has_good, bool started) {
+        if (idx == s.size()) {
+            // number should actually exist AND be good
+            return (started && has_good);
         }
 
-        return changed;
+        if (dp[idx][tight][has_good][started] != -1) return dp[idx][tight][has_good][started];
+
+        int ans = 0;
+        int limit = tight ? s[idx] - '0' : 9;
+
+        for (int d = 0; d <= limit; d++) {
+            int updated_tight = tight && (d == limit);
+            int updated_started = started || (d != 0);
+            int updated_has_good = has_good;
+
+            if (updated_started) {
+                if (bad_digit(d)) continue;
+                if (good_digit(d)) updated_has_good = 1;
+            }
+
+            ans += solve(idx + 1, updated_tight, updated_has_good, updated_started);
+        }
+        return dp[idx][tight][has_good][started] = ans;
     }
 
     int rotatedDigits(int n) {
-        int count = 0;
-        for (int i = 1; i <= n; i++) {
-            if (isGood(i)) count++;
-        }
-        return count;
+        s = to_string(n);
+        memset(dp, -1, sizeof(dp));
+        return solve(0, true, 0, false);
     }
 };
-
