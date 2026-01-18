@@ -2,8 +2,7 @@
 class Solution {
 public:
     string s;
-    int dp[12][2][2][2]; 
-    // idx, tight, has_good, started
+    int dp[12][2][2][2];     // dp[idx][tight][has_good][started]
 
     bool bad_digit(int d) {
         return d == 3 || d == 4 || d == 7 ;
@@ -14,7 +13,7 @@ public:
     }
 
     int solve(int idx, bool tight, int has_good, bool started) {
-        if (idx == s.size()) {
+        if (idx >= s.size()) {
             // number should actually exist AND be good
             return (started && has_good);
         }
