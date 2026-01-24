@@ -6,7 +6,9 @@ public:
         int i = 0;
         int j = nums.size() - 1;
         while (i < j) {
-            max_pair_sum = max(max_pair_sum, nums[i++] + nums[j--]);
+            max_pair_sum = max(max_pair_sum, nums[i] + nums[j]);
+            i++;
+            j--;
         }
         return max_pair_sum;
     }
