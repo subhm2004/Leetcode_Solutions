@@ -2,9 +2,13 @@ class Solution {
 public:
     int minimumPrefixLength(vector<int>& nums) {
         int n = nums.size();
-        int i = n - 2;
-        while (i >= 0 && nums[i] < nums[i + 1])
+        int i = n - 1;
+
+        // strictly increasing suffix from right
+        while (i > 0 && nums[i - 1] < nums[i]) {
             i--;
-        return max(0, i + 1);
+        }
+
+        return i;
     }
 };
