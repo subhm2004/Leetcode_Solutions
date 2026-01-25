@@ -1,6 +1,6 @@
 class Solution {
 public:
-    long long dp[12][2][2];
+    long long dp[12][2][2]; // dp[idx][tight][started]
     vector<int> D;
     string s;
 
