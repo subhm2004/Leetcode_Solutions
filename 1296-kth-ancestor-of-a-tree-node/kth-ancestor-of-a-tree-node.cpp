@@ -1,6 +1,7 @@
 class BinaryLifting {
 private:
-    int n, LOG;
+    int n;
+    int LOG;
     vector<vector<int>> up;
 
 public:
@@ -33,6 +34,7 @@ public:
         return node;
     }
 };
+
 class TreeAncestor {
 private:
     BinaryLifting* bl;
