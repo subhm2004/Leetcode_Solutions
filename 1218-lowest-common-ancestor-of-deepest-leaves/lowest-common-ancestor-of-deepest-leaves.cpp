@@ -3,7 +3,7 @@ struct T {
     int depth;     // Deepest node ka depth store karega
 };
 
-class LCAFinder {
+class LCA_Finder {
 public:
     T findLCA(TreeNode* root) {
         if (!root)
@@ -25,7 +25,7 @@ public:
 class Solution {
 public:
     TreeNode* lcaDeepestLeaves(TreeNode* root) { 
-        LCAFinder solver; // LCAFinder ka object banaya
+        LCA_Finder solver; // LCA_Finder ka object banaya
         return solver.findLCA(root).lca; // Root se LCA find karke return karo   
         }
 };
