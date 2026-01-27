@@ -4,7 +4,7 @@ public:
 
     int countOrders(int n) {
         long long ans = 1;
-        for (int i = 2; i <= n; i++) {
+        for (int i = 1; i <= n; i++) {
             ans = (ans * i * (2 * i - 1)) % MOD;
         }
         return ans;
@@ -53,3 +53,7 @@ public:
         - This formula is equivalent to multiplying all 2C2 values step by step
         - Finally, take modulo 10^9 + 7
         */
+
+
+
+      
