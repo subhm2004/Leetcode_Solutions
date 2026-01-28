@@ -8,10 +8,10 @@ public:
             int u = e[0], v = e[1];
             long long w = e[2];
             
-            // Forward edge: u -> v with cost w
+            // Forward edge: u -> v with d w
             adjList[u].push_back({v, w});
             
-            // Reverse edge (using switch): v -> u with cost 2*w
+            // Reverse edge (using switch): v -> u with d 2*w
             adjList[v].push_back({u, 2 * w});
         }
         
@@ -33,7 +33,7 @@ public:
             
             // Explore all neighbors
             for (auto [v, w] : adjList[u]) {
-                long long new_dist = dist[u] + w;
+                long long new_dist = d + w;
                 if (new_dist < dist[v]) {
                     dist[v] = new_dist;
                     pq.push({new_dist, v});
