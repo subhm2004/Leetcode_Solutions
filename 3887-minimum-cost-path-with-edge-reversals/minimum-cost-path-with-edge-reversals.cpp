@@ -1,46 +1,56 @@
 class Solution {
 public:
-    long long minCost(int n, vector<vector<int>>& edges) {
+    unordered_map<int, list<pair<int, long long>>> adjList;
 
-        unordered_map<int, list<pair<int, long long>>> adjList;
-        
-        for (auto& e : edges) {
-            int u = e[0], v = e[1];
-            long long w = e[2];
-            
-            // Forward edge: u -> v with d w
-            adjList[u].push_back({v, w});
-            
-            // Reverse edge (using switch): v -> u with d 2*w
-            adjList[v].push_back({u, 2 * w});
-        }
-        
-        // Dijkstra's algorithm
+    vector<long long> dijkstra(int n) {
         const long long INF = 1e18;
         vector<long long> dist(n, INF);
-        
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> pq;
-        
+
+        priority_queue<pair<long long,int>, vector<pair<long long,int>>, greater<>> pq;
+
         dist[0] = 0;
         pq.push({0, 0});
-        
+
         while (!pq.empty()) {
-            auto [d, u] = pq.top();
+            auto [node_dist, node] = pq.top();
             pq.pop();
-            
-            // Skip if we've already found a better path
-            if (d > dist[u]) continue;
-            
-            // Explore all neighbors
-            for (auto [v, w] : adjList[u]) {
-                long long new_dist = d + w;
-                if (new_dist < dist[v]) {
-                    dist[v] = new_dist;
-                    pq.push({new_dist, v});
+
+            if (node_dist > dist[node]) 
+                continue;
+
+            for (const auto &nbr : adjList[node]) {
+                int neighbor = nbr.first;
+                long long edge_weight = nbr.second;
+
+                long long new_dist = node_dist + edge_weight;
+
+                if (new_dist < dist[neighbor]) {
+                    dist[neighbor] = new_dist;
+                    pq.push({new_dist, neighbor});
                 }
             }
         }
+
+        return dist;
+    }
+
+    long long minCost(int n, vector<vector<int>>& edges) {
         
-        return dist[n-1] == INF ? -1 : dist[n-1];
+        adjList.clear();  
+
+        for (auto &e : edges) {
+            int u = e[0], v = e[1];
+            long long w = e[2];
+
+            // forward
+            adjList[u].push_back({v, w});
+
+            // reverse via switch
+            adjList[v].push_back({u, 2 * w});
+        }
+
+        vector<long long> dist = dijkstra(n);
+
+        return dist[n - 1] >= 1e18 ? -1 : dist[n - 1];
     }
 };
