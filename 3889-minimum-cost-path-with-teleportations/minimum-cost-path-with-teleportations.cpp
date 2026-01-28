@@ -7,8 +7,8 @@ public:
         const int MAX_VAL = 10000;
 
         vector<vector<pair<int,int>>> val_to_coords(MAX_VAL + 1);
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 val_to_coords[grid[i][j]].push_back({i, j});
             }
         }
@@ -19,11 +19,11 @@ public:
 
         dist[0][0][0] = 0;
 
-        for (int t = 0; t <= k; ++t) {
+        for (int t = 0; t <= k; t++) {
             priority_queue<pair<int,int>, vector<pair<int,int>>, greater<>> pq;
 
-            for (int i = 0; i < m; ++i) {
-                for (int j = 0; j < n; ++j) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
                     if (dist[t][i][j] != INF) {
                         pq.push({dist[t][i][j], i * n + j});
                     }
@@ -52,8 +52,8 @@ public:
             if (t < k) {
                 vector<int> min_cost_at_val(MAX_VAL + 1, INF);
 
-                for (int i = 0; i < m; ++i) {
-                    for (int j = 0; j < n; ++j) {
+                for (int i = 0; i < m; i++) {
+                    for (int j = 0; j < n; j++) {
                         min_cost_at_val[grid[i][j]] =
                             min(min_cost_at_val[grid[i][j]], dist[t][i][j]);
                     }
@@ -64,7 +64,7 @@ public:
                     suffix_min[v] = min(suffix_min[v + 1], min_cost_at_val[v]);
                 }
 
-                for (int v = 0; v <= MAX_VAL; ++v) {
+                for (int v = 0; v <= MAX_VAL; v++) {
                     if (suffix_min[v] == INF) continue;
                     for (auto &p : val_to_coords[v]) {
                         int r = p.first;
@@ -77,7 +77,7 @@ public:
         }
 
         int ans = INF;
-        for (int t = 0; t <= k; ++t) {
+        for (int t = 0; t <= k; t++) {
             ans = min(ans, dist[t][m - 1][n - 1]);
         }
 
