@@ -105,3 +105,11 @@ public:
     }
 };
 
+/*
+interview me bolne ke liye PERFECT answer
+
+“Because the problem bounds the number of stops, Bellman–Ford is ideal since its i-th relaxation computes the shortest path using at most i edges. Running it k+1 times exactly matches the constraint and guarantees correctness.”
+
+
+
+*/
