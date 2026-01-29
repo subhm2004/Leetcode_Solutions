@@ -1,100 +1,111 @@
-// typedef long long ll;         // Dijkstra algo
+// typedef long long ll;  // Dijkstra Algorithm TLE 571 / 581
 // class Solution {
-//  public:
-//    ll dijkstra(int start, int end, unordered_map<int, list<pair<int, int>>>& adjList) {
-//     vector<ll> dist(26, LLONG_MAX);
-//     priority_queue<pair<ll, int>, vector<pair<ll, int>>, greater<>> pq;
+// public:
+//     unordered_map<int, list<pair<int, int>>> adjList;
 
-//     dist[start] = 0;
-//     pq.emplace(0, start);
+//     ll dijkstra_algo(int start, int end) {
+//         vector<ll> dist(26, LLONG_MAX);
+//         priority_queue<pair<ll, int>, vector<pair<ll, int>>, greater<>> pq;
 
-//     while (!pq.empty()) {
-//       auto [cost, node] = pq.top();
-//       pq.pop();
+//         dist[start] = 0;
+//         pq.emplace(0, start);
 
-//       if (node == end)
-//         return cost;
+//         while (!pq.empty()) {
+//             auto [cost, node] = pq.top();
+//             pq.pop();
 
-//       if (cost > dist[node]) continue;
+//             if (node == end)
+//                 return cost;
 
-//       for (auto [nbr, edgeCost] : adjList[node]) {
-//         if (dist[node] + edgeCost < dist[nbr]) {
-//           dist[nbr] = dist[node] + edgeCost;
-//           pq.emplace(dist[nbr], nbr);
+//             if (cost > dist[node])
+//                 continue;
+
+//             for (auto [nbr, edge_cost] : adjList[node]) {
+//                 if (cost + edge_cost < dist[nbr]) {
+//                     dist[nbr] = cost + edge_cost;
+//                     pq.emplace(dist[nbr], nbr);
+//                 }
+//             }
 //         }
-//       }
+
+//         return LLONG_MAX;
 //     }
 
-//     return LLONG_MAX; // If no path exists
-//   }
+//     ll minimumCost(string source, string target, vector<char>& original,
+//                    vector<char>& changed, vector<int>& cost) {
 
-//   ll minimumCost(string source, string target, vector<char>& original,
-//                  vector<char>& changed, vector<int>& cost) {
-//     ll ans = 0;
-//     unordered_map<int, list<pair<int, int>>> adjList; // adjacency list
+//         adjList.clear();
+//         ll ans = 0;
 
-//     // Build adjacency list for the graph
-//     for (int i = 0; i < cost.size(); ++i) {
-//       int u = original[i] - 'a';
-//       int v = changed[i] - 'a';
-//       adjList[u].push_back({v, cost[i]});  // u -> v with cost[i]
+//         for (int i = 0; i < cost.size(); ++i) {
+//             int u = original[i] - 'a';
+//             int v = changed[i] - 'a';
+//             adjList[u].push_back({v, cost[i]});
+//         }
+
+//         for (int i = 0; i < source.length(); ++i) {
+//             if (source[i] == target[i])
+//                 continue;
+
+//             int start = source[i] - 'a';
+//             int end = target[i] - 'a';
+
+//             ll min_cost = dijkstra_algo(start, end);
+//             if (min_cost == LLONG_MAX)
+//                 return -1;
+
+//             ans += min_cost;
+//         }
+
+//         return ans;
 //     }
-
-//     for (int i = 0; i < source.length(); ++i) {
-//       if (source[i] == target[i])
-//         continue;
-
-//       int start = source[i] - 'a';
-//       int end = target[i] - 'a';
-//       ll minCost = dijkstra(start, end, adjList);
-
-//       if (minCost == LLONG_MAX)
-//         return -1;
-//       ans += minCost;
-//     }
-
-//     return ans;
-//   }
 // };
+
+// Floyd–Warshall
+
 typedef long long ll;
+
 class Solution {
- public:
-  ll minimumCost(string source, string target, vector<char>& original,
-                 vector<char>& changed, vector<int>& cost) {
-    vector<vector<ll>> dist(26, vector<ll>(26, LLONG_MAX));
+public:
+    ll minimumCost(string source, string target, vector<char>& original,
+                   vector<char>& changed, vector<int>& cost) {
 
-    // Initialize self-transformation costs
-    for (int i = 0; i < 26; ++i)
-      dist[i][i] = 0;
+        const ll INF = 1e18;
+        vector<vector<ll>> dist(26, vector<ll>(26, INF));
 
-    // Build the graph
-    for (int i = 0; i < cost.size(); ++i) {
-      int u = original[i] - 'a';
-      int v = changed[i] - 'a';
-      dist[u][v] = min(dist[u][v], (ll)cost[i]);  // Take min cost if multiple edges exist
+        // same character ki conversion cost = 0
+        for (int i = 0; i < 26; i++) {
+            dist[i][i] = 0;
+        }
+
+        // direct conversions karte hai
+        for (int i = 0; i < original.size(); i++) {
+            int u = original[i] - 'a';
+            int v = changed[i] - 'a';
+            dist[u][v] = min(dist[u][v], (ll)cost[i]);
+        }
+
+        // Floyd–Warshall: all-pairs shortest path
+        for (int k = 0; k < 26; k++) {
+            for (int i = 0; i < 26; i++) {
+                for (int j = 0; j < 26; j++) {
+                    if (dist[i][k] < INF && dist[k][j] < INF) {
+                        dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+                    }
+                }
+            }
+        }
+
+        // answer nikalte hai
+        ll ans = 0;
+        for (int i = 0; i < source.size(); i++) {
+            int s = source[i] - 'a';
+            int t = target[i] - 'a';
+            if (dist[s][t] == INF)
+                return -1;
+            ans += dist[s][t];
+        }
+
+        return ans;
     }
-
-    // Floyd-Warshall Algorithm: Compute shortest paths for all pairs
-    for (int k = 0; k < 26; ++k)
-      for (int i = 0; i < 26; ++i)
-        for (int j = 0; j < 26; ++j)
-          if (dist[i][k] != LLONG_MAX && dist[k][j] != LLONG_MAX)
-            dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
-
-    // Compute total cost for the transformation
-    ll ans = 0;
-    for (int i = 0; i < source.length(); ++i) {
-      if (source[i] == target[i])
-        continue;
-
-      int start = source[i] - 'a';
-      int end = target[i] - 'a';
-      ll minCost = dist[start][end];
-
-      if (minCost == LLONG_MAX) return -1;  // No valid transformation
-      ans += minCost;
-    }
-
-    return ans;
-  }
 };
