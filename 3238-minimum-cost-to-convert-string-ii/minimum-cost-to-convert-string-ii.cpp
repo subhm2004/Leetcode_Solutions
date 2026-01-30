@@ -3,7 +3,7 @@ typedef long long ll;
 class Solution {
 public:
     unordered_map<int, list<pair<int, ll>>> adjList;
-    unordered_map<string, ll> dp2; // (start,end) for dijkstra
+    unordered_map<string, ll> dp2;   // (start,end) for dijkstra
 
     ll dijkstra_algo(int start, int end, int total_nodes) {
 
@@ -48,8 +48,9 @@ public:
     }
 
     ll solve(int idx, string& source, string& target, vector<ll>& dp,
-             vector<int>& lens, unordered_map<string, int>& id,
+             vector<int>& lens, unordered_map<string, int>& mp,
              int total_nodes) {
+
         int N = source.size();
 
         if (idx == N)
@@ -61,7 +62,7 @@ public:
         ll ans = INF;
 
         if (source[idx] == target[idx]) {
-            ans = solve(idx + 1, source, target, dp, lens, id, total_nodes);
+            ans = solve(idx + 1, source, target, dp, lens, mp, total_nodes);
         }
 
         for (int len : lens) {
@@ -72,19 +73,18 @@ public:
             string s = source.substr(idx, len);
             string t = target.substr(idx, len);
 
-            if (!id.count(s) || !id.count(t))
+            if (!mp.count(s) || !mp.count(t))
                 continue;
 
-            int u = id[s];
-            int v = id[t];
+            int u = mp[s];
+            int v = mp[t];
 
             ll c = dijkstra_algo(u, v, total_nodes);
 
             if (c == LLONG_MAX)
                 continue;
 
-            ll rest =
-                solve(idx + len, source, target, dp, lens, id, total_nodes);
+            ll rest = solve(idx + len, source, target, dp, lens, mp, total_nodes);
             if (rest == INF)
                 continue;
 
@@ -95,20 +95,21 @@ public:
     }
 
     long long minimumCost(string source, string target,
-                          vector<string>& original, vector<string>& changed,
-                          vector<int>& cost) {
+                           vector<string>& original,
+                           vector<string>& changed,
+                           vector<int>& cost) {
 
         int N = source.size();
         const ll INF = 1e15;
 
-        unordered_map<string, int> id;
-        int nodeCnt = 0;
+        unordered_map<string, int> mp;
+        int node_count = 0;
 
         for (int i = 0; i < original.size(); i++) {
-            if (!id.count(original[i]))
-                id[original[i]] = nodeCnt++;
-            if (!id.count(changed[i]))
-                id[changed[i]] = nodeCnt++;
+            if (!mp.count(original[i]))
+                mp[original[i]] = node_count++;
+            if (!mp.count(changed[i]))
+                mp[changed[i]] = node_count++;
         }
 
         adjList.clear();
@@ -119,8 +120,8 @@ public:
 
         for (int i = 0; i < original.size(); i++) {
 
-            int u = id[original[i]];
-            int v = id[changed[i]];
+            int u = mp[original[i]];
+            int v = mp[changed[i]];
 
             adjList[u].push_back({v, cost[i]});
             st.insert(original[i].size());
@@ -131,7 +132,7 @@ public:
 
         vector<ll> dp(N + 1, -1);
 
-        ll res = solve(0, source, target, dp, lens, id, nodeCnt);
+        ll res = solve(0, source, target, dp, lens, mp, node_count);
 
         if (res >= INF)
             return -1;
