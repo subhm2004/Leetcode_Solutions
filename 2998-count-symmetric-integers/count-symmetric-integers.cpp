@@ -1,25 +1,81 @@
 class Solution {
 public:
-    int countSymmetricIntegers(int low, int high) {
+    using ll = long long;
 
-        int ans = 0;
+    string s;
+    int L, half;
 
-        for(int x = low; x <= high; x++) {
+    // dp[idx][diff+OFFSET][tight][started]
+    ll dp[20][200][2][2];
 
-            string s = to_string(x);
-            int len = s.size();
+    static const int OFFSET = 90;
 
-            if(len & 1) continue;
+    ll solve(int idx, int diff, bool tight, bool started)
+    {
+        if (idx == L)
+        {
+            return (started && diff == 0);
+        }
 
-            int n = len / 2;
-            int a = 0, b = 0;
+        if (dp[idx][diff+OFFSET][tight][started] != -1) return dp[idx][diff+OFFSET][tight][started];
 
-            for(int i = 0; i < n; i++) a += s[i] - '0';
-            for(int i = n; i < len; i++) b += s[i] - '0';
+        ll ans = 0;
+        int limit = tight ? (s[idx] - '0') : 9;
 
-            if(a == b) ans++;
+        for (int d = 0; d <= limit; d++)
+        {
+            bool updated_started = started || (d != 0);
+
+            if (!started && d == 0)
+                continue;
+
+            bool updated_tight = tight && (d == limit);
+
+            int updated_diff = diff;
+            
+            if (idx < half) updated_diff += d;
+            else            updated_diff -= d;
+
+            ans += solve(idx + 1, updated_diff, updated_tight, updated_started);
+        }
+
+        return dp[idx][diff+OFFSET][tight][started] = ans;
+    }
+
+    ll count_up_to(ll x)
+    {
+        if (x <= 0) return 0;
+
+        string t = to_string(x);
+        int n = t.size();
+
+        ll ans = 0;
+
+        for (int len = 2; len < n; len += 2)
+        {
+            L = len;
+            half = L / 2;
+            s = string(L, '9');
+
+            memset(dp, -1, sizeof(dp));
+            ans += solve(0, 0, false, false);
+        }
+
+        if (n % 2 == 0)
+        {
+            L = n;
+            half = L / 2;
+            s = t;
+
+            memset(dp, -1, sizeof(dp));
+            ans += solve(0, 0, true, false);
         }
 
         return ans;
+    }
+
+    int countSymmetricIntegers(int low, int high)
+    {
+        return count_up_to(high) - count_up_to(low - 1);
     }
 };
