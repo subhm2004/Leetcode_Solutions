@@ -42,6 +42,7 @@ public:
                 ll wt = nbr.second;
 
             int new_cost = curr_cost + wt;
+            // agar dist me present hi nhi hai nbr_node to by default value 0 hoti hai or hum aage ghus hi nhi skte to is liye check dala dete hai ki !dist.count(nbr_node) to bhi value insert ho jayegi first time 
                 if (!dist.count(nbr_node) || new_cost < dist[nbr_node]) {
                     dist[nbr_node] = new_cost;
                     pq.push({new_cost, nbr_node});
@@ -75,19 +76,19 @@ public:
             string s = source.substr(idx, len);
             string t = target.substr(idx, len);
 
-            if (!adjList.count(s))
+            if (!adjList.count(s)) // source wala substring original me present hona chahiye 
                 continue;
 
-            ll c = run_dijkstra(s, t);
+            ll path_cost = run_dijkstra(s, t);
 
-            if (c == LLONG_MAX)
+            if (path_cost == LLONG_MAX)
                 continue;
 
             ll result = solve(idx + len, source, target, dp, lens);
             if (result == INF)
                 continue;
 
-            ans = min(ans, c + result);
+            ans = min(ans, path_cost + result);
         }
 
         return dp[idx] = ans;
