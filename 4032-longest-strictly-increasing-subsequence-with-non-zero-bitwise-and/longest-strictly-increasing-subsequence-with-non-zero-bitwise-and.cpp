@@ -5,21 +5,25 @@ public:
     }
     int longestSubsequence(vector<int>& nums) {
         int ans = 0;
-
+    
+        // agar array ke har ek element ki koi particular bit set hai to AND non-zero hoga array ka
         for (int bit = 0; bit < 31; bit++) {
 
-            vector<int> lis;   // patience array
+            vector<int> lis; // patience array
 
-            for (int x : nums) {
+            for (int i = 0; i < nums.size(); i++) {
 
-                if (is_set_Bit(bit, x)) {   
+                int x = nums[i];
 
-                    auto it = lower_bound(lis.begin(), lis.end(), x);
+                if (is_set_Bit(bit, x)) {
 
-                    if (it == lis.end())
+                    int pos =
+                        lower_bound(lis.begin(), lis.end(), x) - lis.begin();
+
+                    if (pos == lis.size())
                         lis.push_back(x);
                     else
-                        *it = x;
+                        lis[pos] = x;
                 }
             }
 
