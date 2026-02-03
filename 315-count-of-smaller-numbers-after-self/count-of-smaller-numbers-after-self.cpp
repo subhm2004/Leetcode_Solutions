@@ -1,61 +1,87 @@
+using ll = long long;
+class Coordinate_Compression
+{
+public:
+    unordered_map<int, int> compress; // original value -> compressed value
+    vector<int> rev_map;              // compressed value -> original value
+
+    Coordinate_Compression(const vector<int> &arr)
+    {
+        set<int> st(arr.begin(), arr.end()); // unique & sorted
+        int id = 0;
+        for (int x : st)
+        {
+            compress[x] = id; // 0-based
+            rev_map.push_back(x);
+            id++;
+        }
+    }
+
+    vector<int> get_compressed(const vector<int> &arr)
+    {
+        vector<int> res(arr.size());
+        for (int i = 0; i < (int)arr.size(); i++)
+            res[i] = compress[arr[i]];
+        return res;
+    }
+
+    int get_original(int val)
+    {
+        return rev_map[val];
+    }
+};
+
+class BIT
+{
+public:
+    int n;
+    vector<ll> bit;
+
+    BIT(int n)
+    {
+        this->n = n;
+        bit.assign(n + 1, 0);
+    }
+
+    void update(int i, ll x)
+    {
+        for (; i <= n; i += (i & -i))
+            bit[i] += x;
+    }
+
+    ll  sum(int i)
+    {
+        ll total = 0;
+        for (; i > 0; i -= (i & -i))
+            total += bit[i];
+        return total;
+    }
+};
 class Solution {
 public:
-    void merge(vector<pair<int, int>>& arr, int left, int mid, int right, vector<int>& counts) {
-        vector<pair<int, int>> temp;
-        int i = left;
-        int j = mid + 1;
-        int right_count = 0;
-
-        while (i <= mid && j <= right) {
-            if (arr[j].first < arr[i].first) {
-                // Right element is smaller → move it and count
-                temp.push_back(arr[j]);
-                right_count++;
-                j++;
-            } else {
-                // Count how many smaller on right side
-                counts[arr[i].second] += right_count;
-                temp.push_back(arr[i]);
-                i++;
-            }
-        }
-
-        // Remaining elements in left part
-        while (i <= mid) {
-            counts[arr[i].second] += right_count;
-            temp.push_back(arr[i]);
-            i++;
-        }
-
-        // Remaining elements in right part
-        while (j <= right) {
-            temp.push_back(arr[j]);
-            j++;
-        }
-
-        // Copy back to original array
-        for (int i = 0; i < temp.size(); ++i) {
-            arr[left + i] = temp[i];
-        }
-    }
-
-    void mergeSort(vector<pair<int, int>>& arr, int left, int right, vector<int>& counts) {
-        if (left >= right) return;
-        int mid = (left + right) / 2;
-        mergeSort(arr, left, mid, counts);
-        mergeSort(arr, mid + 1, right, counts);
-        merge(arr, left, mid, right, counts);
-    }
-
     vector<int> countSmaller(vector<int>& nums) {
+
         int n = nums.size();
-        vector<int> counts(n, 0);
-        vector<pair<int, int>> arr;  // {num, index}
-        for (int i = 0; i < n; ++i) {
-            arr.push_back({nums[i], i});
+
+        Coordinate_Compression cc(nums);
+        int K = cc.rev_map.size();
+
+        BIT bit(K);
+
+        vector<int> ans(n, 0);
+
+        // traverse from right to left
+        for (int i = n - 1; i >= 0; i--) {
+
+            int id = cc.compress[nums[i]];   // 0-based
+
+            // strictly smaller => indices [0 ... id-1]
+            ans[i] = bit.sum(id);
+
+            // insert current number
+            bit.update(id + 1, 1);
         }
 
-        mergeSort(arr, 0, n - 1, counts);
-        return counts;
+        return ans;
     }
 };
