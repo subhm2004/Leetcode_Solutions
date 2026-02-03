@@ -1,34 +1,28 @@
 class Solution {
 public:
-    bool is_strictly_increasing(const vector<int>& nums, int start, int end) {
-        for (int i = start; i < end; ++i) {
-            if (nums[i] >= nums[i + 1])
-                return false;
-        }
-        return true;
-    }
-
-    bool is_strictly_decreasing(const vector<int>& nums, int start, int end) {
-        for (int i = start; i < end; ++i) {
-            if (nums[i] <= nums[i + 1])
-                return false;
-        }
-        return true;
-    }
-
     bool isTrionic(vector<int>& nums) {
         int n = nums.size();
-        if (n < 4) return false;
 
-         for (int p = 1; p < n - 2; ++p) {
-            if (!is_strictly_increasing(nums, 0, p)) continue;
+        int i = 0;
 
-            for (int q = p + 1; q < n - 1; ++q) {
-                if (is_strictly_decreasing(nums, p, q) && is_strictly_increasing(nums, q, n - 1))
-                    return true;
-            }
-        }
+        // Increasing
+        while (i + 1 < n && nums[i] < nums[i + 1])
+            i++;
 
-        return false;
+        if (i == 0 || i == n - 1)
+            return false;
+
+        // Decreasing
+        while (i + 1 < n && nums[i] > nums[i + 1])
+            i++;
+
+        if (i == n - 1)
+            return false;
+
+        // Increasing
+        while (i + 1 < n && nums[i] < nums[i + 1])
+            i++;
+
+        return i == n - 1;
     }
 };
