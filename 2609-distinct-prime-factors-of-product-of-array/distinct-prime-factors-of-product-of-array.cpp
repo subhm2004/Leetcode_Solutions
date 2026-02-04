@@ -20,7 +20,6 @@ public:
         return primes;
     }
 
-    // ---- your function ----
     void get_prime_factors(int n, const vector<int>& primes, set<int>& prime_factors) {
 
         for (int prime : primes) {
