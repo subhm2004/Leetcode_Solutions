@@ -1,30 +1,3 @@
-// class Solution {
-// public:
-//     int numberOfSubarrays(vector<int>& nums, int k) {
-//         int n = nums.size();
-//         int ans = 0;
-        
-//         for (int i = 0; i < n; i++) {
-//             int oddCount = 0;
-//             for (int j = i; j < n; j++) {
-//                 if (nums[j] % 2 != 0) {
-//                     oddCount++;
-//                 }
-                
-//                 if (oddCount == k) {
-//                     ans++;
-//                 }
-//                 // optimization: if oddCount > k, no need to continue
-//                 else if (oddCount > k) {
-//                     break;
-//                 }
-//             }
-//         }
-        
-//         return ans;
-//     }
-// };
-// ---------------------------------------------------------------------------------
 class Solution {
 public:
     int numberOfSubarrays(vector<int>& nums, int k) {
@@ -32,19 +5,21 @@ public:
     }
 
     int atMostK(vector<int>& nums, int k) {
-        int left = 0, count = 0, oddCount = 0;
+        int left = 0;
+        int count = 0;
+        int odd_count = 0;
 
         // Iterate through the array with a for loop using 'right' pointer
         for (int right = 0; right < nums.size(); ++right) {
             // If the current number is odd, increase the odd count
             if (nums[right] % 2 != 0) {
-                oddCount++;
+                odd_count++;
             }
 
             // Shrink the window from the left when there are more than 'k' odd numbers
-            while (oddCount > k) {
+            while (odd_count > k) {
                 if (nums[left] % 2 != 0) {
-                    oddCount--;
+                    odd_count--;
                 }
                 left++;
             }
