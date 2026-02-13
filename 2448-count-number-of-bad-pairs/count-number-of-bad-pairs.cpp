@@ -1,32 +1,20 @@
-// class Solution {
-//  public:
-//  ll countBadPairs(vector<int>& nums) {
-//     long ans = 0;
-//     unordered_map<int, int> count;  // (nums[i] - i)
-
-//     for (int i = 0; i < nums.size(); ++i)
-//       //     count[nums[i] - i] := the number of good pairs
-//       // i - count[nums[i] - i] := the number of bad pairs
-//       ans += i - count[nums[i] - i]++;
-
-//     return ans;
-//   }
-// };
-
-// Good Pair nums[i]−i==nums[j]−j
+// Good Pair nums[i]−i ==n ums[j]−j
 
 using ll = long long;
 class Solution {
 public:
     ll countBadPairs(vector<int>& nums) {
         int n = nums.size();
-        ll totalPairs = (ll)n * (n - 1) / 2;
+
+        ll total_pairs = (ll)n * (n - 1) / 2; // nC2 total pairs
+        
         unordered_map<int, int> count;
-        ll goodPairs = 0;
+
+        ll good_pairs = 0;
 
         for (int i = 0; i < nums.size(); ++i)
-            goodPairs += count[nums[i] - i]++;
+            good_pairs += count[nums[i] - i]++;
 
-        return totalPairs - goodPairs;
+        return total_pairs - good_pairs;
     }
 };
