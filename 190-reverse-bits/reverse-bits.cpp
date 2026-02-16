@@ -5,4 +5,4 @@ public:
         reverse(str.begin(), str.end());
         return stoi(str, 0, 2);
     }
-};
+};// stoi(string, ending pos pointer, base)
