@@ -79,29 +79,25 @@ public:
         dp[0] = 1;
         pref[0] = 1;
 
-        deque<int> minQ, maxQ;
-        int i = 0, j = 0;
+        multiset<int> st;
 
-        while (j < n) {
+        int i = 0;
 
-            while (!maxQ.empty() && nums[j] > nums[maxQ.back()])
-                maxQ.pop_back();
-            maxQ.push_back(j);
+        for (int j = 0; j < n; j++) {
 
-            while (!minQ.empty() && nums[j] < nums[minQ.back()])
-                minQ.pop_back();
-            minQ.push_back(j);
+            st.insert(nums[j]);
 
-            while (nums[maxQ.front()] - nums[minQ.front()] > k) {
+            // shrink window until valid
+            while (*st.rbegin() - *st.begin() > k) {
+                st.erase(st.find(nums[i]));
                 i++;
-                if (!maxQ.empty() && maxQ.front() < i) maxQ.pop_front();
-                if (!minQ.empty() && minQ.front() < i) minQ.pop_front();
             }
 
-            dp[j + 1] = (pref[j] - (i > 0 ? pref[i - 1] : 0) + MOD) % MOD;
-            pref[j + 1] = (pref[j] + dp[j + 1]) % MOD;
+            // dp transition
+            int leftPref = (i > 0 ? pref[i - 1] : 0);
 
-            j++;
+            dp[j + 1] = (pref[j] - leftPref + MOD) % MOD;
+            pref[j + 1] = (pref[j] + dp[j + 1]) % MOD;
         }
 
         return dp[n];
