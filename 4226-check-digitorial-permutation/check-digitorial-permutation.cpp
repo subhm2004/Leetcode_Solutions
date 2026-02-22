@@ -10,7 +10,6 @@ public:
         {
             string curr = to_string(x);
 
-            // same number of digits required
             if (curr.size() != target.size()) continue;
 
             sort(curr.begin(), curr.end());
