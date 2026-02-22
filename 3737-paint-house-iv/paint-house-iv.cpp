@@ -1,3 +1,9 @@
+// We process pairs (i, n-1-i) together
+// State: (color of left house in previous pair, color of right house in previous pair)
+// For each pair, we need:
+        // - left color != right color (equidistant constraint)
+        // - left color != prev left color (adjacent constraint)
+        // - right color != prev right color (adjacent constraint)
 using ll = long long;
 class Solution {
 public:
