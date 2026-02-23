@@ -1,4 +1,4 @@
-class Solution {
+class Solution { // Same as stone game 1
 public:
     int dp[1005][1005];
     vector<int> prefix;
