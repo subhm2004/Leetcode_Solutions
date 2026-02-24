@@ -1,33 +1,47 @@
 class Solution {
 public:
-    long long maxScore(vector<int>& nums, int x) {
 
-        long long even = -1e18;
-        long long odd  = -1e18;
+    long long dp[100005][2];
+    vector<int> nums;
+    int n, x;
 
-        if (nums[0] % 2 == 0)
-            even = nums[0];
-        else
-            odd = nums[0];
+    long long solve(int i, int prev_parity) {
 
-        for (int i = 1; i < nums.size(); i++) {
+        if (i >= n) return 0;
 
-            long long val = nums[i];
+        if (dp[i][prev_parity] != -1)
+            return dp[i][prev_parity];
 
-            if (val % 2 == 0) {
+        // Option 1: skip current index
+        long long exclude = solve(i + 1, prev_parity);
 
-                long long new_even = max(even + val, odd + val - x);
+        int curr_parity = nums[i] % 2;
 
-                even = max(even, new_even);
-            }
-            else {
+        // Option 2: include current index
+        long long include;
 
-                long long new_odd =  max(odd + val, even + val - x);
-
-                odd = max(odd, new_odd);
-            }
+        if (curr_parity == prev_parity) {
+            // no penalty
+            include = nums[i] + solve(i + 1, prev_parity);
+        } else {
+            // parity change → -x
+            include = nums[i] + solve(i + 1, curr_parity) - x;
         }
 
-        return max(even, odd);
+        return dp[i][prev_parity] = max(include, exclude);
+    }
+
+    long long maxScore(vector<int>& nums, int x) {
+
+        this-> nums = nums;
+        this-> x = x;
+        n = nums.size();
+
+        memset(dp, -1, sizeof(dp));
+
+        int prev_parity = nums[0] % 2;
+
+        // index 0 already include hai
+        return nums[0] + solve(1, prev_parity);
     }
 };
