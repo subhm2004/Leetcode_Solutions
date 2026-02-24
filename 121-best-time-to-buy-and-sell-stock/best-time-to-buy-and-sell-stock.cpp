@@ -1,28 +1,18 @@
 class Solution {
 public:
-    vector<int> prices;     
-    int dp[100005];
-
-    int solve(int idx, int min_price) {
-
-        if (idx == prices.size())
-            return 0;
-
-        if (dp[idx] != -1)
-            return dp[idx];
-
-        min_price = min(min_price, prices[idx]);
-
-        int profit = prices[idx] - min_price;
-
-        return dp[idx] = max(profit, solve(idx + 1, min_price));
-    }
-
     int maxProfit(vector<int>& prices) {
+        int n = prices.size();
 
-        this-> prices = prices;                 
-        memset(dp, -1, sizeof(dp));
+        int max_profit = 0;
+        int min_buy_price = prices[0];
 
-        return solve(0, INT_MAX);
+        for (int i = 1; i < n; i++) {
+            int profit = prices[i] - min_buy_price;
+
+            max_profit = max(max_profit, profit);
+
+            min_buy_price = min(min_buy_price, prices[i]);
+        }
+        return max_profit;
     }
 };
