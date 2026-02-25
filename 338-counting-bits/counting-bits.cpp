@@ -2,7 +2,7 @@ class Solution {
 public:
     int count_set_bits(int n){ // Brian Kernighan's Algorithm 
         int count = 0;
-        while (n!= 0){
+        while (n){
             n = (n&(n-1)); // Remove Last Set Bit
             count++;
         }
