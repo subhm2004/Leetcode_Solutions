@@ -15,7 +15,7 @@ public:
         // two choices
 
         int include = prefix[i] - solve(i + 1);
-        // exclude ka mlltb hai abhi smallest possible move nahi le raha, future ka bada move choose kar raha hai
+        // exclude ka mtlb hai abhi smallest possible move nahi le raha, future ka bada move choose kar raha hai
         int exclude = solve(i + 1);
         return dp[i] = max(include, exclude);
     }
