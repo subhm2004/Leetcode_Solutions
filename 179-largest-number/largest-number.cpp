@@ -11,7 +11,7 @@ public:
         // Step 2: Custom sorting using lambda function
         // Ye sabse important part hai - concatenation ke basis pe sorting
         sort(num_strings.begin(), num_strings.end(), 
-             [](const string& a, const string& b) { 
+             [&](const string& a, const string& b) { 
                  // Agar a+b > b+a hai to a pehle aana chahiye
                  // Example: a="3", b="30" 
                  // a+b = "330", b+a = "303"
