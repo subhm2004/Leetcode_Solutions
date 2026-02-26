@@ -1,36 +1,20 @@
 class Solution {
 public:
-
-    // add 1 to binary string
-    void add_one(string &s) {
-        int i = s.size() - 1;
-
-        while (i >= 0 && s[i] == '1') {
-            s[i] = '0';
-            i--;
-        }
-
-        if (i >= 0) s[i] = '1';
-        else s = "1" + s;   // overflow case
-    }
-
     int numSteps(string s) {
+        int n = s.length();
 
-        int steps = 0;
+        int ans = 0;
+        int carry = 0;
 
-        while (s != "1") {
-
-            // even
-            if (s.back() == '0') {
-                s.pop_back();   // divide by 2
+        for (int i = n - 1; i >= 1; i--) {
+            if (((s[i] - '0') + carry) % 2 == 1) { // odd
+                ans += 2;
+                carry = 1;
+            } else {
+                ans += 1;
             }
-            else { // odd
-                add_one(s);
-            }
-
-            steps++;
         }
 
-        return steps;
+        return ans + carry;
     }
 };
