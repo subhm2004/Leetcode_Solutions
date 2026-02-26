@@ -13,6 +13,21 @@ public:
         if (dp[i][l] != -1)
             return dp[i][l];
 
+        /*
+        -------- Derivation of r --------
+
+        total removed elements = i
+        left removed  = l
+        right removed = i - l
+
+        original right index = n - 1
+
+        after removing (i-l) from right:
+
+        r = (n - 1) - (i - l)
+        
+        */
+
         int r = n - 1 - (i - l);
 
         // choose left
