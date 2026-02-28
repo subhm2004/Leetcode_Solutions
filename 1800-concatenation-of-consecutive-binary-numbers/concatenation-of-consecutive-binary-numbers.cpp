@@ -6,7 +6,8 @@ public:
         long long ans = 0;
 
         for (int i = 1; i <= n; i++) {
-            int bits = (int)log2(i) + 1; // i ke binary me kitne bits
+            // int bits = (int)log2(i) + 1; // i ke binary me kitne bits
+            int bits = 32 - __builtin_clz(i); // ye wala CP me likha jata hai , hai dono hi sahi 
 
             // ans ko bits ke hisab se left shift karo
             ans = (ans * (1LL << bits)) % MOD;
