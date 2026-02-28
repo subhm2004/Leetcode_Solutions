@@ -3,7 +3,7 @@ public:
     int dp[10005];
     vector<int> arr;   
 
-    int solveME(int i) {
+    int solve(int i) {
         int n = arr.size();
 
         if (i >= n - 1)
@@ -16,7 +16,7 @@ public:
         int max_reach_limit = min(i + arr[i], n - 1);
 
         for (int next = i + 1; next <= max_reach_limit; next++) {
-            int jumps = solveME(next);
+            int jumps = solve(next);
 
             if (jumps != INT_MAX)
                 min_jumps = min(min_jumps, jumps + 1);
@@ -28,6 +28,6 @@ public:
     int jump(vector<int>& nums) {
         arr = nums;                  
         memset(dp, -1, sizeof(dp));   
-        return solveME(0);
+        return solve(0);
     }
 };
