@@ -3,11 +3,9 @@ public:
     vector<int> minDistinctFreqPair(vector<int>& nums) {
         map<int, int> freq;
 
-        // frequency count
         for (int x : nums)
             freq[x]++;
 
-        // check all pairs
         for (auto const& [v1, f1] : freq) {
 
             for (auto const& [v2, f2] : freq) {
