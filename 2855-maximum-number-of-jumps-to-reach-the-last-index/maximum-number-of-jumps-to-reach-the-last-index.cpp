@@ -5,7 +5,7 @@ public:
     int dp[1001];
     vector<int> nums;
 
-    int dfs(int i, int target) {
+    int solve(int i, int target) {
 
         if (i == n - 1)
             return 0;
@@ -18,7 +18,7 @@ public:
         for (int j = i + 1; j < n; j++) {
 
             if (abs(nums[j] - nums[i]) <= target) {
-                best = max(best, 1 + dfs(j, target));
+                best = max(best, 1 + solve(j, target));
             }
         }
 
@@ -32,7 +32,7 @@ public:
 
         memset(dp, -1, sizeof(dp));
 
-        int ans = dfs(0, target);
+        int ans = solve(0, target);
 
         return (ans < 0) ? -1 : ans;
     }
