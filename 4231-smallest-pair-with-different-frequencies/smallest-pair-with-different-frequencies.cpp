@@ -1,29 +1,21 @@
 class Solution {
 public:
     vector<int> minDistinctFreqPair(vector<int>& nums) {
-        unordered_map<int, int> freq;
-        set<int> unique_values;
+        map<int, int> freq;
 
-        // frequency + unique values
-        for (int x : nums) {
+        // frequency count
+        for (int x : nums)
             freq[x]++;
-            unique_values.insert(x);
-        }
 
-        // set -> vector (sorted values)
-        vector<int> values(unique_values.begin(), unique_values.end());
+        // check all pairs
+        for (auto const& [v1, f1] : freq) {
 
-        // valid pair nikalte hai 
-        for (int i = 0; i < values.size(); i++) {
+            for (auto const& [v2, f2] : freq) {
 
-            int x = values[i];
-
-            for (int j = i + 1; j < values.size(); j++) {
-
-                int y = values[j];
-
-                if (freq[x] != freq[y])
-                    return {x, y};
+                // distinct values + different frequency
+                if (v1 < v2 && f1 != f2) {
+                    return {v1, v2};
+                }
             }
         }
 
