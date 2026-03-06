@@ -1,20 +1,35 @@
 class Solution {
 public:
-    int mySqrt(int num) {
-        int low = 1;
-        int high = num;
+    int binary_search_sqrt(int num) {
+        int left = 0;
+        int right = num;
         int ans = 0;
-
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
+        while (left <= right) {
+            int mid = (left + right) >> 1;
             if (1LL * mid * mid <= num) {
                 ans = mid;
-                low = mid + 1;
+                left = mid + 1;
             } else {
-                high = mid - 1;
+                right = mid - 1;
             }
         }
-
         return ans;
+    }
+    double sqrt_newton(double n) {
+        const double eps = 1e-15;
+        double x = 1;
+
+        for (;;) {
+            double nx = (x + n / x) / 2;
+            if (abs(x - nx) < eps)
+                break;
+            x = nx;
+        }
+
+        return x;
+    }
+    int mySqrt(int x) {
+        if (x == 0) return 0;
+        return binary_search_sqrt(x);
     }
 };
