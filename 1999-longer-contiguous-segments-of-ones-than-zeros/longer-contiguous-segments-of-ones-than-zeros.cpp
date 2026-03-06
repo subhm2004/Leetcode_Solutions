@@ -1,26 +1,29 @@
 class Solution {
 public:
-    int solve(string& s, char ch) {
 
-        int count = 1;
-        int max_len = (s[0] == ch ? 1 : 0);
+    int longest_segment(string &s, char ch){
 
-        for (int i = 1; i < s.size(); i++) {
+        int count = 0;
+        int max_len = 0;
 
-            if (s[i] == s[i - 1])
+        for(char c : s){
+
+            if(c == ch){
                 count++;
-            else
-                count = 1;
-
-            if (s[i] == ch)
                 max_len = max(max_len, count);
+            }
+            else{
+                count = 0;
+            }
         }
 
         return max_len;
     }
+
     bool checkZeroOnes(string s) {
-        int longest1 = solve(s, '1');
-        int longest0 = solve(s, '0');
+
+        int longest1 = longest_segment(s,'1');
+        int longest0 = longest_segment(s,'0');
 
         return longest1 > longest0;
     }
