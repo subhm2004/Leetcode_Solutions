@@ -15,7 +15,7 @@ public:
         }
         return ans;
     }
-    double sqrt_newton(double n) {
+    double sqrt_newton_rapson(double n) {
         const double eps = 1e-15;
         double x = 1;
 
@@ -30,6 +30,7 @@ public:
     }
     int mySqrt(int x) {
         if (x == 0) return 0;
-        return binary_search_sqrt(x);
+        // return binary_search_sqrt(x);
+        return (int)sqrt_newton_rapson(x);
     }
 };
