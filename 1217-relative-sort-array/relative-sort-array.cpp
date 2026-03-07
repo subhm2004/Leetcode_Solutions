@@ -15,8 +15,9 @@ public:
             }
         }
         for(auto& [num ,f]:freq){
-            while(f--){
+            while(f > 0){
                 ans.push_back(num);
+                f--;
             }
         }
         return ans;
