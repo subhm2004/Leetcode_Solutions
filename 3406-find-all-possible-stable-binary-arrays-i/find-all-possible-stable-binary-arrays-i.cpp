@@ -35,3 +35,13 @@ public:
         return (start_1 + start_0 ) % MOD;
     }
 };
+/*
+
+| flag  | previous digit | next digit placed | array start  |
+| ----- | -------------- | ----------------- | ------------ |
+| true  | 0              | 1                 | start with 1 |
+| false | 1              | 0                 | start with 0 |
+
+
+
+*/
