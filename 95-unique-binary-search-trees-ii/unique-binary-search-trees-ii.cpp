@@ -6,7 +6,7 @@ public:
         if (start == end)
             return {new TreeNode(end)};
         vector<TreeNode*> ans;
-        for (int i = start; i <= end; ++i) {
+        for (int i = start; i <= end; i++) {
             vector<TreeNode*> left = allcomb(start, i - 1);
             vector<TreeNode*> right = allcomb(i + 1, end);
             for (int j = 0; j < left.size(); j++) {
