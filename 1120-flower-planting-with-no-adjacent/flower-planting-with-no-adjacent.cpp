@@ -55,7 +55,6 @@ public:
                 dfs(i, flower, visited);
         }
 
-        // Direct return kro - ab erase ki zaroorat nahi kyunki 0-based hai
-        return flower;
+         return flower;
     }
 };
