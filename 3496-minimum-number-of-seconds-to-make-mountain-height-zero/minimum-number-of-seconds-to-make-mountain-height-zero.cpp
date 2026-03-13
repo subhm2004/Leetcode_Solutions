@@ -1,13 +1,14 @@
 // minimize the maximum pattern
 class Solution {
 public:
+using ll = long long;
     int mountain_height;
     vector<int> arr;
 
-    bool is_possible(long long mid_height) {
-        long long curr_height = 0;
+    bool is_possible(ll mid_height) {
+        ll curr_height = 0;
         for (int wt : arr) {
-            long long x = ((-1 + sqrt(1 + 8.0 * mid_height / wt)) / 2);
+            ll x = ((-1 + sqrt(1 + 8.0 * mid_height / wt)) / 2);
             curr_height += x;
             if (curr_height >= mountain_height) {
                 return true;
@@ -16,16 +17,16 @@ public:
         return false;
     }
 
-    long long minNumberOfSeconds(int mountainHeight, vector<int>& workerTimes) {
+    ll minNumberOfSeconds(int mountainHeight, vector<int>& workerTimes) {
         mountain_height = mountainHeight;
         arr = workerTimes;
 
-        long long low = 0;
-        long long high = LLONG_MAX;
-        long long ans = INT_MAX;
+        ll low = 0;
+        ll high = LLONG_MAX;
+        ll ans = INT_MAX;
 
         while (low <= high) {
-            long long mid = (low + high) >> 1;
+            ll mid = (low + high) >> 1;
             if (is_possible(mid)) {
                 ans = mid;
                 high = mid - 1;
