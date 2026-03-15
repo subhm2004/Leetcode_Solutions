@@ -5,17 +5,17 @@ public:
 
     bool goodDigits(int x) {
 
-        string t = to_string(x);
+        string s = to_string(x);
 
-        if (t.size() == 1) return true;
+        if (s.size() == 1) return true;
 
         bool incresing = true;
         bool decresing = true;
 
-        for (int i = 1; i < t.size(); i++) {
-            if (t[i] <= t[i - 1])
+        for (int i = 1; i < s.size(); i++) {
+            if (s[i] <= s[i - 1])
                 incresing = false;
-            if (t[i] >= t[i - 1])
+            if (s[i] >= s[i - 1])
                 decresing = false;
         }
 
