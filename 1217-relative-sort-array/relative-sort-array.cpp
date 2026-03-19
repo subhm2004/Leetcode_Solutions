@@ -1,10 +1,10 @@
 class Solution {
 public:
     vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
+        int n = arr1.size();
         vector<int> ans;
         map<int, int> freq;
-
-        for (auto& val : arr1) {
+        for (auto val : arr1) {
             freq[val]++;
         }
 
@@ -15,12 +15,13 @@ public:
             }
         }
 
-        for (auto& [ch, f] : freq) {
-            while (f) {
-                ans.push_back(ch);
+        for(auto [value , f] : freq){
+            while(f){
+                ans.push_back(value);
                 f--;
             }
         }
         return ans;
     }
+
 };
