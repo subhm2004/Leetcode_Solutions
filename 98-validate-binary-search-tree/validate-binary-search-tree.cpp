@@ -1,7 +1,7 @@
-typedef long long ll;
+using ll = long long;
 class Solution {
 public:
-    bool isValidBSTHelper(TreeNode* root,ll min, ll max) {
+    bool helper(TreeNode* root, ll min, ll max) {
         if (root == nullptr) {
             return true;
         }
@@ -10,13 +10,13 @@ public:
             return false;
         }
 
-        return isValidBSTHelper(root->left, min, root->val) &&
-               isValidBSTHelper(root->right, root->val, max);
+        return helper(root->left, min, root->val) &&
+               helper(root->right, root->val, max);
     }
 
     bool isValidBST(TreeNode* root) {
 
-        return isValidBSTHelper(root, LLONG_MIN, LLONG_MAX);
+        return helper(root, LLONG_MIN, LLONG_MAX);
     }
 };
-// 
+//
