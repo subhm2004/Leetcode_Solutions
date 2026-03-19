@@ -28,6 +28,6 @@ public:
             }
         }
 
-        return {}; // never reached (guaranteed solution)
+        return {-1,-1}; 
     }
 };
