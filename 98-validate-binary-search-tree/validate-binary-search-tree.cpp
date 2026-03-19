@@ -2,10 +2,7 @@ using ll = long long;
 class Solution {
 public:
     bool helper(TreeNode* root, ll min, ll max) {
-        if (root == nullptr) {
-            return true;
-        }
-
+        if (!root) return true;
         if (root->val <= min || root->val >= max) {
             return false;
         }
