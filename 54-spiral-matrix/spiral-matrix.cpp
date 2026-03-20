@@ -4,7 +4,7 @@ public:
         if (matrix.size() == 0) return {};
         int m = matrix.size();
         int n = matrix[0].size();
-        vector<int> result;
+        vector<int> ans;
         int top = 0;
         int down = m - 1;
         int left = 0;
@@ -17,11 +17,11 @@ public:
         // 2   -> right to left
         // 3   -> down  to top
 
-        while (result.size() != m * n) {
+        while (ans.size() != m * n) {
             // left to right
             if (dir == 0) {
                 for (int i = left; i <= right; i++) {
-                    result.push_back(matrix[top][i]);
+                    ans.push_back(matrix[top][i]);
                 }
                 top++;
             }
@@ -29,7 +29,7 @@ public:
             // top to down
             if (dir == 1) {
                 for (int i = top; i <= down; i++) {
-                    result.push_back(matrix[i][right]);
+                    ans.push_back(matrix[i][right]);
                 }
                 right--;
             }
@@ -37,7 +37,7 @@ public:
             // right to left
             if (dir == 2) {
                 for (int i = right; i >= left; i--) {
-                    result.push_back(matrix[down][i]);
+                    ans.push_back(matrix[down][i]);
                 }
                 down--;
             }
@@ -45,7 +45,7 @@ public:
             // down to top
             if (dir == 3) {
                 for (int i = down; i >= top; i--) {
-                    result.push_back(matrix[i][left]);
+                    ans.push_back(matrix[i][left]);
                 }
                 left++;
             }
@@ -54,6 +54,6 @@ public:
             if (dir == 4)
                 dir = 0;
         }
-        return result;
+        return ans;
     }
 };
