@@ -1,52 +1,54 @@
 class Solution {
 public:
-    // Helper function to check horizontal cuts recursively
-    bool horizontalCutHelper(vector<vector<int>>& grid, int m, int n, int row, long long sum, long long total) {
-        // Base case: if we are at the last row, can't cut here
-        if (row == m - 1) return false;
-        
-        // Add the current row's sum to the cumulative sum
-        for (int j = 0; j < n; ++j) {
+    vector<vector<int>> grid;
+    int m, n;
+    bool horizontal_cut(int row, long long sum, long long total_sum) {
+        // Base case: agar hum last row par hai to hum cut nhi kar skte hai
+        if (row == m - 1)
+            return false;
+
+        // current row ka sum add kro cumulative sum me
+        for (int j = 0; j < n; j++) {
             sum += grid[row][j];
         }
 
-        // Check if the sum of the first section equals half the total sum
-        if (sum * 2 == total) return true;
+        if (sum == total_sum / 2)
+            return true;
 
-        // Recurse to check the next row
-        return horizontalCutHelper(grid, m, n, row + 1, sum, total);
+        // recursive call for next row
+        return horizontal_cut(row + 1, sum, total_sum);
     }
 
-    // Helper function to check vertical cuts recursively
-    bool verticalCutHelper(vector<vector<int>>& grid, int m, int n, int col, long long sum, long long total) {
-        // Base case: if we are at the last column, can't cut here
-        if (col == n - 1) return false;
+    // similarly for column cuts
+    bool vertical_Cut(int col, long long sum, long long total_sum) {
+        if (col == n - 1)
+            return false;
 
-        // Add the current column's sum to the cumulative sum
-        for (int i = 0; i < m; ++i) {
+        for (int i = 0; i < m; i++) {
             sum += grid[i][col];
         }
 
-        // Check if the sum of the first section equals half the total sum
-        if (sum * 2 == total) return true;
+        if (sum == total_sum / 2)
+            return true;
 
-        // Recurse to check the next column
-        return verticalCutHelper(grid, m, n, col + 1, sum, total);
+        return vertical_Cut(col + 1, sum, total_sum);
     }
 
     bool canPartitionGrid(vector<vector<int>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
+        this->grid = grid;
+        this->m = grid.size();
+        this->n = grid[0].size();
 
-        // Total sum of all elements in the grid (use long long to avoid overflow)
-        long long total = 0;
+        // total sum of elements in matrix
+        long long total_sum = 0;
         for (const auto& row : grid) {
             for (int val : row) {
-                total += val;
+                total_sum += val;
             }
         }
+        if (total_sum % 2 != 0)
+            return false;
 
-        // Try horizontal and vertical cuts
-        return horizontalCutHelper(grid, m, n, 0, 0, total) || verticalCutHelper(grid, m, n, 0, 0, total);
+        return horizontal_cut(0, 0, total_sum) || vertical_Cut(0, 0, total_sum);
     }
 };
