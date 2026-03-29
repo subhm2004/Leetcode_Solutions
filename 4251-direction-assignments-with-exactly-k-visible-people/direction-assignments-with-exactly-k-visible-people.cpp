@@ -71,69 +71,7 @@ public:
     int countVisiblePeople(int n, int pos, int k) {
         Combinatorics comb;
 
-        int left = pos;
-        int right = n - pos - 1;
-
-        long long ans = 0;
-        /*
-    Let:
-    left  = number of people on left side
-    right = number of people on right side
-    k     = total visible people
-
-    We choose:
-    x     = number of visible people from left
-    k-x   = number of visible people from right
-
-    So:
-    x + (k-x) = k  
-
-// har ek x k liye way = C(left,x) * C(right,k−x) 
-
-    1) LEFT SIDE CONSTRAINT:
-       Left side me total 'left' log hain
-       x <= left
-
-       Also total visible k hai:
-       x <= k
-
-        x <= min(left, k)
-
-    -------------------------------
-
-    2) RIGHT SIDE CONSTRAINT:
-       Right side se (k-x) log visible honge
-       But right me total 'right' log hi hain
-
-       (k - x) <= right
-
-       Solve:
-       k - x <= right
-       x >= k - right
-
-    
-
-    3) NON-NEGATIVE CONSTRAINT:
-       x >= 0  (count negative nahi ho sakta)
-
-
-    FINAL RANGE:
-
-    x >= max(0, k - right)
-    x <= min(left, k)
-
-     x ∈ [ max(0, k - right), min(left, k) ]
-
-    */
-        for (int x = max(0, k - right); x <= min(left, k); x++) {
-            long long left_ways = comb.nCr(left, x);
-            long long right_ways = comb.nCr(right, k - x);
-
-            ans = (ans + (left_ways * right_ways) % MOD) % MOD;
-        }
-        // pos wala banda free hai kha ajna hai use to wo ja skta h khi bhi left
-        // ya right me soo ans ko 2 se multiply kiya hai
-
-        return (2 * ans) % MOD;
+        int ways = comb.nCr(n - 1, k);
+        return ((ways * 2) % MOD);
     }
 };
