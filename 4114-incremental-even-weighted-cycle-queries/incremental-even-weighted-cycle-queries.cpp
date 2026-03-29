@@ -1,4 +1,4 @@
-class DSU {
+class DSU { // same as lc 785
 public:
     vector<int> parent, rank_, parity;
 
@@ -24,7 +24,7 @@ public:
     // w = edge weight (0 ya 1)
     // Returns: true  → edge valid (even cycle maintain)
     //          false → odd weight cycle banega → reject
-    bool unionByRank(int u, int v, int w) {
+    bool unionByRank(int u, int v, int w=1) {
         auto [pu, xu] = find(u);
         auto [pv, xv] = find(v);
 
