@@ -24,7 +24,7 @@ public:
     // w = edge weight (0 ya 1)
     // Returns: true  → edge valid (even cycle maintain)
     //          false → odd weight cycle banega → reject
-    bool unionByRank(int u, int v, int w=1) {
+    bool unionByRank(int u, int v, int w) {
         auto [pu, xu] = find(u);
         auto [pv, xv] = find(v);
 
