@@ -51,7 +51,7 @@ public:
         int timer = 0;
         vector<int> tin(n, -1);  // Time of insertion array
         vector<int> low(n, -1); // Lowest time array
-        unordered_map<int, bool> visited; // visitedited nodes
+        unordered_map<int, bool> visited; // visited nodes
         
         // DFS call karo bridges dhoondhne ke liye
         findBridges(0, -1, timer, tin, low, visited, ans, adjList);
