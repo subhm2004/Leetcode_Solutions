@@ -3,6 +3,7 @@ class Solution {
 public:
     vector<vector<int>> dp;
 
+// ye function find krta hai length of max_subset whose xor is equal to target
     int solve(int i, int curr_xor, vector<int>& nums, int target) {
         if (i == nums.size()) {
             return (curr_xor == target) ? 0 : INT_MIN/2; // -INF
