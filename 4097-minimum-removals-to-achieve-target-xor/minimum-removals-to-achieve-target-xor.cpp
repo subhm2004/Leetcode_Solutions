@@ -23,11 +23,14 @@ public:
     int minRemovals(vector<int>& nums, int target) {
         int n = nums.size();
 
-        int maxVal = *max_element(nums.begin(), nums.end());
-        maxVal = max({maxVal, target, 1}); // Fix 1: 0 aur target dono handle
+        // int maxVal = *max_element(nums.begin(), nums.end());
+        // maxVal = max({maxVal, target, 1}); // Fix : 0 aur target dono handle
 
-        int bits = log2(maxVal) + 1;
-        int MAXX = 1 << bits;
+        // int bits = log2(maxVal) + 1;
+        // int MAXX = 1 << bits;
+
+        // max max value ho skti hai 10^4 tak mltb ki ise likha ja skta hai 2^14 tak
+        int MAXX = 1 << 14;
         dp.assign(n + 1, vector<int>(MAXX, -1));
 
         int max_subset = solve(0, 0, nums, target); // max subset size whose xor equal to target
