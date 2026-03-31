@@ -1,72 +1,76 @@
-class Generator {
+class Solution {
 public:
-    string createPattern(string patternType, string baseString) {
-        int n = patternType.size();
-        int m = baseString.size();
-        int totalLen = n + m - 1;
+    bool isSame(string &word, string & str2, int i, int m) {
+        for(int j = 0; j < m; j++) {
+            if(word[i] != str2[j]) {
+                return false;
+            }
 
-        if (m == 0) return string(n, 'a');
+            i++;
+        }
 
-        vector<char> result(totalLen, '?');
-        vector<bool> locked(totalLen, false);
+        return true;
+    }
 
-        for (int i = 0; i < n; ++i) {
-            if (patternType[i] == 'T') {
-                for (int j = 0; j < m; ++j) {
-                    int pos = i + j;
-                    if (pos >= totalLen) break;
-                    char required = baseString[j];
+    string generateString(string str1, string str2) {
+        int n = str1.length();
+        int m = str2.length();
 
-                    if (result[pos] != '?' && result[pos] != required) {
+        int N = n + m - 1;
+        string word(N, '$');
+
+        vector<bool> canChange(N, false);
+
+        //Process the 'T'
+        for(int i = 0; i < n; i++) {
+            if(str1[i] == 'T') {
+                int i_ = i;
+                for(int j = 0; j < m; j++) {
+                   //word[i] = str2[j]
+                   //word[i+1] = str2[j+1] and so on....
+                   if(word[i_] != '$' && word[i_] != str2[j]) {
+                        return "";
+                   }
+                   word[i_] = str2[j];
+                   i_++;
+                }
+            }
+        }
+
+        //FIll the remaining spaces with 'a'
+        for(int i = 0; i < N; i++) {
+            if(word[i] == '$') {
+                word[i] = 'a';
+                canChange[i] = true;
+            }
+        }
+
+        //Process the 'F'
+        //T.C : O(n * m)
+        //S,C : O(N)
+        for(int i = 0; i < n; i++) {
+            if(str1[i] == 'F') {
+
+                if(isSame(word, str2, i, m)) { //If same, then we need to make it unequal
+                    
+                    bool changed = false;
+                    for(int k = i + m - 1; k >= i; k--) {
+                        if(canChange[k] == true) {
+                            word[k] = 'b';
+                            changed = true;
+                            break;
+                        }
+                    }
+
+                    if(changed == false) { //i was not able to change any character to break equality
                         return "";
                     }
 
-                    if (result[pos] == '?') {
-                        result[pos] = required;
-                        locked[pos] = true;
-                    }
                 }
+
             }
         }
 
-        for (int i = 0; i < totalLen; ++i) {
-            if (result[i] == '?') {
-                result[i] = 'a';
-            }
-        }
-
-        for (int i = 0; i <= totalLen - m; ++i) {
-            if (patternType[i] == 'F') {
-                bool matches = true;
-                for (int j = 0; j < m; ++j) {
-                    if (result[i + j] != baseString[j]) {
-                        matches = false;
-                        break;
-                    }
-                }
-                if (!matches) continue;
-
-                bool modified = false;
-                for (int j = m - 1; j >= 0; --j) {
-                    int pos = i + j;
-                    if (!locked[pos]) {
-                        result[pos] = (baseString[j] == 'a') ? 'b' : 'a';
-                        modified = true;
-                        break;
-                    }
-                }
-                if (!modified) return "";
-            }
-        }
-
-        return string(result.begin(), result.end());
-    }
-};
-
-class Solution {
-public:
-    string generateString(string str1, string str2) {
-        Generator gen;
-        return gen.createPattern(str1, str2);
+        return word;
     }
 };
