@@ -71,7 +71,7 @@ public:
         dp.assign(n, 0);
         ans.assign(n, 0);
 
-        // build graph
+        // build graph adjmatrix
         for (auto &e : edges) {
             int u = e[0], v = e[1];
 
