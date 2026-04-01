@@ -1,4 +1,4 @@
-class Solution {
+class Solution { // same as leetcode astroid collison LC 735 
 public:
     vector<int> survivedRobotsHealths(vector<int>& pos, vector<int>& health, string dir) {
         int n = pos.size();
