@@ -1,54 +1,48 @@
-class Solution { // same as leetcode astroid collison LC 735 
+class Solution {
 public:
-    vector<int> survivedRobotsHealths(vector<int>& pos, vector<int>& health, string dir) {
-        int n = pos.size();
+    vector<int> survivedRobotsHealths(vector<int>& positions,
+                                      vector<int>& healths, string directions) {
+        int n = positions.size();
 
-        vector<pair<int,int>> arr; // {position, index}
+        vector<pair<int, int>> arr; //{positions , index}
+
         for (int i = 0; i < n; i++) {
-            arr.push_back({pos[i], i});
+            arr.push_back({positions[i], i});
         }
-
         sort(arr.begin(), arr.end());
 
-        stack<int> st; // store indices
-
-        for (auto &p : arr) {
-            int i = p.second;
-
-            while (!st.empty() && dir[st.top()] == 'R' && dir[i] == 'L') {
+        stack<int> st; // stores index
+        for (auto val : arr) {
+            int i = val.second;
+            while (!st.empty() && directions[st.top()] == 'R' && directions[i] == 'L') {
                 int j = st.top();
-
-                if (health[j] < health[i]) {
-                    st.pop();
-                    health[j] = 0;
-                    health[i]--; // current loses 1
-                }
-                else if (health[j] > health[i]) {
-                    health[j]--; // stack loses 1
-                    health[i] = 0;
+                // stack wala robot strong hai 
+                
+                if (healths[j] > healths[i]) {
+                    healths[j]--;
+                    healths[i] = 0;
                     break;
-                }
-                else { // dono ki health 0 ho gyi 
+                } else if (healths[j] < healths[i]) {
+                    // stack wala robot kamzor hai to baad m bhi check hoga koi or koi bhi kamzor to nhi stack me
                     st.pop();
-                    health[i] = 0;
-                    health[j] = 0;
-
+                    healths[i]--;
+                    healths[j] = 0;
+                } else {
+                    // dono robots ki health same hai to dono ko hata denge
+                    st.pop();
+                    healths[i] = 0;
+                    healths[j] = 0;
                     break;
                 }
             }
-
-            if (health[i] > 0) {
+            if(healths[i] > 0){
                 st.push(i);
             }
         }
-
-        // survivors in original order
-        vector<int> ans;
-        for (int i = 0; i < n; i++) {
-            if (health[i] > 0)
-                ans.push_back(health[i]);
+        vector<int>ans;
+        for(int i = 0 ; i < n ; i++){
+            if(healths[i] > 0) ans.push_back(healths[i]);
         }
-
         return ans;
     }
 };
