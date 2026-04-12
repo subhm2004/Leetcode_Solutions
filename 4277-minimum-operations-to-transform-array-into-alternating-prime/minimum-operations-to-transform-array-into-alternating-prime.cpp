@@ -4,15 +4,15 @@ public:
     vector<int> isPrime;
 
     void seive(int n) {
-        isPrime.resize(n + 1, 1);
+        isPrime.assign(n + 1, true);
 
-        isPrime[0] = 0;
-        isPrime[1] = 0;
+        isPrime[0] = false;
+        isPrime[1] = false;
 
         for (int i = 2; i * i <= n; i++) {
             if (isPrime[i]) {
                 for (int j = i * i; j <= n; j += i) {
-                    isPrime[j] = 0;
+                    isPrime[j] = false;
                 }
             }
         }
