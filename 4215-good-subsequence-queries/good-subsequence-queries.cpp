@@ -127,8 +127,8 @@ public:
                     for (int i = 0; i < n && !found; i++) {
                         int left_gcd  = (i > 0)   ? seg.query_Range(0, i - 1) : 0;
                         int right_gcd = (i < n-1) ? seg.query_Range(i + 1, n - 1) : 0;
-                        int total = __gcd(left_gcd, right_gcd);
-                        if (total == 1) found = true;
+                        int total_gcd_after_excluding_one_element = __gcd(left_gcd, right_gcd);
+                        if (total_gcd_after_excluding_one_element == 1) found = true;
                     }
                     if (found) ans++;
                 }
