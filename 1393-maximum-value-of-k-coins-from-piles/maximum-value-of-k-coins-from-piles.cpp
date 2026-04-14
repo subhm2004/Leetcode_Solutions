@@ -1,6 +1,6 @@
+// Bounded Knapsack
 class Solution {
 public:
-
     vector<vector<int>> piles;
     vector<vector<int>> dp;
 
@@ -11,15 +11,16 @@ public:
             return 0;
 
         // Piles khatam but coins abhi bhi lene baaki
-        if (i == piles.size() && k > 0) 
+        if (i == piles.size() && k > 0)
             return -1e9;
 
         if (dp[i][k] != -1)
             return dp[i][k];
 
         // Current pile skip
-        int ans = solve(i + 1, k);
+        int exclude = solve(i + 1, k);
 
+        int include = 0;
         int sum = 0;
 
         // Current pile se 1 to k coins lo
@@ -27,10 +28,12 @@ public:
 
             sum += piles[i][take - 1];
 
-            ans = max( ans, sum + solve(i + 1, k - take));
+            if (take <= k) {
+                include = max(include, sum + solve(i + 1, k - take));
+            }
         }
 
-        return dp[i][k] = ans;
+        return dp[i][k] = max(include, exclude);
     }
 
     int maxValueOfCoins(vector<vector<int>>& piles, int k) {
