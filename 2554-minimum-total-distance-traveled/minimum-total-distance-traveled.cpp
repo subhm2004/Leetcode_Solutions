@@ -3,7 +3,9 @@ public:
     vector<int> robot;
     vector<vector<int>> factory;
     vector<vector<vector<long long>>> dp;
-
+    // ith robot se assignment start karna hai
+    // jth factory consider kar rahe hain
+    // current factory me already used robots assign ho chuke hain
     long long solve(int i, int j, int used) {
 
         // Sab robots assign ho gaye
