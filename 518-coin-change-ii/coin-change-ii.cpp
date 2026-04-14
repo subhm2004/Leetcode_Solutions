@@ -1,42 +1,35 @@
+// Unbounded Knapsack Counting
 class Solution {
 public:
-    int solveRE(int amount, vector<int>& coins, int index) {
-        // Base cases
-        if (amount == 0) {
-            return 1; // Found a way to get the amount
-        }
-        if (amount < 0 || index < 0) {
-            return 0; // Not possible to get the amount
-        }
+    vector<int> coins;
+    vector<vector<int>> dp;
 
-        // Include the current coin in the amount or exclude it
-        int include = solveRE(amount - coins[index], coins, index);
-        int exclude = solveRE(amount, coins, index - 1);
+    int solve(int i, int amount) {
 
-        return include + exclude;
-    }
-    int solveME(int amount, vector<int>& coins, int index,
-                           vector<vector<int>>& dp) {
-        if (amount == 0) {
+        if (amount == 0)
             return 1;
-        }
-        if (amount < 0 || index < 0) {
+
+        if (i == coins.size())
             return 0;
-        }
-        if (dp[index][amount] != -1) {
-            return dp[index][amount];
-        }
 
-        int include =
-            solveME(amount - coins[index], coins, index, dp);
-        int exclude = solveME(amount, coins, index - 1, dp);
+        if (dp[i][amount] != -1)
+            return dp[i][amount];
 
-        dp[index][amount] = include + exclude;
+        int skip = solve(i + 1, amount);
 
-        return dp[index][amount];
+        int take = 0;
+
+        if (coins[i] <= amount)
+            take = solve(i, amount - coins[i]); // kitni bhi baar le skte hai coin ko to same rhegi value
+
+        return dp[i][amount] = take + skip;
     }
+
     int change(int amount, vector<int>& coins) {
-        vector<vector<int>> dp(coins.size(), vector<int>(amount + 1, -1));
-        return solveME(amount, coins, coins.size() - 1, dp);
+        this->coins = coins;
+
+        dp.assign(coins.size() + 1, vector<int>(amount + 1, -1));
+
+        return solve(0, amount);
     }
 };
