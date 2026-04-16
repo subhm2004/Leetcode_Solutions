@@ -3,8 +3,8 @@ public:
     int closestTarget(vector<string>& words, string target, int start_idx) {
         int n = words.size();
 
-        // Dono directions mein target search karte h (clockwise aur counter-clockwise)
-        for (int i = 0; i < n; ++i) {
+        // Dono directions mein target search karte h 
+        for (int i = 0; i < n; i++) {
             // closewise move: (start_idx + i) % n
             int right = (start_idx + i) % n;
             
