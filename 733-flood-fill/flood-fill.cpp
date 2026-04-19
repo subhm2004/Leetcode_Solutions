@@ -1,47 +1,52 @@
 class Solution {
 public:
-    void bfs(int sr, int sc, int old_color, int new_color,
-             vector<vector<int>>& image) {
+    vector<vector<int>> image;
+
+    void bfs(int sr, int sc, int old_color, int new_color) {
         int rows = image.size();
         int cols = image[0].size();
 
-        // Direction array using pairs for (dx, dy)
-        vector<pair<int, int>> directions = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+        vector<pair<int, int>> direction = {
+            {-1, 0},
+            {0, 1},
+            {1, 0},
+            {0, -1}
+        };
 
-        // Queue for BFS
         queue<pair<int, int>> q;
         q.push({sr, sc});
 
-        // Change the starting cell to the new color
         image[sr][sc] = new_color;
 
         while (!q.empty()) {
-            auto [x, y] = q.front();
+            auto [row, col] = q.front();
             q.pop();
 
-            // Traverse in all 4 directions
-            for (const auto& dir : directions) {
-                int newX = x + dir.first;
-                int newY = y + dir.second;
+            for (auto &[dx, dy] : direction) {
+                int new_row = row + dx;
+                int new_col = col + dy;
 
-                // Check boundaries and conditions for BFS
-                if (newX >= 0 && newX < rows && newY >= 0 && newY < cols &&
-                    image[newX][newY] == old_color) {
-                    // Change the color and add the cell to the queue
-                    q.push({newX, newY});
-                    image[newX][newY] = new_color;
+                if (new_row >= 0 && new_row < rows &&
+                    new_col >= 0 && new_col < cols &&
+                    image[new_row][new_col] == old_color) {
+
+                    image[new_row][new_col] = new_color;
+                    q.push({new_row, new_col});
                 }
             }
         }
     }
 
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc,
-                                  int color) {
-        int old_color = image[sr][sc];
-        if (old_color == color)
-            return image; // If the new color is the same as the old color, no change is needed
+    vector<vector<int>> floodFill(vector<vector<int>>& img, int sr, int sc, int color) {
+        this->image = img;
 
-        bfs(sr, sc, old_color, color, image);
+        int old_color = image[sr][sc];
+
+        if (old_color == color) {
+            return image;
+        }
+
+        bfs(sr, sc, old_color, color);
 
         return image;
     }
