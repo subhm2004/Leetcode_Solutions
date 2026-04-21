@@ -1,45 +1,49 @@
 class Union_find {
-        vector<int> parent;
-        vector<int> rank;
+    vector<int> parent;
+    vector<int> rank;
 
-    public:
-        Union_find(int n) {
-            parent.resize(n);
-            rank.resize(n, 0);
+public:
+    Union_find(int n) {
+        parent.resize(n);
+        rank.resize(n, 0);
 
-            for (int i = 0; i < n; i++)
-                parent[i] = i;
+        for (int i = 0; i < n; i++)
+            parent[i] = i;
+    }
+
+    int find(int x) {
+        if (parent[x] == x)
+            return x;
+
+        return parent[x] = find(parent[x]);
+    }
+
+    void UNION_BY_RANK(int x, int y) {
+        int px = find(x);
+        int py = find(y);
+
+        if (px == py)
+            return;
+
+        if (rank[px] < rank[py])
+            parent[px] = py;
+
+        else if (rank[px] > rank[py])
+            parent[py] = px;
+
+        else {
+            parent[px] = py;
+            rank[py]++;
         }
+    }
+};
 
-        int find(int x) {
-            if (x == parent[x])
-                return x;
-
-            return parent[x] = find(parent[x]);
-        }
-
-        void UNION_BY_RANK(int x, int y) {
-            int x_parent = find(x);
-            int y_parent = find(y);
-
-            if (x_parent == y_parent)
-                return;
-
-            if (rank[x_parent] < rank[y_parent]) {
-                parent[x_parent] = y_parent;
-            }
-            else if (rank[x_parent] > rank[y_parent]) {
-                parent[y_parent] = x_parent;
-            }
-            else {
-                parent[x_parent] = y_parent;
-                rank[y_parent]++;
-            }
-        }
-    };
 class Solution {
 public:
-    int minimumHammingDistance(vector<int>& source, vector<int>& target, vector<vector<int>>& allowedSwaps) {
+    int minimumHammingDistance(vector<int>& source,
+                               vector<int>& target,
+                               vector<vector<int>>& allowedSwaps) {
+
         int n = source.size();
 
         Union_find dsu(n);
@@ -47,29 +51,25 @@ public:
         for (auto& edge : allowedSwaps)
             dsu.UNION_BY_RANK(edge[0], edge[1]);
 
-        unordered_map<int, vector<int>> groups;
+        unordered_map<int, unordered_map<int, int>> group_frequency;
 
         for (int i = 0; i < n; i++) {
             int parent = dsu.find(i);
-            groups[parent].push_back(i);
+
+            group_frequency[parent][source[i]]++;
         }
 
-        int miss_matched = 0;
+        int mismatch = 0;
 
-        for (auto& group : groups) {
-            unordered_map<int, int> freq;
+        for (int i = 0; i < n; i++) {
+            int parent = dsu.find(i);
 
-            for (int idx : group.second)
-                freq[source[idx]]++;
-
-            for (int idx : group.second) {
-                if (freq[target[idx]] > 0)
-                    freq[target[idx]]--;
-                else
-                    miss_matched++;
-            }
+            if (group_frequency[parent][target[i]] > 0)
+                group_frequency[parent][target[i]]--;
+            else
+                mismatch++;
         }
 
-        return miss_matched;
+        return mismatch;
     }
 };
