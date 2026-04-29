@@ -1,86 +1,33 @@
 class Solution {
+using ll = long long;
 public:
     long long maximumScore(vector<vector<int>>& grid) {
-
         int n = grid.size();
-        int m = grid[0].size();
-        if (m == 1) return 0;
+        if (n == 1) 
+            return 0;
+        vector<ll> dp0(n + 1, 0), dp1(n + 1, 0);
 
-        // prefix sum for each column
-        vector<vector<long long>> col(m, vector<long long>(n + 1, 0));
-        for (int j = 0; j < m; j++) {
-            for (int i = 0; i < n; i++) {
-                col[j][i + 1] = col[j][i] + grid[i][j];
-            }
-        }
-
-        // dp[curr][prev]
-        vector<vector<long long>> dp(n + 1, vector<long long>(n + 1, 0));
-        vector<vector<long long>> prefMax(n + 1, vector<long long>(n + 1, 0));
-        vector<vector<long long>> suffMax(n + 1, vector<long long>(n + 1, 0));
-
-        for (int c = 1; c < m; c++) {
-
-            vector<vector<long long>> newdp(n + 1, vector<long long>(n + 1, 0));
-
-            for (int curr = 0; curr <= n; curr++) {
-                for (int prev = 0; prev <= n; prev++) {
-
-                    if (curr <= prev) {
-                        long long gain = col[c][prev] - col[c][curr];
-
-                        newdp[curr][prev] = max(
-                            newdp[curr][prev],
-                            suffMax[prev][0] + gain
-                        );
+        for (int j = 1; j < n; j++) {
+            vector<ll> new_dp0(n + 1, 0), new_dp1(n + 1, 0);
+            for (int i = 0; i <= n; i++) {
+                ll prev = 0;
+                ll curr = 0;
+                for (int x = 0; x < i; x++) 
+                    curr += grid[x][j];
+                for (int y = 0; y <= n; y++) {
+                    if (y > 0 && y <= i) {
+                        curr -= grid[y - 1][j];
                     }
-                    else {
-                        long long gain = col[c-1][curr] - col[c-1][prev];
-
-                        newdp[curr][prev] = max({
-                            newdp[curr][prev],
-                            suffMax[prev][curr],
-                            prefMax[prev][curr] + gain
-                        });
+                    if (y > i) {
+                        prev += grid[y - 1][j - 1];
                     }
+                    new_dp0[y] = max({new_dp0[y], prev + dp0[i], dp1[i]});
+                    new_dp1[y] = max({new_dp1[y], curr + dp1[i], curr + prev + dp0[i]});
                 }
             }
-
-            // build prefix max & suffix max
-            for (int curr = 0; curr <= n; curr++) {
-
-                prefMax[curr][0] = newdp[curr][0];
-
-                for (int prev = 1; prev <= n; prev++) {
-
-                    long long penalty = 0;
-                    if (prev > curr)
-                        penalty = col[c][prev] - col[c][curr];
-
-                    prefMax[curr][prev] = max(
-                        prefMax[curr][prev-1],
-                        newdp[curr][prev] - penalty
-                    );
-                }
-
-                suffMax[curr][n] = newdp[curr][n];
-
-                for (int prev = n-1; prev >= 0; prev--) {
-                    suffMax[curr][prev] = max(
-                        suffMax[curr][prev+1],
-                        newdp[curr][prev]
-                    );
-                }
-            }
-
-            dp = move(newdp);
+            dp0 = new_dp0;
+            dp1 = new_dp1;
         }
-
-        long long ans = 0;
-        for (int k = 0; k <= n; k++) {
-            ans = max({ans, dp[0][k], dp[n][k]});
-        }
-
-        return ans;
+        return *max_element(dp1.begin(), dp1.end());
     }
 };
