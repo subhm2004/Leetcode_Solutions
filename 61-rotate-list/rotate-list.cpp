@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int getLength(ListNode* head) {
+    int get_length_of_ll(ListNode* head) {
         int length = 0;
         ListNode* curr = head;
         
@@ -15,27 +15,27 @@ public:
     ListNode* rotateRight(ListNode* head, int k) {
         if (!head || k == 0) return head;
 
-        int len = getLength(head);
+        int len = get_length_of_ll(head);
         int rotation_point = k % len;
         if (rotation_point == 0) return head;
 
         int new_end_pos = len - rotation_point - 1;
-        ListNode* newHead = nullptr;
+        ListNode* new_head = nullptr;
         ListNode* new_Last_Node = head;
         
         for (int i = 0; i < new_end_pos; i++) {
             new_Last_Node = new_Last_Node->next;
         }
         
-        newHead = new_Last_Node->next;
+        new_head = new_Last_Node->next;
         new_Last_Node->next = nullptr;
         
-        ListNode* it = newHead;
+        ListNode* it = new_head;
         while (it->next) {
             it = it->next;
         }
         it->next = head;
         
-        return newHead;
+        return new_head;
     }
 };
