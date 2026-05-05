@@ -13,29 +13,36 @@ public:
     }
 
     ListNode* rotateRight(ListNode* head, int k) {
-        if (!head || k == 0) return head;
+        if (!head || !head->next || k == 0)
+            return head;
 
-        int len = get_length_of_ll(head);
-        int rotation_point = k % len;
-        if (rotation_point == 0) return head;
+        int L = get_length_of_ll(head);
+        k = k % L;
+        if (k == 0) 
+            return head;
 
-        int new_end_pos = len - rotation_point - 1;
-        ListNode* new_head = nullptr;
-        ListNode* new_Last_Node = head;
-        
-        for (int i = 0; i < new_end_pos; i++) {
-            new_Last_Node = new_Last_Node->next;
+        // Step 1: find new tail position
+        int new_tailPos = L - k - 1;
+
+        // Step 2: reach new tail
+        ListNode* new_tail = head;
+        for (int i = 0; i < new_tailPos; i++) {
+            new_tail = new_tail->next;
         }
-        
-        new_head = new_Last_Node->next;
-        new_Last_Node->next = nullptr;
-        
-        ListNode* it = new_head;
-        while (it->next) {
-            it = it->next;
+
+        // Step 3: new head
+        ListNode* new_head = new_tail->next;
+
+        // Step 4: break
+        new_tail->next = nullptr;
+
+        // Step 5: connect last part to head
+        ListNode* temp = new_head;
+        while (temp->next) {
+            temp = temp->next;
         }
-        it->next = head;
-        
+        temp->next = head;
+
         return new_head;
     }
 };
