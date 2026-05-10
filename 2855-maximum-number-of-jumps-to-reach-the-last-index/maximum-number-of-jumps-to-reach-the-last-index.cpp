@@ -13,7 +13,7 @@ public:
         if (dp[i] != -1)
             return dp[i];
 
-        int best = -1000000000;
+        int best = -1e9;
 
         for (int j = i + 1; j < n; j++) {
 
