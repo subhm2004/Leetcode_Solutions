@@ -3,11 +3,7 @@ public:
     bool isGood(vector<int>& nums) {
         int n = *max_element(nums.begin(), nums.end());
 
-        // size should be n + 1
-        if (nums.size() != n + 1) {
-            return false;
-        }
-
+     
         vector<int> freq(n + 1, 0);
 
         for (int x : nums) {
