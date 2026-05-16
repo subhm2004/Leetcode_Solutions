@@ -1,6 +1,7 @@
 class Solution {
 public:
     vector<int> numOfBurgers(int tomatoSlices, int cheeseSlices) {
+        // tomatoSlices odd nhi ho skti h 
         if (tomatoSlices % 2) {
             return {};
         }
