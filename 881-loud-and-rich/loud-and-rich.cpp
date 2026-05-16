@@ -91,8 +91,9 @@ public:
 };
 #pragma GCC optimize("O3", "unroll-loops")
 const auto _ = std::cin.tie(nullptr)->sync_with_stdio(false);
-#ifdef LC_HACK
+
 #define LC_HACK
+#ifdef LC_HACK
 const auto __ = []() {
   struct _ { 
       static void run() { 
