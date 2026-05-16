@@ -1,6 +1,7 @@
 class Solution {
 public:
-    vector<int> topoSortBfs(int n, unordered_map<int, list<int>>& adjList) {
+    unordered_map<int, list<int>> adjList;
+    vector<int> topoSortBfs(int n) {
         vector<int> result;
         queue<int> q;
         vector<int> indegree(n, 0);
@@ -37,7 +38,6 @@ public:
     }
 
     int minimumTime(int n, vector<vector<int>>& relations, vector<int>& time) {
-        unordered_map<int, list<int>> adjList;
 
         // Build adjacency list
         for (auto& relation : relations) {
@@ -47,28 +47,21 @@ public:
         }
 
         // Get topological order
-        vector<int> order = topoSortBfs(n, adjList);
-        if (order.empty()) return -1; // Cycle detected
+        vector<int> order = topoSortBfs(n);
+        if (order.empty())
+            return -1; // Cycle detected
 
-        vector<int> completionTime(n, 0);
+        vector<int> completion_Time(n, 0);
 
         // Process nodes in topological order
         for (int node : order) {
-            completionTime[node] += time[node];
+            completion_Time[node] += time[node];
             for (int nbr : adjList[node]) {
-                completionTime[nbr] = max(completionTime[nbr], completionTime[node]);
+                completion_Time[nbr] =
+                    max(completion_Time[nbr], completion_Time[node]);
             }
         }
 
-        // Return the maximum time required
-        int maxTime = 0;
-        for (auto& t : completionTime) {
-            maxTime = max(maxTime, t);
-        }
-
-        return maxTime;
-        // return *max_element(completionTime.begin(), completionTime.end());
-
+        return *max_element(completion_Time.begin(), completion_Time.end());
     }
-
 };
