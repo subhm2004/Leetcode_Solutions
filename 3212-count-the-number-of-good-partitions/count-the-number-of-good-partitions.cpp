@@ -7,10 +7,10 @@ public:
 
         int n = nums.size();
 
-        unordered_map<int,int> last;
+        unordered_map<int,int> last_idx; // number -> last idx of occurence of number 
 
         for(int i = 0; i < n; i++) {
-            last[nums[i]] = i;
+            last_idx[nums[i]] = i;
         }
 
         int partitions = 0;
@@ -25,7 +25,7 @@ public:
                 partitions++;
             }
 
-            j = max(j, last[nums[i]]);
+            j = max(j, last_idx[nums[i]]);
 
             i++;
         }
