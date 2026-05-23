@@ -1,7 +1,7 @@
 class Solution {
 public:
 
-    int binarySearch(vector<int>& nums, int l, int r, int target) {
+    int binary_Search(vector<int>& nums, int l, int r, int target) {
 
         while (l <= r) {
 
@@ -19,7 +19,7 @@ public:
         return -1;
     }
 
-    int findPivot(vector<int>& nums) {
+    int find_Pivot(vector<int>& nums) {
 
         int n = nums.size();
 
@@ -48,14 +48,14 @@ public:
 
         int n = nums.size();
 
-        int pivot = findPivot(nums);
+        int pivot = find_Pivot(nums);
 
         // target right sorted half me hai
         if (target >= nums[pivot] && target <= nums[n - 1]) {
-            return binarySearch(nums, pivot, n - 1, target);
+            return binary_Search(nums, pivot, n - 1, target);
         }
 
         // target left sorted half me hai
-        return binarySearch(nums, 0, pivot - 1, target);
+        return binary_Search(nums, 0, pivot - 1, target);
     }
 };
