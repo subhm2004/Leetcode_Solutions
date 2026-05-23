@@ -11,7 +11,7 @@ public:
 
         int swaps = 0;
 
-        for (int i = n - zeros; i < n ; i++) {
+        for (int i = n - zeros; i < n     ; i++) {
             if (nums[i] != 0)
                 swaps++;
         }
