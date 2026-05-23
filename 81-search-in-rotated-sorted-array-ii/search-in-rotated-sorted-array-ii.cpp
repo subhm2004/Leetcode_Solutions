@@ -37,7 +37,7 @@ public:
             // duplicates
             if (nums[l] == nums[mid] && nums[mid] == nums[r]) {
 
-                // check manually before shrinking
+                // check manually before shrinking ki yhi pivot to nhi hai
                 if (l < n - 1 && nums[l] > nums[l + 1])
                     return l + 1;
 
@@ -45,12 +45,12 @@ public:
                 r--;
             }
 
-            // left sorted
+            // left part sorted hai to right side me hoga pivot
             else if (nums[mid] >= nums[l]) {
                 l = mid + 1;
             }
 
-            // right sorted
+            // right part sorted hai to left side me hoga pivot
             else {
                 r = mid - 1;
             }
