@@ -1,35 +1,58 @@
+// class Solution {
+// public:
+//     string s;
+//     int n, minJ, maxJ;
+//     int dp[100005]; // -1 = unvisited, 0 = false, 1 = true
+
+//     bool solve(int i) {
+
+//         // last index reached
+//         if (i == n - 1)
+//             return true;
+
+//         if (dp[i] != -1)
+//             return dp[i];
+
+//         for (int j = i + minJ; j <= min(n - 1, i + maxJ); j++) {
+//             if (s[j] == '0') {
+//                 if (solve(j) == true)
+//                     return dp[i] = 1;
+//             }
+//         }
+
+//         return dp[i] = 0;
+//     }
+
+//     bool canReach(string s, int minJump, int maxJump) {
+//         this->s = s;
+//         n = s.size();
+//         minJ = minJump;
+//         maxJ = maxJump;
+
+//         memset(dp, -1, sizeof(dp));
+
+//         return solve(0);
+//     }
+// };
+
 class Solution {
 public:
     bool canReach(string s, int minJump, int maxJump) {
         int n = s.length();
-        
-        // dp[i] = 1 means index i reachable hai, 0 means nahi
         vector<int> dp(n, 0);
-        dp[0] = 1; // index 0 se start karte hain
-        
-        // count = current sliding window mein kitne reachable indices hain
+        dp[0] = 1;
         int count = 0;
-        
         for(int j = 1; j <= n-1; j++) {
-            
-            // j - minJump window mein enter kar raha hai (right boundary)
             if(j - minJump >= 0) {
                 count += dp[j - minJump];
             }
-            
-            // j - maxJump - 1 window se bahar ja raha hai (left boundary)
             if(j - maxJump - 1 >= 0) {
                 count -= dp[j - maxJump - 1];
             }
-            
-            // agar window mein koi reachable index hai AND s[j] == '0'
-            // tabhi j tak pahunch sakte hain
             if(count > 0 && s[j] == '0') {
                 dp[j] = 1;
             }
         }
-        
-        // last index reachable hai ya nahi
         return dp[n-1] > 0;
     }
 };
