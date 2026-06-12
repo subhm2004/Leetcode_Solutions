@@ -13,9 +13,12 @@ public:
 
             // Check overlap with all previous squares
             for (auto& sq : squares) {
-                int prevLeft = sq[0], prevRight = sq[1], prevHeight = sq[2];
-                if (left < prevRight && right > prevLeft) {
-                    height = max(height, prevHeight + size);
+                int prev_left = sq[0];
+                int prev_right = sq[1];
+                int prev_height = sq[2];
+                
+                if (left < prev_right && right > prev_left) {
+                    height = max(height, prev_height + size);
                 }
             }
 
