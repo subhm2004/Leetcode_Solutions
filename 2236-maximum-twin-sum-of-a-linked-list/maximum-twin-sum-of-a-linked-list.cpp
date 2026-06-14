@@ -15,7 +15,7 @@ const auto __ = []() {
 #endif
 class Solution {
 public:
-    ListNode* getMiddle(ListNode* head) {
+    ListNode* get_middle(ListNode* head) {
         ListNode* slow = head;
         ListNode* fast = head;
 
@@ -26,7 +26,7 @@ public:
         return slow;
     }
 
-    ListNode* reverseList(ListNode* head) {
+    ListNode* reverse_list(ListNode* head) {
         ListNode* prev = nullptr;
         while (head) {
             ListNode* next = head->next;
@@ -38,15 +38,15 @@ public:
     }
 
     int pairSum(ListNode* head) {
-        ListNode* mid = getMiddle(head);
-        ListNode* revSecondHalf = reverseList(mid);
+        ListNode* mid = get_middle(head);
+        ListNode* reverse_second_half = reverse_list(mid);
 
-        int maxSum = 0;
-        while (revSecondHalf) {
-            maxSum = max(maxSum, head->val + revSecondHalf->val);
+        int max_sum = 0;
+        while (reverse_second_half) {
+            max_sum = max(max_sum, head->val + reverse_second_half->val);
             head = head->next;
-            revSecondHalf = revSecondHalf->next;
+            reverse_second_half = reverse_second_half->next;
         }
-        return maxSum;
+        return max_sum;
     }
 };
