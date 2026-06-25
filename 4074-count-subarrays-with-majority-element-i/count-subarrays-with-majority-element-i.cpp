@@ -13,13 +13,13 @@ public:
             bit[i] += x;
     }
 
-    int prefix_sum(int i) {
+    int sum(int i) {
         int total = 0;
         for (; i > 0; i -= (i & -i))
             total += bit[i];
         return total;
     }
-    int range_sum(int l, int r) { return prefix_sum(r) - prefix_sum(l - 1); }
+    int range_sum(int l, int r) { return sum(r) - sum(l - 1); }
 };
 class Coordinate_Compression {
 public:
@@ -70,7 +70,7 @@ public:
         long long ans = 0;
 
         for (int x : compressed) {
-            ans += bit.prefix_sum(x);
+            ans += bit.sum(x);
             bit.update(x + 1, 1);
         }
 
