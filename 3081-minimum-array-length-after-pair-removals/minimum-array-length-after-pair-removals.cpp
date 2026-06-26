@@ -1,3 +1,4 @@
+// Same as lc 2576
 class Solution {
 public:
     int minLengthAfterRemovals(vector<int>& nums) {
