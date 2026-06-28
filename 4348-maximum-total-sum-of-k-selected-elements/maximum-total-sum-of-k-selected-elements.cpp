@@ -1,24 +1,30 @@
 class Solution {
 public:
     long long maxSum(vector<int>& nums, int k, int mul) {
-        int n = nums.size();
+
+        const int MAX = 100000;
+        vector<int> freq(MAX + 1, 0);
+
+        for (int x : nums)
+            freq[x]++;
+
         long long sum = 0;
 
-        sort(nums.begin(), nums.end(), greater<>());
+        for (int val = MAX; val >= 1 && k > 0; val--) {
 
-        int i = 0;
+            while (freq[val] > 0 && k > 0) {
 
-        while (k && i < n) {
+                if (mul > 1) {
+                    sum += 1LL * val * mul;
+                    mul--;
+                }
+                else {
+                    sum += val;
+                }
 
-            if (mul > 1) {
-                sum += 1LL * mul * nums[i];
-                mul--;
-            } else {
-                sum += nums[i];
+                freq[val]--;
+                k--;
             }
-
-            i++;
-            k--;
         }
 
         return sum;
