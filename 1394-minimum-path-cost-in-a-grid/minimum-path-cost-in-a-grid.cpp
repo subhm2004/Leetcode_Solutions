@@ -43,24 +43,19 @@ public:
 
             // --- Step 3: Next row ke har possible column 'ny' tak move try kro
             for (int ny = 0; ny < n; ny++) {
-                // Naya total cost calculate karo:
-                // purana accumulated cost + move karne ka cost (current value se ny column tak) + next row ke us cell ki value
-                int newCost = cost + moveCost[val][ny] + grid[x + 1][ny];
+                //mew cost =  purana accumulated cost + move karne ka cost (current value se ny column tak) + next row ke us cell ki value
+                int new_cost = cost + moveCost[val][ny] + grid[x + 1][ny];
 
-                // Agar ye naya cost, (x+1, ny) tak pahunchne ke purane best
-                // cost se kam hai, to update karo aur priority queue mein push
-                // karo (taaki future mein explore ho)
-                if (newCost < dist[x + 1][ny]) {
-                    dist[x + 1][ny] = newCost;
-                    pq.push({newCost, x + 1, ny});
+                // Agar ye naya cost, (x+1, ny) tak pahunchne ke purane best cost se kam hai, to update karo aur priority queue mein push karo 
+                if (new_cost < dist[x + 1][ny]) {
+                    dist[x + 1][ny] = new_cost;
+                    pq.push({new_cost, x + 1, ny});
                 }
             }
         }
 
         // --- Step 4: Answer nikalna ---
-        // Last row ke har column mein se jo bhi minimum dist value hai, wahi
-        // final answer hai (kyunki path kisi bhi cell pe last row mein end ho
-        // sakta hai)
+        // Last row ke har column mein se jo bhi minimum dist value hai, wahi final answer hai (kyunki path kisi bhi cell pe last row mein end ho sakta hai)
         int ans = INT_MAX;
         for (int j = 0; j < n; j++)
             ans = min(ans, dist[m - 1][j]);
