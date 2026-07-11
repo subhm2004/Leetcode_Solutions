@@ -1,113 +1,155 @@
+class UnionFind
+{
+public:
+    vector<int> parent;
+    vector<int> rank;
+
+    // Constructor
+    // Har node ko initially uska khud ka parent bana dete hain.
+    // Matlab shuru me har node ek alag connected component hai.
+    UnionFind(int n)
+    {
+        parent.resize(n);
+        rank.resize(n, 0);
+
+        for (int i = 0; i < n; i++)
+            parent[i] = i;
+    }
+
+    // Root (Representative) find karne ka function.
+    // Path Compression use kar rahe hain taaki future find() fast ho jaye.
+    int find(int x)
+    {
+        // Agar khud hi root hai to wahi return kar do.
+        if (parent[x] == x)
+            return x;
+
+        // Root find karke direct parent bana do.
+        return parent[x] = find(parent[x]);
+    }
+
+    // Do components ko merge karne ka function.
+    // Union By Rank use kar rahe hain.
+    void UNION_BY_RANK(int x, int y)
+    {
+        int parentX = find(x);
+        int parentY = find(y);
+
+        // Agar dono already same component me hain
+        // to kuch karne ki zarurat nahi.
+        if (parentX == parentY)
+            return;
+
+        // Chhoti height wale tree ko badi height wale tree ke niche jod do.
+        if (rank[parentX] < rank[parentY])
+        {
+            parent[parentX] = parentY;
+        }
+        else if (rank[parentX] > rank[parentY])
+        {
+            parent[parentY] = parentX;
+        }
+        else
+        {
+            // Agar dono ki height same hai
+            // to kisi ek ko parent bana do
+            // aur uski rank badha do.
+            parent[parentX] = parentY;
+            rank[parentY]++;
+        }
+    }
+};
+
 class Solution
 {
 public:
-    // Graph ko adjacency list ke form me store karenge.
-    unordered_map<int, list<int>> adjList;
-
-    // ---------------------------------------------------------
-    // Graph me undirected edge add karne ka function.
-    // u <----> v
-    // ---------------------------------------------------------
-    void addEdge(int u, int v)
-    {
-        adjList[u].push_back(v);
-        adjList[v].push_back(u);
-    }
-
-    // ---------------------------------------------------------
-    // BFS function
-    //
-    // Return karega:
-    // first  -> Total Nodes in Component
-    // second -> Total Edges (Double Counted)
-    // ---------------------------------------------------------
-    pair<int, int> bfs(int src, unordered_map<int, bool> &visited)
-    {
-        queue<int> q;
-
-        // Source node se BFS start
-        q.push(src);
-        visited[src] = true;
-
-        int nodes = 0;
-        int edges = 0;
-
-        while (!q.empty())
-        {
-            int frontNode = q.front();
-            q.pop();
-
-            // Ek node visit ho gayi
-            nodes++;
-
-            // Degree add kar rahe hain.
-            //
-            // Example:
-            // 0--1
-            //
-            // Node 0 degree = 1
-            // Node 1 degree = 1
-            //
-            // Total edges variable = 2
-            //
-            // Matlab har edge do baar count hogi.
-            edges += adjList[frontNode].size();
-
-            // Saare neighbours ko visit karo.
-            for (auto neighbour : adjList[frontNode])
-            {
-                if (!visited[neighbour])
-                {
-                    visited[neighbour] = true;
-                    q.push(neighbour);
-                }
-            }
-        }
-
-        return {nodes, edges};
-    }
-
     int countCompleteComponents(int n, vector<vector<int>> &edges)
     {
-        unordered_map<int, bool> visited;
+        // -------------------------------------------------------
+        // STEP 1 : DSU Object banao
+        // -------------------------------------------------------
+        UnionFind uf(n);
 
-        // ---------------------------------------------------------
-        // Step 1 : Graph Build karo.
-        // ---------------------------------------------------------
+        // -------------------------------------------------------
+        // STEP 2 : Saari edges ko union karo.
+        // Iske baad same connected component ke
+        // saare nodes ka root same ho jayega.
+        // -------------------------------------------------------
         for (auto &edge : edges)
         {
-            addEdge(edge[0], edge[1]);
+            int u = edge[0];
+            int v = edge[1];
+
+            uf.UNION_BY_RANK(u, v);
         }
 
-        int completeComponents = 0;
+        // node_count[root] = us component me kitne nodes hain.
+        unordered_map<int, int> node_count;
 
-        // ---------------------------------------------------------
-        // Step 2 :
-        // Har unvisited node se BFS chalao.
-        // Har BFS ek connected component dega.
-        // ---------------------------------------------------------
+        // edge_count[root] = us component me kitni edges hain.
+        unordered_map<int, int> edge_count;
+
+        // -------------------------------------------------------
+        // STEP 3 : Har node ka root find karo.
+        // Fir us root ke against node count badha do.
+        // -------------------------------------------------------
         for (int i = 0; i < n; i++)
         {
-            if (!visited[i])
-            {
-                auto [nodes, totalEdges] = bfs(i, visited);
+            int root = uf.find(i);
 
-                // Complete graph me
-                //
-                // Actual edges = n*(n-1)/2
-                //
-                // Lekin humne har edge 2 baar count ki hai.
-                //
-                // Isliye expected double count:
-                //
-                // n*(n-1)
-                if (nodes * (nodes - 1) == totalEdges)
-                {
-                    completeComponents++;
-                }
-            }
+            node_count[root]++;
         }
 
-        return completeComponents;
+        // -------------------------------------------------------
+        // STEP 4 : Har edge kis component ki hai?
+        //
+        // Kyunki union already ho chuka hai,
+        // edge ke dono endpoints ka root same hoga.
+        //
+        // Isliye edge_count[root]++ kar denge.
+        // -------------------------------------------------------
+        for (auto &edge : edges)
+        {
+            int u = edge[0];
+
+            int root = uf.find(u);
+
+            edge_count[root]++;
+        }
+
+        int complete_components = 0;
+
+        // -------------------------------------------------------
+        // STEP 5 : Har connected component ko check karo.
+        // -------------------------------------------------------
+        for (auto &component : node_count)
+        {
+            int root = component.first;
+
+            // Component me total nodes
+            int nodes = component.second;
+
+            // Complete graph me required edges hoti hain:
+            //
+            // n*(n-1)/2
+            //
+            // Example:
+            //
+            // 3 nodes -> 3 edges
+            // 4 nodes -> 6 edges
+            // 5 nodes -> 10 edges
+            //
+            int required_edges = nodes * (nodes - 1) / 2;
+
+            // Is component me actual kitni edges hain.
+            int actual_edges = edge_count[root];
+
+            // Agar required aur actual same hain
+            // to ye component complete hai.
+            if (required_edges == actual_edges)
+                complete_components++;
+        }
+
+        return complete_components;
     }
 };
