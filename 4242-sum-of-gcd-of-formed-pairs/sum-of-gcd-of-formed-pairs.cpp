@@ -15,7 +15,6 @@ public:
 
         for (int i = 0; i < n; i++) {
 
-            // maxi = max_element(nums.begin(), nums.begin() + i + 1)
             maxi = max(maxi, nums[i]);   
 
             prefix_gcd[i] = GCD(nums[i], maxi);
