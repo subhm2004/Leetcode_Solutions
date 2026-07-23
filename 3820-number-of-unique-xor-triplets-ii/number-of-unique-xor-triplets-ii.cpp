@@ -1,48 +1,25 @@
-class Solution { // PRE COMPUTATON OF XOR VALUES SE HUA HAI 
+class Solution {
 public:
     int uniqueXorTriplets(vector<int>& nums) {
-        unordered_set<int> set_1;  
+
+        unordered_set<int> pairXor;
+
         int n = nums.size();
-        if (n < 3) return n;  
 
-        // Sabhi pairs ke XOR ko 'set_1' mein store karte hain
         for (int i = 0; i < n; i++) {
-            for (int j = i ; j < n; j++) {  // j ko i ke baad se start karenge, taaki duplicates na ho
-                set_1.insert(nums[i] ^ nums[j]);
+            for (int j = i; j < n; j++) {
+                pairXor.insert(nums[i] ^ nums[j]);
             }
         }
 
-        unordered_set<int>set_2;
-        // 'set_1' ke XOR values ko nums ke har element ke saath XOR karenge aur triplet XOR find karenge
-        for (int num : set_1) {
-            for (int x : nums) {
-                set_2.insert(num ^ x);
+        unordered_set<int> ans;
+
+        for (int x : pairXor) {
+            for (int y : nums) {
+                ans.insert(x ^ y);
             }
         }
 
-        // 'set_2' ka size unique triplet XORs ka count dega
-        return set_2.size();  
+        return ans.size();
     }
 };
-
-
-// class Solution {
-// public:
-//     int uniqueXorTriplets(vector<int>& nums) {
-//         int n = nums.size();
-//         unordered_set<int> unique_XORs;
-
-//         // Generate all possible triplets (i <= j <= k)
-//         for (int i = 0; i < n; i++) {
-//             for (int j = i; j < n; j++) {
-//                 for (int k = j; k < n; k++) {
-//                     int xor_val = nums[i] ^ nums[j] ^ nums[k];
-//                     unique_XORs.insert(xor_val);
-//                 }
-//             }
-//         }
-
-//         return unique_XORs.size();
-//     }
-// };
-
