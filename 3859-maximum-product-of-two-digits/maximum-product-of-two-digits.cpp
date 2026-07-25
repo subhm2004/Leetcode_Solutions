@@ -3,7 +3,6 @@ public:
     int maxProduct(int n) {
         int max1 = 0, max2 = 0;
 
-        // Go through each digit
         while (n > 0) {
             int digit = n % 10;
             if (digit >= max1) {
