@@ -98,6 +98,7 @@ public:
         return invFact[n];
     }
 };
+
 Combinatorics C;
 
 class Solution
