@@ -4,7 +4,7 @@ public:
 
         unordered_map<int, list<int>> adjList;
 
-        // Graph banao
+        // Graph banate hai 
         for (auto &e : invocations)
         {
             adjList[e[0]].push_back(e[1]);
