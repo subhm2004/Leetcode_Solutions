@@ -11,11 +11,11 @@ public:
         }
 
         // Find all suspicious methods
-        vector<int> suspicious(n, 0);
+        vector<bool> suspicious(n, false);
 
         queue<int> q;
         q.push(k);
-        suspicious[k] = 1;
+        suspicious[k] = true;
 
         while (!q.empty())
         {
@@ -26,7 +26,7 @@ public:
             {
                 if (!suspicious[nbr])
                 {
-                    suspicious[nbr] = 1;
+                    suspicious[nbr] = true;
                     q.push(nbr);
                 }
             }
