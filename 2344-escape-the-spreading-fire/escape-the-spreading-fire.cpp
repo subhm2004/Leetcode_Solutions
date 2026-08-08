@@ -1,5 +1,6 @@
 class Solution {
 public:
+    const int INF = 0x3f3f3f3f;
     int m, n; // Grid ki height aur width
     // Char directions - up, right, down, left me move karne ke liye
     vector<pair<int,int>> directions = {{0,1}, {1,0}, {0,-1}, {-1,0}};
@@ -12,8 +13,8 @@ public:
     // Multi-source BFS - sabhi fire sources se distance calculate karta hai
     // Matlab har cell me fire kab pahunchega, ye calculate karta hai
     vector<vector<int>> multi_source_BFS(vector<vector<int>>& grid, vector<pair<int,int>>& sources) {
-        // Distance matrix banate hai - initially sab INT_MAX (infinite)
-        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+
+        vector<vector<int>> dist(m, vector<int>(n, INF));
         queue<pair<int,int>> q;
         
         // Sabhi fire sources ko queue me daal dete hai with distance 0
@@ -37,7 +38,7 @@ public:
                 int ny = y + dir.second;  // Next y coordinate
                 
                 // Agar valid position hai, wall nahi hai, aur abhi tak visit nahi hui
-                if (is_valid(nx, ny) && grid[nx][ny] != 2 && dist[nx][ny] == INT_MAX) {
+                if (is_valid(nx, ny) && grid[nx][ny] != 2 && dist[nx][ny] == INF) {
                     // Fire yahan 1 minute baad pahunchega
                     dist[nx][ny] = dist[x][y] + 1;
                     q.push({nx, ny});
@@ -56,7 +57,7 @@ public:
         }
         
         // Person ki journey track karne ke liye distance matrix
-        vector<vector<int>> person_dist(m, vector<int>(n, INT_MAX));
+        vector<vector<int>> person_dist(m, vector<int>(n, INF));
         queue<pair<int,int>> q;
         
         // Wait_time ke baad journey start karte hai
@@ -93,7 +94,7 @@ public:
         }
         
         // Check karte hai ki destination pahunch gaye ya nahi
-        return person_dist[m-1][n-1] != INT_MAX;
+        return person_dist[m-1][n-1] != INF;
     }
 
     int maximumMinutes(vector<vector<int>>& grid) {
@@ -137,29 +138,3 @@ public:
     }
 };
 
-/*
-PROBLEM EXPLANATION (Hinglish me):
-- Grid diya hai jisme 0=grass, 1=fire, 2=wall
-- Tumhe top-left se bottom-right jana hai
-- Fire har minute adjacent grass cells me spread hota hai
-- Maximum kitne minutes wait kar sakte ho starting se pehle?
-
-ALGORITHM KA BREAKDOWN:
-1. Pehle fire ka spread pattern nikaalte hai (multi-source BFS se)
-2. Phir binary search karte hai maximum wait time pe
-3. Har wait time ke liye check karte hai ki escape possible hai ya nahi
-
-KEY POINTS:
-✓ Multi-source BFS use kiya hai fire spread ke liye (efficient)
-✓ Binary search optimization for time complexity
-✓ Edge case handle kiya hai - destination pe fire ke saath reach kar sakte hai
-✓ Clean code structure with helper functions
-
-TIME COMPLEXITY: O(log(1e9) * m * n) = O(30 * m * n)
-SPACE COMPLEXITY: O(m * n) distance matrices ke liye
-
-GRID VALUES:
-0 = grass (chal sakte hai)
-1 = fire source (starting fire)
-2 = wall (blocked, nahi ja sakte)
-*/
