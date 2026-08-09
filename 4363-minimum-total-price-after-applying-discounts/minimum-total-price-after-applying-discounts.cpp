@@ -9,7 +9,7 @@ public:
         for (int i = 0; i < prices.size(); i++) {
 
             if (i < discounts.size())
-                ans += (double)prices[i] * (100 - discounts[i]) / 100.0;
+                ans += 1.0 * prices[i] * (100 - discounts[i]) / 100.0;
             else
                 ans += prices[i];
         }
