@@ -1,24 +1,32 @@
+// Same as LC 2958
 class Solution {
 public:
-    int maximumLengthSubstring(string s) {
+    int solve(string& str, int k) {
 
-        unordered_map<char, int> freq;
+        unordered_map<int, int> freq;
 
         int left = 0;
         int ans = 0;
 
-        for (int right = 0; right < s.size(); right++) {
+        for (int right = 0; right < str.size(); right++) {
 
-            freq[s[right]]++;
+            // Current element ko window mein add karo
+            freq[str[right]]++;
 
-            while (freq[s[right]] > 2) {
-                freq[s[left]]--;
+            // Agar koi element k se zyada baar aa gaya,
+            // toh window invalid ho gayi
+            while (freq[str[right]] > k) {
+
+                // Left se elements remove karte jao
+                freq[str[left]]--;
                 left++;
             }
 
+            // Ab current window good hai
             ans = max(ans, right - left + 1);
         }
 
         return ans;
     }
+    int maximumLengthSubstring(string s) { return solve(s, 2); }
 };
