@@ -9,19 +9,22 @@ public:
         int mini = INT_MAX;
         int maxi = INT_MIN;
 
-        int i = m - 1;
         int j = 0;
 
-        while (i < n) {
+        for (int i = 0; i < n; i++) {
 
-            mini = min(mini, nums[j]);
-            maxi = max(maxi, nums[j]);
+            // nums[j] ko tabhi include karo
+            // jab current index i ke saath distance >= m-1 ho
+            if (i - j + 1 >= m) {
 
-            ans = max(ans, 1LL * mini * nums[i]);
-            ans = max(ans, 1LL * maxi * nums[i]);
+                mini = min(mini, nums[j]);
+                maxi = max(maxi, nums[j]);
 
-            i++;
-            j++;
+                ans = max(ans, 1LL * mini * nums[i]);
+                ans = max(ans, 1LL * maxi * nums[i]);
+
+                j++;
+            }
         }
 
         return ans;
