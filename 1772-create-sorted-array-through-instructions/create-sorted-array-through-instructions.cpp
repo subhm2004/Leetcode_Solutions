@@ -2,26 +2,11 @@ class SegmentTree {
 private:
     vector<int> segTree;
     int n;
-
-    void build(int node, int l, int r) {
-
-        if (l == r) {
-            segTree[node] = 0;
-            return;
-        }
-
-        int mid = l + (r - l) / 2;
-
-        build(2 * node + 1, l, mid);
-        build(2 * node + 2, mid + 1, r);
-
-        segTree[node] = segTree[2 * node + 1] + segTree[2 * node + 2];
-    }
-
+    // starting se bana rhe hai hum nums ko soo build ki need nhi hai 
     void update(int node, int l, int r, int pos) {
 
         if (l == r) {
-            segTree[node]++;
+            segTree[node]++; // frequency count badha rha hum 
             return;
         }
 
@@ -58,9 +43,6 @@ public:
         n = size;
 
         segTree.assign(4 * n + 5, 0);
-
-        // Initially saare elements ki frequency 0 hai
-        build(0, 1, n);
     }
 
     void update(int pos) { update(0, 1, n, pos); }
