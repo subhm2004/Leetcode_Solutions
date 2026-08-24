@@ -1,37 +1,24 @@
 class Solution {
 public:
-    vector<int> prefix;
-    int dp[100005];
-    int n;
-
-    int solve(int i) {
-
-        if (i == n)
-            return prefix[n];
-
-        if (dp[i] != -1)
-            return dp[i];
-
-        // two choices
-
-        int include = prefix[i] - solve(i + 1);
-        // exclude ka mtlb hai abhi smallest possible move nahi le raha, future
-        // ka bada move choose kar raha hai
-        int exclude = solve(i + 1);
-        return dp[i] = max(include, exclude);
-    }
-
     int stoneGameVIII(vector<int>& stones) {
+        int n = stones.size();
 
-        n = stones.size();
+        vector<int> prefix = stones;
 
-        // 1-based prefixix sum
-        prefix.assign(n + 1, 0);
-        for (int i = 0; i < n; i++)
-            prefix[i + 1] = prefix[i] + stones[i];
+        // Build prefix sums
+        for (int i = 1; i < n; i++) {
+            prefix[i] += prefix[i - 1];
+        }
 
-        memset(dp, -1, sizeof(dp));
+        // If Alice takes all stones,
+        // the game ends immediately.
+        int best = prefix[n - 1];
 
-        return solve(2); // first move minimum 2 stones
+        // Try every earlier valid prefix
+        for (int i = n - 2; i >= 1; i--) {
+            best = max(best, prefix[i] - best);
+        }
+
+        return best;
     }
 };
